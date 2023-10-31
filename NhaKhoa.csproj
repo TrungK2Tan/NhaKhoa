@@ -187,6 +187,9 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminController.cs" />
+    <Compile Include="Areas\Admin\Controllers\QLBenhNhanController.cs" />
+    <Compile Include="Areas\Admin\Controllers\QLNhanVienController.cs" />
+    <Compile Include="Areas\Admin\Controllers\QLNhaSiController.cs" />
     <Compile Include="Areas\NhanVien\Controllers\NhanVienController.cs" />
     <Compile Include="Areas\NhanVien\NhanVienAreaRegistration.cs" />
     <Compile Include="Areas\NhaSi\Controllers\NhaSiController.cs" />
@@ -702,6 +705,9 @@
     <Content Include="Areas\NhaSi\assets\vendors\mdi\fonts\materialdesignicons-webfont.ttf" />
     <Content Include="Areas\NhaSi\assets\vendors\mdi\fonts\materialdesignicons-webfont.woff" />
     <Content Include="Areas\NhaSi\assets\vendors\mdi\fonts\materialdesignicons-webfont.woff2" />
+    <Content Include="Areas\Admin\Views\QLBenhNhan\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\QLNhaSi\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\QLNhanVien\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -765,6 +771,7 @@
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\NhanVien\Data\" />
     <Folder Include="Areas\NhaSi\Data\" />
+    <Folder Include="BangCap\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

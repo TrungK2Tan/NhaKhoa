@@ -116,6 +116,9 @@ namespace NhaKhoa.Models
         [Required]
         [Display(Name = "NgayTao")]
         public DateTime NgayTao { get; set; }
+        [Required]
+        [Display(Name = "FullName")]
+        public string FullName { get; set; }
 
     }
 

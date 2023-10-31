@@ -26,6 +26,7 @@ namespace NhaKhoa.Models
         public DateTime NgayTao { get; set; }
         public override string UserName { get; set; }
         public override string Email { get; set; }
+        public string FullName { get; set; }
 
     }
 

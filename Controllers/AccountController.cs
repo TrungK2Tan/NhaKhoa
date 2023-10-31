@@ -204,7 +204,7 @@ namespace NhaKhoa.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { 
-                    UserName = model.UserName, Email = model.Email,PhoneNumber =model.PhoneNumber,DiaChi=model.DiaChi,NgheNghiep=model.NgheNghiep,CCCD=model.CCCD,GioiTinh=model.GioiTinh,NgaySinh=model.NgaySinh,NgayTao=model.NgayTao
+                    UserName = model.UserName, Email = model.Email,PhoneNumber =model.PhoneNumber,DiaChi=model.DiaChi,NgheNghiep=model.NgheNghiep,CCCD=model.CCCD,GioiTinh=model.GioiTinh,NgaySinh=model.NgaySinh,NgayTao=model.NgayTao,FullName=model.FullName
                 };
 
                 var result = await UserManager.CreateAsync(user, model.Password);
