@@ -1,0 +1,117 @@
+﻿@model NhaKhoa.Models.RegisterViewModel
+@* sử dụng using và gắn captcha vào form đăng ký  *@
+@using BotDetect.Web.Mvc
+<link href="@BotDetect.Web.CaptchaUrls.Absolute.LayoutStyleSheetUrl" rel="stylesheet" type="text/css" />
+@{ MvcCaptcha registerCaptcha = new MvcCaptcha("registerCaptcha");
+}
+@{
+    ViewBag.Title = "Đăng kí";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        </div>
+    </div>
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.PhoneNumber, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.DiaChi, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.DiaChi, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.NgheNghiep, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.NgheNghiep, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.CCCD, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.CCCD, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.GioiTinh, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.GioiTinh, new SelectList(
+                new List<SelectListItem>
+                {
+                    new SelectListItem { Text = "Nam", Value = "true" },
+                    new SelectListItem { Text = "Nữ", Value = "false" }
+                }, "Value", "Text"), new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.NgaySinh, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <input class="form-control text-box single-line" id="NgaySinh" name="NgaySinh" type="date" value="" required />
+        </div>
+    </div>
+    <div class="form-group" hidden>
+        @Html.LabelFor(m => m.NgayTao, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <input class="form-control text-box single-line" id="NgayTao" name="NgayTao" type="datetime-local" value="" readonly />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.Captcha(registerCaptcha)
+            @Html.TextBox("CaptchaCode")
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Register" />
+        </div>
+    </div>
+}
+<script>
+    // JavaScript code to set the current date and time in the NgayTao input field
+    var currentDate = new Date();
+    var ngayTaoInput = document.getElementById("NgayTao");
+
+    var year = currentDate.getFullYear();
+    var month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
+    var day = ('0' + currentDate.getDate()).slice(-2);
+    var hours = ('0' + currentDate.getHours()).slice(-2);
+    var minutes = ('0' + currentDate.getMinutes()).slice(-2);
+
+    ngayTaoInput.value = year + '-' + month + '-' + day + 'T' + hours + ':' + minutes;
+</script>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
