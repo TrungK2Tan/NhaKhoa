@@ -1,0 +1,53 @@
+﻿@model IEnumerable<NhaKhoa.Models.DanhGia>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/NhaSi/Views/Shared/Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Noidung)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Saodanhgia)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ngaydanhgia)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Id_Benhnhan)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Id_Nhasi)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Noidung)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Saodanhgia)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ngaydanhgia)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id_Benhnhan)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id_Nhasi)
+        </td>
+    </tr>
+}
+
+</table>

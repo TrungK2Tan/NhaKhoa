@@ -194,6 +194,7 @@
     <Compile Include="Areas\NhanVien\NhanVienAreaRegistration.cs" />
     <Compile Include="Areas\NhaSi\Controllers\InfoController.cs" />
     <Compile Include="Areas\NhaSi\Controllers\NhaSiController.cs" />
+    <Compile Include="Areas\NhaSi\Controllers\RateViewController.cs" />
     <Compile Include="Areas\NhaSi\NhaSiAreaRegistration.cs" />
     <Compile Include="ChatHub.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -711,6 +712,7 @@
     <Content Include="Areas\Admin\Views\QLNhanVien\Index.cshtml" />
     <Content Include="Areas\NhaSi\Views\Info\Edit.cshtml" />
     <Content Include="Areas\NhaSi\Views\Info\Index.cshtml" />
+    <Content Include="Areas\NhaSi\Views\RateView\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

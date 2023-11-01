@@ -17,19 +17,18 @@ namespace NhaKhoa.Areas.NhaSi.Controllers
 
         // GET: NhaSi/Info
         public ActionResult Index()
-        {
-            // Lấy ID của nha sĩ đã đăng nhập
-            string userId = User.Identity.GetUserId();
+        { 
+            // Lấy thông tin người dùng đã đăng nhập
+            var userId = User.Identity.GetUserId();
+            var user = db.AspNetUsers.Find(userId);
 
-            if (userId != null)
+            if (user != null)
             {
-                // Lấy thông tin nha sĩ từ cơ sở dữ liệu bằng ID
-                AspNetUser nhaSi = db.AspNetUsers.Find(userId);
-
-                if (nhaSi != null)
-                {
-                    return View(nhaSi);
-                }
+                // Đã lấy được thông tin người dùng, bạn có thể sử dụng thông tin này
+                var userName = user.UserName;
+                var email = user.Email;
+                ViewBag.TenNhaSi = user.FullName;
+                // Thêm các thông tin khác về nha sĩ
             }
 
             return View();

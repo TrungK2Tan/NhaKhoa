@@ -11,13 +11,13 @@ namespace NhaKhoa.Areas.NhaSi.Controllers
 {
     public class NhaSiController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private NhaKhoaModel db = new NhaKhoaModel();
         // GET: NhaSi/NhaSi
         public ActionResult Index()
         {
                 // Lấy thông tin người dùng đã đăng nhập
                 var userId = User.Identity.GetUserId();
-                var user = db.Users.Find(userId);
+                var user = db.AspNetUsers.Find(userId);
 
                 if (user != null)
                 {
