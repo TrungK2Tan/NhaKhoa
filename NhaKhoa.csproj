@@ -192,6 +192,7 @@
     <Compile Include="Areas\Admin\Controllers\QLNhaSiController.cs" />
     <Compile Include="Areas\NhanVien\Controllers\NhanVienController.cs" />
     <Compile Include="Areas\NhanVien\NhanVienAreaRegistration.cs" />
+    <Compile Include="Areas\NhaSi\Controllers\InfoController.cs" />
     <Compile Include="Areas\NhaSi\Controllers\NhaSiController.cs" />
     <Compile Include="Areas\NhaSi\NhaSiAreaRegistration.cs" />
     <Compile Include="ChatHub.cs" />
@@ -215,7 +216,7 @@
     <Compile Include="Models\KhungGio.cs" />
     <Compile Include="Models\LichKham.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\NhaKhoa.cs" />
+    <Compile Include="Models\NhaKhoaModel.cs" />
     <Compile Include="Models\PhieuDatLich.cs" />
     <Compile Include="Models\PhiKham.cs" />
     <Compile Include="Models\Phong.cs" />
@@ -708,6 +709,8 @@
     <Content Include="Areas\Admin\Views\QLBenhNhan\Index.cshtml" />
     <Content Include="Areas\Admin\Views\QLNhaSi\Index.cshtml" />
     <Content Include="Areas\Admin\Views\QLNhanVien\Index.cshtml" />
+    <Content Include="Areas\NhaSi\Views\Info\Edit.cshtml" />
+    <Content Include="Areas\NhaSi\Views\Info\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

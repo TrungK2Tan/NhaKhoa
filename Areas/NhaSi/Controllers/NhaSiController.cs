@@ -1,4 +1,6 @@
 ﻿
+using Microsoft.AspNet.Identity;
+using NhaKhoa.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +11,23 @@ namespace NhaKhoa.Areas.NhaSi.Controllers
 {
     public class NhaSiController : Controller
     {
-        
-
+        private ApplicationDbContext db = new ApplicationDbContext();
         // GET: NhaSi/NhaSi
         public ActionResult Index()
         {
-            return View();
+                // Lấy thông tin người dùng đã đăng nhập
+                var userId = User.Identity.GetUserId();
+                var user = db.Users.Find(userId);
+
+                if (user != null)
+                {
+                    // Đã lấy được thông tin người dùng, bạn có thể sử dụng thông tin này
+                    var userName = user.UserName;
+                    var email = user.Email;
+                ViewBag.TenNhaSi = user.FullName;
+                // Thêm các thông tin khác về nha sĩ
+            }
+                return View();
         }
     }
 }

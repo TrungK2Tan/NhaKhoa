@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    string loginUrl = Url.Action("Login", "Account", new { area = "" });
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <!-- Required meta tags -->
@@ -48,16 +52,16 @@
                                 <span class="availability-status online"></span>
                             </div>
                             <div class="nav-profile-text">
-                                <p class="mb-1 text-black">Tên nha sĩ</p>
+                                <p class="mb-1 text-black">@ViewBag.TenNhaSi</p>
                             </div>
                         </a>
                         <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
-                            <a class="dropdown-item" href="#">
-                                <i class="mdi mdi-cached me-2 text-success"></i> Activity Log
+                            <a class="dropdown-item" href="~/NhaSi/Info">
+                                <i class="mdi mdi-cached me-2 text-success"></i> Thông tin
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">
-                                <i class="mdi mdi-logout me-2 text-primary"></i> Signout
+                            <a class="dropdown-item" href="@loginUrl">
+                                <i class="mdi mdi-logout me-2 text-primary"></i> Đăng Xuất
                             </a>
                         </div>
                     </li>
@@ -183,7 +187,7 @@
                                 <!--change to offline or busy as needed-->
                             </div>
                             <div class="nav-profile-text d-flex flex-column">
-                                <span class="font-weight-bold mb-2">Tên nha sĩ</span>
+                                <span class="font-weight-bold mb-2">@ViewBag.TenNhaSi</span>
                                 <span class="text-secondary text-small">Project Manager</span>
                             </div>
                             <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
@@ -195,19 +199,19 @@
                             <i class="mdi mdi-home menu-icon"></i>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-                            <span class="menu-title">Quản lý tài khoản</span>
-                            <i class="menu-arrow"></i>
-                            <i class="mdi mdi-crosshairs-gps menu-icon"></i>
-                        </a>
-                        <div class="collapse" id="ui-basic">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Thông tin</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">gì đó</a></li>
-                            </ul>
-                        </div>
-                    </li>
+                    @*<li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                                <span class="menu-title">Quản lý tài khoản</span>
+                                <i class="menu-arrow"></i>
+                                <i class="mdi mdi-crosshairs-gps menu-icon"></i>
+                            </a>
+                            <div class="collapse" id="ui-basic">
+                                <ul class="nav flex-column sub-menu">
+                                    <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Thông tin</a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">gì đó</a></li>
+                                </ul>
+                            </div>
+                        </li>*@
                     <li class="nav-item">
                         <a class="nav-link" href="pages/icons/mdi.html">
                             <span class="menu-title">Lập đơn thuốc</span>
@@ -221,34 +225,34 @@
                         </a>
                     </li>
                     @*<li class="nav-item">
-                        <a class="nav-link" href="pages/charts/chartjs.html">
-                            <span class="menu-title">Charts</span>
-                            <i class="mdi mdi-chart-bar menu-icon"></i>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="pages/tables/basic-table.html">
-                            <span class="menu-title">Tables</span>
-                            <i class="mdi mdi-table-large menu-icon"></i>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="collapse" href="#general-pages" aria-expanded="false" aria-controls="general-pages">
-                            <span class="menu-title">Sample Pages</span>
-                            <i class="menu-arrow"></i>
-                            <i class="mdi mdi-medical-bag menu-icon"></i>
-                        </a>
-                        <div class="collapse" id="general-pages">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="pages/samples/blank-page.html"> Blank Page </a></li>
-                                <li class="nav-item"> <a class="nav-link" href="pages/samples/login.html"> Login </a></li>
-                                <li class="nav-item"> <a class="nav-link" href="pages/samples/register.html"> Register </a></li>
-                                <li class="nav-item"> <a class="nav-link" href="pages/samples/error-404.html"> 404 </a></li>
-                                <li class="nav-item"> <a class="nav-link" href="pages/samples/error-500.html"> 500 </a></li>
-                            </ul>
-                        </div>
-                    </li>*@
-                    
+                            <a class="nav-link" href="pages/charts/chartjs.html">
+                                <span class="menu-title">Charts</span>
+                                <i class="mdi mdi-chart-bar menu-icon"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="pages/tables/basic-table.html">
+                                <span class="menu-title">Tables</span>
+                                <i class="mdi mdi-table-large menu-icon"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="collapse" href="#general-pages" aria-expanded="false" aria-controls="general-pages">
+                                <span class="menu-title">Sample Pages</span>
+                                <i class="menu-arrow"></i>
+                                <i class="mdi mdi-medical-bag menu-icon"></i>
+                            </a>
+                            <div class="collapse" id="general-pages">
+                                <ul class="nav flex-column sub-menu">
+                                    <li class="nav-item"> <a class="nav-link" href="pages/samples/blank-page.html"> Blank Page </a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="pages/samples/login.html"> Login </a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="pages/samples/register.html"> Register </a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="pages/samples/error-404.html"> 404 </a></li>
+                                    <li class="nav-item"> <a class="nav-link" href="pages/samples/error-500.html"> 500 </a></li>
+                                </ul>
+                            </div>
+                        </li>*@
+
                 </ul>
             </nav>
             <!-- partial -->

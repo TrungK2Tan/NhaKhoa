@@ -1,0 +1,15 @@
+﻿@model NhaKhoa.Models.AspNetUser
+
+@{
+    ViewBag.Title = "Thông tin nha sĩ";
+    Layout = "~/Areas/NhaSi/Views/Shared/Layout.cshtml";
+}
+
+<div class="form-horizontal">
+    <div class="form-group">
+        <strong>Email:</strong> @Html.DisplayFor(model => model.Email)
+    </div>
+        <!-- Hiển thị các thông tin khác về nha sĩ -->
+        @Html.ActionLink("Chỉnh sửa thông tin", "Edit")
+</div>
+ 
