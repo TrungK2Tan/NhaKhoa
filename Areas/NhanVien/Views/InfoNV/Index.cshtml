@@ -1,25 +1,24 @@
 ﻿@model NhaKhoa.Models.AspNetUser
 
 @{
-    ViewBag.Title = "Thông tin nha sĩ";
-    Layout = "~/Areas/NhaSi/Views/Shared/Layout.cshtml";
+    ViewBag.Title = "Thông tin nhân viên";
+    Layout = "~/Areas/NhanVien/Views/Shared/Layout.cshtml";
 }
 
-<h2>Thông tin nha sĩ</h2>
+<h2>Thông tin nhân viên</h2>
 
 <table class="table">
     <tr>
         <th>
             Email
         </th>
-
-        <!-- Thêm các cột thông tin khác về nha sĩ -->
+        <!-- Thêm các cột thông tin khác về nhân viên  -->
     </tr>
     <tr>
         <td>
             @Html.DisplayFor(model => model.Email)
         </td>
-        <!-- Hiển thị các thông tin khác về nha sĩ -->
+        <!-- Hiển thị các thông tin khác về nhân viên -->
     </tr>
     <tr>
         <th>

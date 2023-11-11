@@ -9,13 +9,13 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using NhaKhoa.Models;
 
-namespace NhaKhoa.Areas.NhaSi.Controllers
+namespace NhaKhoa.Areas.NhanVien.Controllers
 {
-    public class InfoController : Controller
+    public class InfoNVController : Controller
     {
         private NhaKhoaModel db = new NhaKhoaModel();
 
-        // GET: NhaSi/Info
+        // GET: NhanVien/InfoNV
         public ActionResult Index()
         {
             // Lấy thông tin người dùng đã đăng nhập
@@ -32,16 +32,17 @@ namespace NhaKhoa.Areas.NhaSi.Controllers
             }
             return View();
         }
+
         [HttpGet]
         public ActionResult Edit()
         {
             string userId = User.Identity.GetUserId();
             if (userId != null)
             {
-                AspNetUser nhaSi = db.AspNetUsers.Find(userId);
-                if (nhaSi != null)
+                AspNetUser nhanvien = db.AspNetUsers.Find(userId);
+                if (nhanvien != null)
                 {
-                    return View(nhaSi);
+                    return View(nhanvien);
                 }
             }
             return HttpNotFound();
@@ -49,16 +50,17 @@ namespace NhaKhoa.Areas.NhaSi.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(AspNetUser nhaSi)
+        public ActionResult Edit(AspNetUser nhanvien)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(nhaSi).State = EntityState.Modified;
+                db.Entry(nhanvien).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(nhaSi);
+            return View(nhanvien);
         }
+
 
 
         protected override void Dispose(bool disposing)

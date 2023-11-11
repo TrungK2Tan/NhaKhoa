@@ -190,7 +190,9 @@
     <Compile Include="Areas\Admin\Controllers\QLBenhNhanController.cs" />
     <Compile Include="Areas\Admin\Controllers\QLNhanVienController.cs" />
     <Compile Include="Areas\Admin\Controllers\QLNhaSiController.cs" />
+    <Compile Include="Areas\NhanVien\Controllers\InfoNVController.cs" />
     <Compile Include="Areas\NhanVien\Controllers\NhanVienController.cs" />
+    <Compile Include="Areas\NhanVien\Controllers\QLBenhNhanController.cs" />
     <Compile Include="Areas\NhanVien\NhanVienAreaRegistration.cs" />
     <Compile Include="Areas\NhaSi\Controllers\InfoController.cs" />
     <Compile Include="Areas\NhaSi\Controllers\NhaSiController.cs" />
@@ -710,9 +712,15 @@
     <Content Include="Areas\Admin\Views\QLBenhNhan\Index.cshtml" />
     <Content Include="Areas\Admin\Views\QLNhaSi\Index.cshtml" />
     <Content Include="Areas\Admin\Views\QLNhanVien\Index.cshtml" />
-    <Content Include="Areas\NhaSi\Views\Info\Edit.cshtml" />
     <Content Include="Areas\NhaSi\Views\Info\Index.cshtml" />
     <Content Include="Areas\NhaSi\Views\RateView\Index.cshtml" />
+    <Content Include="Areas\NhanVien\Views\InfoNV\Index.cshtml" />
+    <Content Include="Areas\NhaSi\Views\Info\Edit.cshtml" />
+    <Content Include="Areas\NhanVien\Views\InfoNV\Edit.cshtml" />
+    <Content Include="Areas\NhanVien\Views\QLBenhNhan\Details.cshtml" />
+    <Content Include="Areas\NhanVien\Views\QLBenhNhan\Edit.cshtml" />
+    <Content Include="Areas\NhanVien\Views\QLBenhNhan\Index.cshtml" />
+    <Content Include="Areas\NhanVien\Views\QLBenhNhan\Create.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
