@@ -5,13 +5,16 @@
     Layout = "~/Areas/NhanVien/Views/Shared/Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Quản lý tài khoản bệnh nhân</h2>
 
 <button>
    @Html.ActionLink("Tạo tài khoản", "Create")
 </button>
 <table class="table">
     <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.Email)
         </th>
@@ -45,9 +48,12 @@
 @foreach (var item in Model) {
     <tr>
         <td>
+            @Html.DisplayNameFor(model => model.Id)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.Email)
         </td>
-       
+
         <td>
             @Html.DisplayFor(modelItem => item.PhoneNumber)
         </td>
@@ -73,8 +79,8 @@
             @Html.DisplayFor(modelItem => item.FullName)
         </td>
         <td>
-            @Html.ActionLink("Sửa", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Chi Tiết", "Details", new { id=item.Id }) 
+            @Html.ActionLink("Sửa", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Chi Tiết", "Details", new { id = item.Id })
         </td>
     </tr>
 }

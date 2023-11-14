@@ -721,6 +721,14 @@
     <Content Include="Areas\NhanVien\Views\QLBenhNhan\Edit.cshtml" />
     <Content Include="Areas\NhanVien\Views\QLBenhNhan\Index.cshtml" />
     <Content Include="Areas\NhanVien\Views\QLBenhNhan\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\QLNhaSi\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\QLNhaSi\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\QLNhaSi\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\QLNhaSi\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\QLNhanVien\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\QLNhanVien\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\QLNhanVien\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\QLNhanVien\Delete.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
