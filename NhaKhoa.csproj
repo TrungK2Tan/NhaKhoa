@@ -196,9 +196,9 @@
     <Compile Include="Areas\NhanVien\NhanVienAreaRegistration.cs" />
     <Compile Include="Areas\NhaSi\Controllers\InfoController.cs" />
     <Compile Include="Areas\NhaSi\Controllers\NhaSiController.cs" />
+    <Compile Include="Areas\NhaSi\Controllers\QLLichController.cs" />
     <Compile Include="Areas\NhaSi\Controllers\RateViewController.cs" />
     <Compile Include="Areas\NhaSi\NhaSiAreaRegistration.cs" />
-    <Compile Include="ChatHub.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -389,6 +389,9 @@
     <Content Include="Areas\NhaSi\assets\vendors\css\vendor.bundle.base.css" />
     <Content Include="Areas\NhaSi\assets\vendors\js\vendor.bundle.base.js" />
     <Content Include="Areas\NhaSi\assets\vendors\mdi\css\materialdesignicons.min.css" />
+    <Content Include="Areas\NhaSi\asset\css\style.css" />
+    <Content Include="Areas\NhaSi\asset\js\main.js" />
+    <Content Include="Areas\NhaSi\asset\js\util.js" />
     <Content Include="assets\css\animate.css" />
     <Content Include="assets\css\flex-slider.css" />
     <Content Include="assets\css\fontawesome.css" />
@@ -436,6 +439,27 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="img\Nhaisiimg\trung.jpg" />
+    <Content Include="img\Nhaisiimg\trungdeptrai.jpg" />
+    <Content Include="lib\easing\easing.js" />
+    <Content Include="lib\easing\easing.min.js" />
+    <Content Include="lib\owlcarousel\assets\ajax-loader.gif" />
+    <Content Include="lib\owlcarousel\assets\owl.carousel.css" />
+    <Content Include="lib\owlcarousel\assets\owl.carousel.min.css" />
+    <Content Include="lib\owlcarousel\assets\owl.theme.default.css" />
+    <Content Include="lib\owlcarousel\assets\owl.theme.default.min.css" />
+    <Content Include="lib\owlcarousel\assets\owl.theme.green.css" />
+    <Content Include="lib\owlcarousel\assets\owl.theme.green.min.css" />
+    <Content Include="lib\owlcarousel\assets\owl.video.play.png" />
+    <Content Include="lib\owlcarousel\owl.carousel.js" />
+    <Content Include="lib\owlcarousel\owl.carousel.min.js" />
+    <Content Include="lib\tempusdominus\css\tempusdominus-bootstrap-4.css" />
+    <Content Include="lib\tempusdominus\css\tempusdominus-bootstrap-4.min.css" />
+    <Content Include="lib\tempusdominus\js\moment-timezone.min.js" />
+    <Content Include="lib\tempusdominus\js\moment.min.js" />
+    <Content Include="lib\tempusdominus\js\tempusdominus-bootstrap-4.js" />
+    <Content Include="lib\tempusdominus\js\tempusdominus-bootstrap-4.min.js" />
+    <Content Include="lib\waypoints\waypoints.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="assets\images\ai-generated-8223597_640.webp" />
@@ -729,14 +753,25 @@
     <Content Include="Areas\Admin\Views\QLNhanVien\Create.cshtml" />
     <Content Include="Areas\Admin\Views\QLNhanVien\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\QLNhanVien\Delete.cshtml" />
+    <Content Include="Areas\NhaSi\Views\QLLich\Index.cshtml" />
+    <Content Include="lib\.rescache" />
+    <Content Include="lib\easing\.rescache" />
+    <Content Include="lib\owlcarousel\.rescache" />
+    <Content Include="lib\owlcarousel\assets\.rescache" />
+    <Content Include="lib\owlcarousel\LICENSE" />
+    <Content Include="lib\tempusdominus\.rescache" />
+    <Content Include="lib\tempusdominus\css\.rescache" />
+    <Content Include="lib\tempusdominus\js\.rescache" />
+    <Content Include="lib\waypoints\.rescache" />
+    <Content Include="lib\waypoints\links.php" />
+    <Content Include="Areas\NhaSi\asset\css\style.scss" />
+    <Content Include="Areas\NhaSi\Views\QLLich\ViewCalendar.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.signalR-2.4.3.js" />
-    <Content Include="Scripts\jquery.signalR-2.4.3.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -785,14 +820,14 @@
     <Content Include="vendor\jquery\jquery.min.map" />
     <Content Include="vendor\jquery\jquery.slim.min.map" />
     <Content Include="Views\Home\Service.cshtml" />
-    <Content Include="Views\Home\Chat.cshtml" />
+    <Content Include="Views\Home\Booking.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\NhanVien\Data\" />
     <Folder Include="Areas\NhaSi\Data\" />
-    <Folder Include="BangCap\" />
+    <Folder Include="img\BangCap\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

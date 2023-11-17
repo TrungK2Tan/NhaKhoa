@@ -33,10 +33,8 @@ namespace NhaKhoa.Controllers
 
             return View();
         }
-        public ActionResult Chat()
+        public ActionResult Booking()
         {
-            ViewBag.Message = "Your contact page.";
-
             return View();
         }
     }

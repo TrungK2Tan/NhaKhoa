@@ -25,6 +25,7 @@ namespace NhaKhoa.Areas.NhaSi.Controllers
                     var userName = user.UserName;
                     var email = user.Email;
                 ViewBag.TenNhaSi = user.FullName;
+                ViewBag.HinhAnh = user.HinhAnh;
                 // Thêm các thông tin khác về nha sĩ
             }
                 return View();

@@ -26,11 +26,11 @@ namespace NhaKhoa.Models
         public virtual DbSet<PhieuDatLich> PhieuDatLiches { get; set; }
         public virtual DbSet<PhiKham> PhiKhams { get; set; }
         public virtual DbSet<Phong> Phongs { get; set; }
-        public virtual DbSet<TinTuc> TinTucs { get; set; }
+        public virtual DbSet<ThoiKhoaBieu> ThoiKhoaBieux { get; set; }
         public virtual DbSet<Thuoc> Thuocs { get; set; }
+        public virtual DbSet<TinTuc> TinTucs { get; set; }
         public virtual DbSet<VatTu> VatTus { get; set; }
         public virtual DbSet<VatTuSuDung> VatTuSuDungs { get; set; }
-        public virtual DbSet<ThoiKhoaBieu> ThoiKhoaBieux { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -70,14 +70,14 @@ namespace NhaKhoa.Models
                 .HasForeignKey(e => e.IdBenhNhan);
 
             modelBuilder.Entity<AspNetUser>()
-                .HasMany(e => e.TinTucs)
-                .WithOptional(e => e.AspNetUser)
-                .HasForeignKey(e => e.Id_admin);
-
-            modelBuilder.Entity<AspNetUser>()
                 .HasMany(e => e.ThoiKhoaBieux)
                 .WithOptional(e => e.AspNetUser)
                 .HasForeignKey(e => e.Id_Nhasi);
+
+            modelBuilder.Entity<AspNetUser>()
+                .HasMany(e => e.TinTucs)
+                .WithOptional(e => e.AspNetUser)
+                .HasForeignKey(e => e.Id_admin);
 
             modelBuilder.Entity<DichVu>()
                 .HasMany(e => e.VatTuSuDungs)
@@ -105,10 +105,6 @@ namespace NhaKhoa.Models
                 .HasMany(e => e.PhiKhams)
                 .WithRequired(e => e.PhieuDatLich)
                 .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<PhieuDatLich>()
-                .HasOptional(e => e.ThoiKhoaBieu)
-                .WithRequired(e => e.PhieuDatLich);
 
             modelBuilder.Entity<VatTu>()
                 .HasMany(e => e.VatTuSuDungs)

@@ -31,7 +31,7 @@ namespace NhaKhoa.Models
         [StringLength(128)]
         public string IdBenhNhan { get; set; }
 
-        public int? Id_kTKB { get; set; }
+        public int? Id_TKB { get; set; }
 
         public virtual AspNetUser AspNetUser { get; set; }
 
@@ -40,7 +40,5 @@ namespace NhaKhoa.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PhiKham> PhiKhams { get; set; }
-
-        public virtual ThoiKhoaBieu ThoiKhoaBieu { get; set; }
     }
 }

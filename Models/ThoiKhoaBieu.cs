@@ -12,20 +12,20 @@ namespace NhaKhoa.Models
         [Key]
         public int Id_TKB { get; set; }
 
-        public string TenTKB { get; set; }
+        public string Thu { get; set; }
 
         public int? Id_Phong { get; set; }
+
+        public int? Id_khunggio { get; set; }
+
+        public DateTime? Ngay { get; set; }
 
         [StringLength(128)]
         public string Id_Nhasi { get; set; }
 
-        public int? Id_khunggio { get; set; }
-
         public virtual AspNetUser AspNetUser { get; set; }
 
         public virtual KhungGio KhungGio { get; set; }
-
-        public virtual PhieuDatLich PhieuDatLich { get; set; }
 
         public virtual Phong Phong { get; set; }
     }

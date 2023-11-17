@@ -26,9 +26,6 @@ namespace NhaKhoa.Models
 
         public bool? Trangthai { get; set; }
 
-        [StringLength(128)]
-        public string Id_NhaSi { get; set; }
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ThoiKhoaBieu> ThoiKhoaBieux { get; set; }
     }

@@ -1,0 +1,81 @@
+﻿@model IEnumerable<NhaKhoa.Models.ThoiKhoaBieu>
+@{
+    ViewBag.Title = "QLLich";
+    Layout = "~/Areas/NhaSi/Views/Shared/Layout.cshtml";
+}
+<header class="cd-main-header text-center flex flex-column flex-center">
+    <h1 class="text-xl">THỜI GIAN BIỂU</h1>
+    <a href="@Url.Action("ViewCalendar","QLLich","NhaSi")"> Xem tất cả lịch</a>
+</header>
+
+<div class="cd-schedule cd-schedule--loading margin-top-lg margin-bottom-lg js-cd-schedule">
+    <div class="cd-schedule__timeline">
+        <ul>
+            <li><span>09:00</span></li>
+            <li><span></span></li>
+            <li><span></span></li>
+            <li><span></span></li>
+            <li><span></span></li>
+            <li><span></span></li>
+            <li><span>12:00</span></li>
+            <li><span></span></li>
+            <li><span>13:00</span></li>
+            <li><span></span></li>
+            <li><span></span></li>
+            <li><span></span></li>
+            <li><span></span></li>
+            <li><span></span></li>
+            <li><span></span></li>
+            <li><span></span></li>
+            <li><span></span></li>
+            <li><span></span></li>
+            <li><span>18:00</span></li>
+        </ul>
+    </div> <!-- .cd-schedule__timeline -->
+
+    <div class="cd-schedule__events">
+        <ul>
+            @foreach (var dayGroup in Model.GroupBy(item => item.Thu))
+            {
+                <li class="cd-schedule__group">
+                    <div class="cd-schedule__top-info">
+                        <span>@(dayGroup.Key)</span>
+                    </div>
+                    <ul>
+                        @foreach (var item in dayGroup)
+                        {
+                            <li class="cd-schedule__event" style="clear:both">
+                                <a data-start="@item.Phong.TenPhong @item.KhungGio.TenCa" data-end="@item.AspNetUser.FullName" data-content="event-abs-circuit" data-event="event-4" href="#0">
+                                    <em class="cd-schedule__name"></em>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </li>
+            }
+        </ul>
+    </div>
+
+    <div class="cd-schedule-modal">
+        <header class="cd-schedule-modal__header">
+            <div class="cd-schedule-modal__content">
+                <span class="cd-schedule-modal__date"></span>
+                <h3 class="cd-schedule-modal__name"></h3>
+            </div>
+
+            <div class="cd-schedule-modal__header-bg"></div>
+        </header>
+
+        <div class="cd-schedule-modal__body">
+            <div class="cd-schedule-modal__event-info"></div>
+            <div class="cd-schedule-modal__body-bg"></div>
+        </div>
+
+        <a href="#0" class="cd-schedule-modal__close text-replace">Close</a>
+    </div>
+
+    <div class="cd-schedule__cover-layer"></div>
+</div> <!-- .cd-schedule -->
+
+<script src="~/Areas/NhaSi/asset/js/util.js"></script> <!-- util functions included in the CodyHouse framework -->
+<script src="~/Areas/NhaSi/asset/js/main.js"></script>
