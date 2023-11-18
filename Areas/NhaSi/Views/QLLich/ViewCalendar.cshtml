@@ -5,33 +5,18 @@
 }
 <header class="cd-main-header text-center flex flex-column flex-center">
     <h1 class="text-xl">THỜI GIAN BIỂU</h1>
-    <a href="@Url.Action("ViewCalendar","QLLich","NhaSi")"> Xem tất cả lịch</a>
+    <a href="@Url.Action("Index","QLLich","NhaSi")"> Quay Lại</a>
 </header>
 
 <div class="cd-schedule cd-schedule--loading margin-top-lg margin-bottom-lg js-cd-schedule">
     <div class="cd-schedule__timeline">
         <ul>
             <li><span>09:00</span></li>
-            <li><span></span></li>
-            <li><span></span></li>
-            <li><span></span></li>
-            <li><span></span></li>
-            <li><span></span></li>
             <li><span>12:00</span></li>
-            <li><span></span></li>
             <li><span>13:00</span></li>
-            <li><span></span></li>
-            <li><span></span></li>
-            <li><span></span></li>
-            <li><span></span></li>
-            <li><span></span></li>
-            <li><span></span></li>
-            <li><span></span></li>
-            <li><span></span></li>
-            <li><span></span></li>
             <li><span>18:00</span></li>
         </ul>
-    </div> <!-- .cd-schedule__timeline -->
+    </div>
 
     <div class="cd-schedule__events">
         <ul>
@@ -39,15 +24,15 @@
             {
                 <li class="cd-schedule__group">
                     <div class="cd-schedule__top-info">
-                        <span>THỨ @(dayGroup.Key)</span>
+                        <span>@(dayGroup.Key)</span>
                     </div>
                     <ul>
-                        @foreach (var item in dayGroup)
+                        @foreach (var item in dayGroup.OrderBy(e => e.KhungGio.GioBatDau))
                         {
-
                             <li class="cd-schedule__event">
-                                <a data-start="@item.Phong.TenPhong @item.KhungGio.TenCa" data-end="@item.AspNetUser.FullName" data-content="event-abs-circuit" data-event="event-4" href="#0">
-                                    <em class="cd-schedule__name"></em>
+                                <a data-start="@item.KhungGio.GioBatDau" data-end="@item.KhungGio.GioKetThuc" data-event="event-4" href="#">
+                                    <em class="cd-schedule__name"> @item.Phong.TenPhong-@item.KhungGio.TenCa</em>
+                                    <em class="cd-schedule__name"> @item.AspNetUser.FullName</em>
                                 </a>
                             </li>
                         }

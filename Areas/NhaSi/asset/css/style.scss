@@ -53,7 +53,11 @@ a {
   	}
   }
 }
-
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
 .cd-schedule__timeline { // events time
 	display: none;
 
@@ -228,7 +232,7 @@ a {
         content: attr(data-start)' - 'attr(data-end);
     }
 
-    .js & {
+    &.js {
         @include breakpoint(sm) {
             width: 40%;
         }
@@ -251,15 +255,16 @@ a {
 
 .js {
     @include breakpoint(md) {
-        .cd-schedule__event--selected {
+        &.cd-schedule__event--selected {
             visibility: hidden;
         }
 
-        .cd-schedule--loading .cd-schedule__event {
+        &.cd-schedule--loading .cd-schedule__event {
             opacity: 0;
         }
     }
 }
+
 .cd-schedule__name, // event name in the schedule template
 .cd-schedule__event a::before, // event date in the schedule template
 .cd-schedule-modal__name, // event name in the modal element

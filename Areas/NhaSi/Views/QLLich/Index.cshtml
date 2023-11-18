@@ -12,26 +12,11 @@
     <div class="cd-schedule__timeline">
         <ul>
             <li><span>09:00</span></li>
-            <li><span></span></li>
-            <li><span></span></li>
-            <li><span></span></li>
-            <li><span></span></li>
-            <li><span></span></li>
             <li><span>12:00</span></li>
-            <li><span></span></li>
             <li><span>13:00</span></li>
-            <li><span></span></li>
-            <li><span></span></li>
-            <li><span></span></li>
-            <li><span></span></li>
-            <li><span></span></li>
-            <li><span></span></li>
-            <li><span></span></li>
-            <li><span></span></li>
-            <li><span></span></li>
             <li><span>18:00</span></li>
         </ul>
-    </div> <!-- .cd-schedule__timeline -->
+    </div>
 
     <div class="cd-schedule__events">
         <ul>
@@ -42,11 +27,12 @@
                         <span>@(dayGroup.Key)</span>
                     </div>
                     <ul>
-                        @foreach (var item in dayGroup)
+                        @foreach (var item in dayGroup.OrderBy(e => e.KhungGio.GioBatDau))
                         {
-                            <li class="cd-schedule__event" style="clear:both">
-                                <a data-start="@item.Phong.TenPhong @item.KhungGio.TenCa" data-end="@item.AspNetUser.FullName" data-content="event-abs-circuit" data-event="event-4" href="#0">
-                                    <em class="cd-schedule__name"></em>
+                            <li class="cd-schedule__event">
+                                <a data-start="@item.KhungGio.GioBatDau" data-end="@item.KhungGio.GioKetThuc" data-event="event-4" href="#">
+                                    <em class="cd-schedule__name"> @item.Phong.TenPhong-@item.KhungGio.TenCa</em>
+                                    <em class="cd-schedule__name"> @item.AspNetUser.FullName</em>
                                 </a>
                             </li>
                         }
@@ -55,6 +41,9 @@
             }
         </ul>
     </div>
+
+
+
 
     <div class="cd-schedule-modal">
         <header class="cd-schedule-modal__header">
@@ -67,7 +56,8 @@
         </header>
 
         <div class="cd-schedule-modal__body">
-            <div class="cd-schedule-modal__event-info"></div>
+            <div class="cd-schedule-modal__event-info">
+            </div>
             <div class="cd-schedule-modal__body-bg"></div>
         </div>
 
