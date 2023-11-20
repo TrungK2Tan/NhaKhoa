@@ -32,10 +32,9 @@
             <li><span>18:00</span></li>
         </ul>
     </div>
-
     <div class="cd-schedule__events">
         <ul>
-            @foreach (var dayGroup in Model.GroupBy(item => item.Thu))
+            @foreach (var dayGroup in Model.GroupBy(item => item.Thu.TenThu))
             {
                 <li class="cd-schedule__group">
                     <div class="cd-schedule__top-info">
@@ -46,14 +45,13 @@
                         {
                             <li class="cd-schedule__event">
                                 <a data-start="@item.KhungGio.GioBatDau" data-end="@item.KhungGio.GioKetThuc" data-content="" data-event="event-4" href="#">
-                                    <em class="cd-schedule__name"> @item.Phong.TenPhong-@item.KhungGio.TenCa</em>
-                                    <em class="cd-schedule__name"> @item.AspNetUser.FullName</em>
+                                    <em class="cd-schedule__name">@item.Ngay-@item.KhungGio.TenCa</em>
+                                    <em class="cd-schedule__name">@item.Phong.TenPhong-@item.AspNetUser.FullName</em>
                                 </a>
                             </li>
                         }
                     </ul>
                 </li>
-
             }
         </ul>
     </div>
@@ -69,8 +67,8 @@
         <div class="cd-schedule-modal__body">
             <div class="cd-schedule-modal__event-info">
                 <div>
-                    <h1> hehe </h1>
-                    </div>
+                    <a>Xem thông tin lịch khám </a>
+                </div>
             </div>
             <div class="cd-schedule-modal__body-bg"></div>
         </div>

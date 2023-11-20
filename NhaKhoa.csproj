@@ -224,6 +224,7 @@
     <Compile Include="Models\PhiKham.cs" />
     <Compile Include="Models\Phong.cs" />
     <Compile Include="Models\ThoiKhoaBieu.cs" />
+    <Compile Include="Models\Thu.cs" />
     <Compile Include="Models\Thuoc.cs" />
     <Compile Include="Models\TinTuc.cs" />
     <Compile Include="Models\VatTu.cs" />

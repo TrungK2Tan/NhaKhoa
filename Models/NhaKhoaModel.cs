@@ -27,6 +27,7 @@ namespace NhaKhoa.Models
         public virtual DbSet<PhiKham> PhiKhams { get; set; }
         public virtual DbSet<Phong> Phongs { get; set; }
         public virtual DbSet<ThoiKhoaBieu> ThoiKhoaBieux { get; set; }
+        public virtual DbSet<Thu> Thus { get; set; }
         public virtual DbSet<Thuoc> Thuocs { get; set; }
         public virtual DbSet<TinTuc> TinTucs { get; set; }
         public virtual DbSet<VatTu> VatTus { get; set; }

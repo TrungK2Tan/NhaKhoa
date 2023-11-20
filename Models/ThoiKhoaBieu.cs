@@ -9,16 +9,22 @@ namespace NhaKhoa.Models
     [Table("ThoiKhoaBieu")]
     public partial class ThoiKhoaBieu
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ThoiKhoaBieu()
+        {
+            PhieuDatLiches = new HashSet<PhieuDatLich>();
+        }
+
         [Key]
         public int Id_TKB { get; set; }
 
-        public string Thu { get; set; }
+        public int? Id_Thu { get; set; }
 
         public int? Id_Phong { get; set; }
 
         public int? Id_khunggio { get; set; }
 
-        public DateTime? Ngay { get; set; }
+        public string Ngay { get; set; }
 
         [StringLength(128)]
         public string Id_Nhasi { get; set; }
@@ -27,6 +33,11 @@ namespace NhaKhoa.Models
 
         public virtual KhungGio KhungGio { get; set; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PhieuDatLich> PhieuDatLiches { get; set; }
+
         public virtual Phong Phong { get; set; }
+
+        public virtual Thu Thu { get; set; }
     }
 }
