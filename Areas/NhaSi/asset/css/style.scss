@@ -398,7 +398,7 @@ a {
   }
 
   @include breakpoint(md) {
-    opacity: 0;
+    opacity: 1;
     font-size: var(--text-sm);
 
     > div {

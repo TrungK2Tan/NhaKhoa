@@ -32,6 +32,7 @@ namespace NhaKhoa.Areas.NhaSi.Controllers
             string currentUserId = User.Identity.GetUserId();
             var user = db.AspNetUsers.Find(currentUserId);
             ViewBag.TenNhaSi = user.FullName;
+            ViewBag.HinhAnh = user.HinhAnh;
             var thoikhoabieus = db.ThoiKhoaBieux.ToList();
             return View(thoikhoabieus);
         }
