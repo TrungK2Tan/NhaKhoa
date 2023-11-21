@@ -16,7 +16,11 @@ namespace NhaKhoa.Controllers
         private NhaKhoaModel db = new NhaKhoaModel();
         public ActionResult Index()
         {
-            return View();
+            var nhaSiList = db.AspNetUsers
+                   .Where(u => u.AspNetRoles.Any(r => r.Name == "NhaSi"))
+                   .ToList();
+
+            return View(nhaSiList);
         }
 
         public ActionResult About()
