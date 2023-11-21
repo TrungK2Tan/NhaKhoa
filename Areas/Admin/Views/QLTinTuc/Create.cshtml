@@ -74,14 +74,6 @@
             </div>
         </div>
 
-        <div class="form-group" hidden>
-            @Html.LabelFor(model => model.Id_danhgia, "Id_danhgia", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Id_danhgia, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Id_danhgia, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Tạo mới" class="btn btn-default" />

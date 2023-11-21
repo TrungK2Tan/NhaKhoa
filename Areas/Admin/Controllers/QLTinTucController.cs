@@ -23,7 +23,7 @@ namespace NhaKhoa.Areas.Admin.Controllers
         {
             const int pageSize = 1; // Adjust the number of items per page as needed
 
-            var tinTucs = db.TinTucs.Include(t => t.AspNetUser).Include(t => t.DanhGia);
+            var tinTucs = db.TinTucs.Include(t => t.AspNetUser).Include(t => t.DanhGias);
 
             int pageNumber = (page ?? 1); // If page is null, default to page 1
             var paginatedTinTucs = tinTucs.OrderBy(t => t.Id_tintuc).ToPagedList(pageNumber, pageSize);
@@ -110,7 +110,6 @@ namespace NhaKhoa.Areas.Admin.Controllers
                 return HttpNotFound();
             }
             ViewBag.Id_admin = new SelectList(db.AspNetUsers, "Id", "Email", tinTuc.Id_admin);
-            ViewBag.Id_danhgia = new SelectList(db.DanhGias, "Id_danhgia", "Noidung", tinTuc.Id_danhgia);
             return View(tinTuc);
         }
 
@@ -119,17 +118,37 @@ namespace NhaKhoa.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id_tintuc,Tieude,Noidung,Hinhanh,Ngaygiotao,Id_admin,Id_Benhnhan,Thich,Id_danhgia")] TinTuc tinTuc)
+        public ActionResult Edit([Bind(Include = "Id_tintuc,Tieude,Noidung,Hinhanh,Ngaygiotao,Id_admin,Id_Benhnhan,Thich,Id_danhgia")] TinTuc tinTuc, HttpPostedFileBase HinhanhFile)
         {
             if (ModelState.IsValid)
             {
+                // Handle file upload
+                if (HinhanhFile != null && HinhanhFile.ContentLength > 0)
+                {
+                    // Ensure the target folder exists
+                    var folderPath = Server.MapPath("~/images/tintuc/");
+                    if (!Directory.Exists(folderPath))
+                    {
+                        Directory.CreateDirectory(folderPath);
+                    }
+
+                    // Generate a unique file name to avoid conflicts
+                    var fileName = Path.GetFileNameWithoutExtension(HinhanhFile.FileName)
+                                   + "_" + Guid.NewGuid().ToString().Substring(0, 8)
+                                   + Path.GetExtension(HinhanhFile.FileName);
+
+                    var path = Path.Combine(folderPath, fileName);
+                    HinhanhFile.SaveAs(path);
+
+                    // Set the file path to the model property
+                    tinTuc.Hinhanh = fileName;
+                }
                 tinTuc.Id_admin = User.Identity.GetUserId();
                 db.Entry(tinTuc).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
             ViewBag.Id_admin = new SelectList(db.AspNetUsers, "Id", "Email", tinTuc.Id_admin);
-            ViewBag.Id_danhgia = new SelectList(db.DanhGias, "Id_danhgia", "Noidung", tinTuc.Id_danhgia);
             return View(tinTuc);
         }
 

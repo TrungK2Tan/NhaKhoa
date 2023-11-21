@@ -32,7 +32,7 @@ namespace NhaKhoa.Areas.NhaSi.Controllers
                 // Thêm các thông tin khác về nha sĩ
 
                 // Lấy đánh giá dựa trên ID của nha sĩ (Id_Nhasi)
-                var danhGiaBinhLuans = db.DanhGias.Where(d => d.Id_Nhasi == userId).ToList();
+                var danhGiaBinhLuans = db.DanhGiaNhaSis.Where(d => d.Id_Nhasi == userId).ToList();
 
                     return View(danhGiaBinhLuans);
                 }

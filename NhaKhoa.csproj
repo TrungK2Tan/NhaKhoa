@@ -218,6 +218,7 @@
     <Compile Include="Models\AspNetUserClaim.cs" />
     <Compile Include="Models\AspNetUserLogin.cs" />
     <Compile Include="Models\DanhGia.cs" />
+    <Compile Include="Models\DanhGiaNhaSi.cs" />
     <Compile Include="Models\DichVu.cs" />
     <Compile Include="Models\DonThuoc.cs" />
     <Compile Include="Models\HinhThucThanhToan.cs" />
@@ -835,6 +836,8 @@
     <Content Include="vendor\jquery\jquery.slim.min.map" />
     <Content Include="Views\Home\Service.cshtml" />
     <Content Include="Views\Home\Appointment.cshtml" />
+    <Content Include="Views\Home\BlogGrid.cshtml" />
+    <Content Include="Views\Home\BlogDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

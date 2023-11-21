@@ -1,4 +1,4 @@
-﻿@model IEnumerable<NhaKhoa.Models.DanhGia>
+﻿@model IEnumerable<NhaKhoa.Models.DanhGiaNhaSi>
 
 @{
     ViewBag.Title = "Index";
@@ -13,10 +13,10 @@
             @Html.DisplayNameFor(model => model.Noidung)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Saodanhgia)
+            @Html.DisplayNameFor(model => model.SaoDanhGia)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Ngaydanhgia)
+            @Html.DisplayNameFor(model => model.NgayDanhGia)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Id_Benhnhan)
@@ -32,12 +32,12 @@
         <td>
             @Html.DisplayFor(modelItem => item.Noidung)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Saodanhgia)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Ngaydanhgia)
-        </td>
+        <th>
+            @Html.DisplayNameFor(model => model.SaoDanhGia)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NgayDanhGia)
+        </th>
         <td>
             @Html.DisplayFor(modelItem => item.Id_Benhnhan)
         </td>

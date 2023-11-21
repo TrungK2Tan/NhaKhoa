@@ -4,8 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 
 namespace NhaKhoa.Controllers
 {
@@ -19,24 +21,51 @@ namespace NhaKhoa.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
-
+           
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            
 
             return View();
         }
         
         public ActionResult Service()
         {
-            ViewBag.Message = "Your contact page.";
 
             return View();
         }
+        public ActionResult BlogGrid(int? page)
+        {
+            const int pageSize = 3; // Adjust the number of items per page as needed
+
+            // Lấy danh sách các bài viết từ database và sắp xếp theo Id_tintuc
+            var tintucs = db.TinTucs.OrderBy(b => b.Id_tintuc);
+
+            int pageNumber = (page ?? 1); // If page is null, default to page 1
+            var paginatedTinTucs = tintucs.OrderBy(t => t.Id_tintuc).ToPagedList(pageNumber, pageSize);
+
+            return View(paginatedTinTucs);
+        }
+        public ActionResult BlogDetail(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            TinTuc tintuc = db.TinTucs.Find(id);
+
+            if (tintuc == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(tintuc);
+        }
+
         [Authorize]
         public ActionResult Appointment( )
         {

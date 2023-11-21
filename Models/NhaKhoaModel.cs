@@ -17,6 +17,7 @@ namespace NhaKhoa.Models
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<DanhGia> DanhGias { get; set; }
+        public virtual DbSet<DanhGiaNhaSi> DanhGiaNhaSis { get; set; }
         public virtual DbSet<DichVu> DichVus { get; set; }
         public virtual DbSet<DonThuoc> DonThuocs { get; set; }
         public virtual DbSet<HinhThucThanhToan> HinhThucThanhToans { get; set; }
@@ -49,6 +50,11 @@ namespace NhaKhoa.Models
                 .HasMany(e => e.AspNetUserLogins)
                 .WithRequired(e => e.AspNetUser)
                 .HasForeignKey(e => e.UserId);
+
+            modelBuilder.Entity<AspNetUser>()
+                .HasMany(e => e.DanhGiaNhaSis)
+                .WithOptional(e => e.AspNetUser)
+                .HasForeignKey(e => e.Id_Nhasi);
 
             modelBuilder.Entity<AspNetUser>()
                 .HasMany(e => e.DonThuocs)

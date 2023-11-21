@@ -6,23 +6,24 @@ namespace NhaKhoa.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("DanhGia")]
-    public partial class DanhGia
+    [Table("DanhGiaNhaSi")]
+    public partial class DanhGiaNhaSi
     {
         [Key]
-        public int Id_danhgia { get; set; }
+        public int Id_danhgianhasi { get; set; }
 
         public string Noidung { get; set; }
 
-        public string Saodanhgia { get; set; }
+        public string SaoDanhGia { get; set; }
 
-        public DateTime? Ngaydanhgia { get; set; }
+        public DateTime? NgayDanhGia { get; set; }
 
         [StringLength(128)]
         public string Id_Benhnhan { get; set; }
 
-        public int? Id_tintuc { get; set; }
+        [StringLength(128)]
+        public string Id_Nhasi { get; set; }
 
-        public virtual TinTuc TinTuc { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }
