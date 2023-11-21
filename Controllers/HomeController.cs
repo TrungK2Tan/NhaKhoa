@@ -22,7 +22,24 @@ namespace NhaKhoa.Controllers
 
             return View(nhaSiList);
         }
+        public ActionResult DetailsDoctor(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
 
+            AspNetUser dental = db.AspNetUsers
+                .Where(u => u.AspNetRoles.Any(r => r.Name == "NhaSi"))
+                .FirstOrDefault(u => u.Id == id);
+
+            if (dental == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(dental);
+        }
         public ActionResult About()
         {
            
@@ -93,7 +110,7 @@ namespace NhaKhoa.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public ActionResult Appointment([Bind(Include = "Id_Phieudat,NgayKham,Gia,Id_hinhthuc,IdNhaSi,IdBenhNhan,Id_TKB")] PhieuDatLich DatLich)
+        public ActionResult Appointment([Bind(Include = "Id_Phieudat,NgayKham,Gia,Id_hinhthuc,IdNhaSi,IdBenhNhan,Id_Thu")] PhieuDatLich DatLich)
         {   
             if (ModelState.IsValid)
             {
