@@ -786,6 +786,10 @@
     <Content Include="Areas\Admin\Views\QLTinTuc\Details.cshtml" />
     <Content Include="Areas\Admin\Views\QLTinTuc\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\QLTinTuc\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\QLBenhNhan\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\QLBenhNhan\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\QLBenhNhan\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\QLBenhNhan\Delete.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
