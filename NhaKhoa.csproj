@@ -59,6 +59,12 @@
       <HintPath>packages\Microsoft.AspNet.SignalR.SystemWeb.2.4.3\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.SQLite, Version=1.0.115.5, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
@@ -190,6 +196,7 @@
     <Compile Include="Areas\Admin\Controllers\QLBenhNhanController.cs" />
     <Compile Include="Areas\Admin\Controllers\QLNhanVienController.cs" />
     <Compile Include="Areas\Admin\Controllers\QLNhaSiController.cs" />
+    <Compile Include="Areas\Admin\Controllers\QLTinTucController.cs" />
     <Compile Include="Areas\NhanVien\Controllers\InfoNVController.cs" />
     <Compile Include="Areas\NhanVien\Controllers\NhanVienController.cs" />
     <Compile Include="Areas\NhanVien\Controllers\QLBenhNhanController.cs" />
@@ -436,6 +443,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -767,6 +775,11 @@
     <Content Include="lib\waypoints\links.php" />
     <Content Include="Areas\NhaSi\asset\css\style.scss" />
     <Content Include="Areas\NhaSi\Views\QLLich\ViewCalendar.cshtml" />
+    <Content Include="Areas\Admin\Views\QLTinTuc\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\QLTinTuc\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\QLTinTuc\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\QLTinTuc\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\QLTinTuc\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -828,6 +841,7 @@
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\NhanVien\Data\" />
     <Folder Include="Areas\NhaSi\Data\" />
+    <Folder Include="assets\images\tintuc\" />
     <Folder Include="img\BangCap\" />
   </ItemGroup>
   <ItemGroup>

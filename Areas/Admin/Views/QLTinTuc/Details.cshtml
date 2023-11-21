@@ -1,0 +1,82 @@
+﻿@model NhaKhoa.Models.TinTuc
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/Layout.cshtml";
+}
+
+<h2>Chi tiết tin tức </h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AspNetUser.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AspNetUser.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DanhGia.Noidung)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DanhGia.Noidung)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tieude)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tieude)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Noidung)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Noidung)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Hinhanh)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Hinhanh)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ngaygiotao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ngaygiotao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Id_Benhnhan)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Id_Benhnhan)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Thich)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Thich)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Sửa", "Edit", new { id = Model.Id_tintuc }) |
+    @Html.ActionLink("Quay lại ", "Index")
+</p>
