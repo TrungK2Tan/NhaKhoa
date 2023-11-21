@@ -3,14 +3,17 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/Layout.cshtml";
-    ViewBag.action = 2;
 }
 
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <button onclick="location.href='@Url.Action("Create")'">Create New</button>
 </p>
+<p>
+    <button onclick="location.href='@Url.Action("TKB")'">TKB</button>
+</p>
+
 <table class="table">
     <tr>
         <th>
@@ -42,6 +45,9 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.FullName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HinhAnh)
         </th>
         <th></th>
     </tr>
@@ -78,6 +84,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                <img src="~/img/Nhaisiimg/@item.HinhAnh" alt="Alternate Text" />
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |

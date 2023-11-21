@@ -336,6 +336,9 @@
     <Content Include="Areas\assets\js\plugins\smooth-scrollbar.min.js" />
     <Content Include="Areas\assets\js\soft-ui-dashboard.js" />
     <Content Include="Areas\assets\js\soft-ui-dashboard.min.js" />
+    <Content Include="Areas\assetTKB\css\style.css" />
+    <Content Include="Areas\assetTKB\js\main.js" />
+    <Content Include="Areas\assetTKB\js\util.js" />
     <Content Include="Areas\NhaSi\assets\css\style.css" />
     <Content Include="Areas\NhaSi\assets\images\dashboard\circle.png" />
     <Content Include="Areas\NhaSi\assets\images\dashboard\circle.svg" />
@@ -790,6 +793,9 @@
     <Content Include="Areas\Admin\Views\QLBenhNhan\Create.cshtml" />
     <Content Include="Areas\Admin\Views\QLBenhNhan\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\QLBenhNhan\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\QLNhaSi\TKB.cshtml" />
+    <Content Include="Areas\Admin\Views\QLNhaSi\ThemThoiKhoaBieu.cshtml" />
+    <Content Include="Areas\assetTKB\css\style.scss" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

@@ -1,11 +1,13 @@
-﻿@model IEnumerable<NhaKhoa.Models.ThoiKhoaBieu>
+﻿﻿@model List<NhaKhoa.Models.Thu>
+
 @{
-    ViewBag.Title = "QLLich";
-    Layout = "~/Areas/NhaSi/Views/Shared/Layout.cshtml";
+    ViewBag.Title = "TKB";
+    Layout = "~/Areas/Admin/Views/Shared/Layout.cshtml";
 }
+
 <header class="cd-main-header text-center flex flex-column flex-center">
     <h1 class="text-xl">THỜI GIAN BIỂU</h1>
-    <a href="@Url.Action("ViewCalendar","QLLich","NhaSi")"> Xem tất cả lịch</a>
+    <a class="btn--primary" href="@Url.Action("ThemThoiKhoaBieu","QLNhaSi","Admin")">Thêm lịch làm việc</a>
 </header>
 
 <div class="cd-schedule cd-schedule--loading margin-top-lg margin-bottom-lg js-cd-schedule">
@@ -31,22 +33,22 @@
             <li><span>17:30</span></li>
             <li><span>18:00</span></li>
         </ul>
-    </div>
+    </div> <!-- .cd-schedule__timeline -->
+
     <div class="cd-schedule__events">
         <ul>
-            @foreach (var dayGroup in Model.GroupBy(item => item.Thu.TenThu))
+            @foreach (var daySchedule in Model)
             {
                 <li class="cd-schedule__group">
-                    <div class="cd-schedule__top-info">
-                        <span>@(dayGroup.Key)</span>
-                    </div>
+                    <div class="cd-schedule__top-info"><span>@daySchedule.TenThu</span></div>
                     <ul>
-                        @foreach (var item in dayGroup.OrderBy(e => e.KhungGio.GioBatDau))
+                        @foreach (var eventItem in daySchedule.ThoiKhoaBieux)
                         {
                             <li class="cd-schedule__event">
-                                <a data-start="@item.KhungGio.GioBatDau" data-end="@item.KhungGio.GioKetThuc" data-content="" data-event="event-4" href="#">
-                                    <em class="cd-schedule__name">@item.NgayLamViec-@item.KhungGio.TenCa</em>
-                                    <em class="cd-schedule__name">@item.Phong.TenPhong-@item.AspNetUser.FullName</em>
+                                <a data-start="@eventItem.KhungGio.GioBatDau" data-end="@eventItem.KhungGio.GioKetThuc" data-event="event-4">
+                                    <em class="cd-schedule__name"> @eventItem.Phong.TenPhong-@eventItem.KhungGio.TenCa</em>
+                                    <em class="cd-schedule__name"> @eventItem.AspNetUser.FullName</em>
+                                    <em class="cd-schedule__name"> @eventItem.NgayLamViec</em>
                                 </a>
                             </li>
                         }
@@ -55,20 +57,20 @@
             }
         </ul>
     </div>
+
     <div class="cd-schedule-modal">
         <header class="cd-schedule-modal__header">
             <div class="cd-schedule-modal__content">
                 <span class="cd-schedule-modal__date"></span>
                 <h3 class="cd-schedule-modal__name"></h3>
             </div>
+
             <div class="cd-schedule-modal__header-bg"></div>
         </header>
 
         <div class="cd-schedule-modal__body">
             <div class="cd-schedule-modal__event-info">
-                <div>
-                    <a>Xem thông tin lịch khám </a>
-                </div>
+                <h1> hehee</h1>
             </div>
             <div class="cd-schedule-modal__body-bg"></div>
         </div>
@@ -79,6 +81,5 @@
     <div class="cd-schedule__cover-layer"></div>
 </div> <!-- .cd-schedule -->
 
-<script src="~/Areas/NhaSi/asset/js/util.js"></script> <!-- util functions included in the CodyHouse framework -->
-<script src="~/Areas/NhaSi/asset/js/main.js"></script>
-
+<script src="~/Areas/assetTKB/js/util.js"></script> <!-- util functions included in the CodyHouse framework -->
+<script src="~/Areas/assetTKB/js/main.js"></script>

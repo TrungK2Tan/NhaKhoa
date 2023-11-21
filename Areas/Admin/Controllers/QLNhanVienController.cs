@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace NhaKhoa.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class QLNhanVienController : Controller
     {
         private NhaKhoaModel db = new NhaKhoaModel();

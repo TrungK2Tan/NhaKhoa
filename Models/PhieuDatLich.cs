@@ -31,14 +31,14 @@ namespace NhaKhoa.Models
         [StringLength(128)]
         public string IdBenhNhan { get; set; }
 
-        public int? Id_Thu { get; set; }
+        public int? Id_TKB { get; set; }
 
         public virtual AspNetUser AspNetUser { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LichKham> LichKhams { get; set; }
 
-        public virtual Thu Thu { get; set; }
+        public virtual ThoiKhoaBieu ThoiKhoaBieu { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PhiKham> PhiKhams { get; set; }

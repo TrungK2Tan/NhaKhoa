@@ -27,7 +27,7 @@ namespace NhaKhoa.Models
         public override string UserName { get; set; }
         public override string Email { get; set; }
         public string FullName { get; set; }
-
+        public string HinhAnh { get;set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
