@@ -1,4 +1,4 @@
-﻿@model IEnumerable<NhaKhoa.Models.ThoiKhoaBieu>
+﻿@model IEnumerable<NhaKhoa.Models.Thu>
 @{
     ViewBag.Title = "QLLich";
     Layout = "~/Areas/NhaSi/Views/Shared/Layout.cshtml";
@@ -34,19 +34,23 @@
     </div>
     <div class="cd-schedule__events">
         <ul>
-            @foreach (var dayGroup in Model.GroupBy(item => item.Thu.TenThu))
+            @foreach (var daySchedule in Model)
             {
                 <li class="cd-schedule__group">
-                    <div class="cd-schedule__top-info">
-                        <span>@(dayGroup.Key)</span>
-                    </div>
+                    <div class="cd-schedule__top-info"><span>@daySchedule.TenThu</span></div>
                     <ul>
-                        @foreach (var item in dayGroup.OrderBy(e => e.KhungGio.GioBatDau))
+                        @foreach (var eventItem in daySchedule.ThoiKhoaBieux.OrderBy(e => e.NgayLamViec))
                         {
                             <li class="cd-schedule__event">
-                                <a data-start="@item.KhungGio.GioBatDau" data-end="@item.KhungGio.GioKetThuc" data-content="" data-event="event-4" href="#">
-                                    <em class="cd-schedule__name">@item.NgayLamViec-@item.KhungGio.TenCa</em>
-                                    <em class="cd-schedule__name">@item.Phong.TenPhong-@item.AspNetUser.FullName</em>
+                                <a data-start="@eventItem.KhungGio.GioBatDau" data-end="@eventItem.KhungGio.GioKetThuc" data-event="event-4">
+                                    <!-- Displaying event details -->
+                                    <em class="cd-schedule__name"> @eventItem.Phong.TenPhong-@eventItem.KhungGio.TenCa</em>
+                                    <em class="cd-schedule__name"> @eventItem.AspNetUser.FullName</em>
+                                    @if (eventItem.NgayLamViec.HasValue)
+                                    {
+                                        <!-- Display date if available -->
+                                        <em class="cd-schedule__name"> @eventItem.NgayLamViec.Value.Date.ToString("yyyy-MM-dd")</em>
+                                    }
                                 </a>
                             </li>
                         }
