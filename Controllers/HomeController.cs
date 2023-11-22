@@ -167,6 +167,57 @@ namespace NhaKhoa.Controllers
             }
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddReview(DanhGia review)
+        {
+            // Check if the user is authenticated
+            if (User.Identity.IsAuthenticated)
+            {
+                // Get the current user's ID
+                string userId = User.Identity.GetUserId(); // Assuming you have User.Identity available
 
+                // Set the user ID in the review object
+                review.Id_Benhnhan = userId;
+                // Lưu đánh giá và bình luận vào cơ sở dữ liệu
+                db.DanhGias.Add(review);
+                db.SaveChanges();
+
+                return RedirectToAction("BlogDetail", new { id = review.Id_tintuc });
+            }
+            else{ 
+            // Nếu dữ liệu không hợp lệ, quay lại trang Details với thông tin nha sĩ và các đánh giá và bình luận đã nhập trước đó
+            TinTuc tintuc = db.TinTucs.Find(review.Id_tintuc);
+            tintuc.DanhGias = db.DanhGias.Where(r => r.Id_tintuc == review.Id_tintuc).ToList();
+            return View("BlogDetail", tintuc);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddReviewNhaSi(DanhGiaNhaSi reviewnhasi)
+        {
+            // Check if the user is authenticated
+            if (User.Identity.IsAuthenticated)
+            {
+                // Get the current user's ID
+                string userId = User.Identity.GetUserId(); // Assuming you have User.Identity available
+
+                // Set the user ID in the review object
+                reviewnhasi.Id_Benhnhan = userId;
+                // Lưu đánh giá và bình luận vào cơ sở dữ liệu
+                db.DanhGiaNhaSis.Add(reviewnhasi);
+                db.SaveChanges();
+
+                return RedirectToAction("DetailsDoctor", new { id = reviewnhasi.Id_Nhasi });
+            }
+            else
+            {
+                // Nếu dữ liệu không hợp lệ, quay lại trang Details với thông tin nha sĩ và các đánh giá và bình luận đã nhập trước đó
+                AspNetUser nhasi = db.AspNetUsers.Find(reviewnhasi.Id_Nhasi);
+                nhasi.DanhGiaNhaSis = db.DanhGiaNhaSis.Where(r => r.Id_Nhasi == reviewnhasi.Id_Nhasi).ToList();
+                return View("DetailsDoctor", nhasi);
+            }
+        }
     }
 }

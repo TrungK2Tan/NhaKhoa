@@ -1,4 +1,5 @@
 ﻿@model NhaKhoa.Models.TinTuc
+@using Microsoft.AspNet.Identity
 
 @{
     ViewBag.Title = "Details";
@@ -25,20 +26,123 @@
             </li>
         </ul>
         <div class="row properties-box">
-                <div class="col-lg-4 col-md-6 align-self-center mb-30 properties-items col-md-6 adv">
-                    <div class="item">
+            <div class="col-lg-4 col-md-6 align-self-center mb-30 properties-items col-md-6 adv">
+                <div class="item">
 
-                        <div class="mb-5">
-                            <h1 class="mb-4">@Html.DisplayFor(model => model.Tieude)</h1>
-                            <img class="img-fluid rounded mb-5" src="~/images/tintuc/@Model.Hinhanh" alt="" style="max-width: 100%;">
-                            <p>@Html.DisplayFor(model => model.Noidung)</p>
+                    <div class="mb-5">
+                        <h1 class="mb-4">@Html.DisplayFor(model => model.Tieude)</h1>
+                        <img class="img-fluid rounded mb-5" src="~/images/tintuc/@Model.Hinhanh" alt="" style="max-width: 100%;">
+                        <p>@Html.DisplayFor(model => model.Noidung)</p>
 
 
-                        </div>
                     </div>
                 </div>
+            </div>
 
         </div>
     </div>
 </div>
 
+<div class="container py-5">
+    <!-- Các phần tử hiển thị thông tin nha sĩ -->
+    <!-- Form đánh giá và bình luận -->
+    <div>
+        <h2>Đánh giá và bình luận</h2>
+        <form action="@Url.Action("AddReview", "Home")" method="post">
+            @Html.AntiForgeryToken()
+
+            <input type="hidden" name="Id_tintuc" value="@Model.Id_tintuc" />
+            <input type="hidden" name="Id_Benhnhan" id="Id_Benhnhan" value="@User.Identity.GetUserId()" />
+            <div class="form-group">
+                <label for="Saodanhgia">Điểm đánh giá:</label>
+                <div class="rating">
+                    <input type="radio" id="star5" name="Saodanhgia" value="5" />
+                    <label for="star5"></label>
+                    <input type="radio" id="star4" name="Saodanhgia" value="4" />
+                    <label for="star4"></label>
+                    <input type="radio" id="star3" name="Saodanhgia" value="3" />
+                    <label for="star3"></label>
+                    <input type="radio" id="star2" name="Saodanhgia" value="2" />
+                    <label for="star2"></label>
+                    <input type="radio" id="star1" name="Saodanhgia" value="1" />
+                    <label for="star1"></label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Noidung">Nội dung:</label>
+                <textarea name="Noidung" class="form-control" required></textarea>
+            </div>
+            <div class="form-group" hidden>
+                <label for="Ngaydanhgia">Ngày tạo:</label>
+                <input type="text" name="Ngaydanhgia" class="form-control" value="@DateTime.Now.ToString()" readonly />
+            </div>
+
+            <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+        </form>
+    </div>
+
+    <!-- Hiển thị danh sách đánh giá và bình luận -->
+    <div>
+        <h2>Danh sách đánh giá và bình luận</h2>
+        <ul class="list-group">
+            @foreach (var review in Model.DanhGias)
+            {
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p>
+                                Điểm đánh giá: @review.Saodanhgia
+                                @for (var i = 1; i <= 5; i++)
+                                {
+                                    <i class="fas fa-star @(i <= review.Saodanhgia ? "text-primary" : "")"></i>
+                                }
+                            </p>
+                        </div>
+                        <div class="col-md-4">
+                            <p>Ngày đánh giá: @review.Ngaydanhgia</p>
+                        </div>
+                    </div>
+                    <p>Nội dung: @review.Noidung</p>
+                </li>
+            }
+        </ul>
+    </div>
+
+   
+</div>
+<style>
+    .rating {
+        display: inline-block;
+        font-size: 0;
+    }
+
+        .rating input {
+            display: none;
+        }
+
+        .rating label {
+            position: relative;
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin: 0;
+            padding: 0;
+            cursor: pointer;
+        }
+
+            .rating label:before {
+                content: "\2605";
+                position: absolute;
+                top: 0;
+                left: 0;
+                font-size: 20px;
+                line-height: 20px;
+                color: #ddd;
+            }
+
+            .rating label:hover:before,
+            .rating label:hover ~ label:before,
+            .rating input:checked ~ label:before {
+                color: #13C5DD;
+            }
+</style>
