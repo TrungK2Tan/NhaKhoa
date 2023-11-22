@@ -138,6 +138,34 @@ namespace NhaKhoa.Controllers
 
             return View(DatLich);
         }
+        public ActionResult Search(string keyword)
+        {
+            // Tìm kiếm theo từ khóa keyword trong tên nha sĩ
+            var nhaSiResults = db.AspNetUsers.Where(u => u.AspNetRoles.Any(r => r.Name == "NhaSi")).Where(n => n.FullName.Contains(keyword)).ToList();
+
+            // Tìm kiếm theo từ khóa keyword trong tên dịch vụ
+            var tintucResults = db.TinTucs.Where(d => d.Tieude.Contains(keyword)).ToList();
+
+            // Tạo một ViewModel để chứa kết quả tìm kiếm
+            var searchResults = new SearchViewModel
+            {
+                Keyword = keyword,
+                NhaSiResults = nhaSiResults,
+                TinTucResults = tintucResults
+            };
+
+            // Kiểm tra kết quả tìm kiếm để xác định view cần hiển thị
+            if (nhaSiResults.Any() || tintucResults.Any())
+            {
+                // Gửi kết quả tìm kiếm cho view "SearchResults"
+                return View("SearchResults", searchResults);
+            }
+            else
+            {
+                // Không có kết quả tìm kiếm, gửi thông báo cho view "NoResults"
+                return View("NoResults", searchResults);
+            }
+        }
 
 
     }

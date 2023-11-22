@@ -75,9 +75,17 @@
                         </a>
                         <!-- ***** Logo End ***** -->
                         <!-- ***** Menu Start ***** -->
+                        <form action="@Url.Action("Search", "Home")" method="get" class="search-form">
+                            <div class="search-input-wrapper">
+                                <input type="text" name="keyword" placeholder="Nhập từ khóa tìm kiếm" class="search-input" />
+                                <button type="submit" class="search-button">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </form>
                         <ul class="nav">
                             <li class="scroll-to-section"><a style="background-color:#00ffff; border-radius:10px" href="~/Home/Appointment">Đặt Lịch Ngay</a></li>
-                            <li><a href="~/Home/Index">Trang Chủ</a></li>
+
                             <li><a href="~/Home/Service">Dịch vụ</a></li>
                             <li><a href="~/Home/BlogGrid">Tin tức</a></li>
                             <li><a href="~/Home/About">Giới thiệu</a></li>
@@ -94,6 +102,7 @@
             </div>
         </div>
     </header>
+
     @RenderBody()
     <footer>
         <div class="container">
@@ -103,6 +112,37 @@
         </div>
     </footer>
 
+    <style>
+        /* Add this to your existing stylesheet or create a new one */
+        .search-form {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 60px;
+            margin-top: 30px;
+            margin-left: 44px;
+        }
+
+        .search-input-wrapper {
+            position: relative;
+            display: flex;
+        }
+
+        .search-input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px 0 0 5px;
+            outline: none;
+            width: 200px; /* Adjust the width as needed */
+        }
+
+        .search-button {
+            background-color: #00ffff;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            color: #fff;
+            cursor: pointer;
+        }
+    </style>
     <!-- Scripts -->
     <!-- Bootstrap core JavaScript -->
     <script src="../vendor/jquery/jquery.min.js"></script>
@@ -113,6 +153,5 @@
     <script src="../assets/js/custom.js"></script>
     @RenderSection("scripts", required: false)
 </body>
-
 
 </html>

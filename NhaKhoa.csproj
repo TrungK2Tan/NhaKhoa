@@ -231,6 +231,7 @@
     <Compile Include="Models\PhieuDatLich.cs" />
     <Compile Include="Models\PhiKham.cs" />
     <Compile Include="Models\Phong.cs" />
+    <Compile Include="Models\SearchViewModel.cs" />
     <Compile Include="Models\ThoiKhoaBieu.cs" />
     <Compile Include="Models\Thu.cs" />
     <Compile Include="Models\Thuoc.cs" />
@@ -854,6 +855,9 @@
     <Content Include="Views\Home\BlogGrid.cshtml" />
     <Content Include="Views\Home\BlogDetail.cshtml" />
     <Content Include="Views\Home\DetailsDoctor.cshtml" />
+    <Content Include="Views\Home\Search.cshtml" />
+    <Content Include="Views\Home\SearchResults.cshtml" />
+    <Content Include="Views\Home\NoResults.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

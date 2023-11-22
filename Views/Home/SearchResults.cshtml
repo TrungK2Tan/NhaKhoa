@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = "SearchResults";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model NhaKhoa.Models.SearchViewModel
+
+<div class="container">
+    <h2>Bạn đang tìm kiếm '@Model.Keyword'</h2>
+
+    @if (Model.NhaSiResults.Any())
+    {
+        <h3>Nha Si cần tìm:</h3>
+        <div class="row">
+            @foreach (var nhaSi in Model.NhaSiResults)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <a href="@Url.Action("Details", new { id = nhaSi.Id })">
+                            <img src="~/img/Nhaisiimg/@nhaSi.HinhAnh" class="card-img-top" alt="Hình ảnh nha sĩ">
+                        </a>
+                        <div class="card-body">
+                            <h5 class="card-title">@nhaSi.FullName</h5>
+                            <a href="@Url.Action("Appointment", "Home", new { IDBACSI = nhaSi.Id })" class="btn btn-primary">Đặt lịch</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+    @if (Model.TinTucResults.Any())
+    {
+        <h3>Dịch vụ cần tìm:</h3>
+        <ul>
+            @foreach (var tintuc in Model.TinTucResults)
+            {
+                <li>
+                    <div class="dichvu-item">
+                        <h4>@tintuc.Tieude</h4>
+                        <p>@tintuc.Ngaygiotao</p>
+                        <img class="img-fluid rounded-top" src="~/images/tintuc/@tintuc.Hinhanh" alt="">
+                        <a href="@Url.Action("BlogGrid", "Home", new { Id_tintuc=tintuc.Id_tintuc })" class="btn btn-primary">Xem Tin</a>
+                    </div>
+                </li>
+            }
+        </ul>
+    }
+
+
+    @if (!Model.NhaSiResults.Any() && !Model.TinTucResults.Any())
+    {
+        <p>No results found.</p>
+    }
+</div>
+<style>
+    .dichvu-item {
+        background-color: #f5f5f5;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+        .dichvu-item h4 {
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .dichvu-item p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .dichvu-item img {
+            width: 100%;
+            border-radius: 5px;
+        }
+
+        .dichvu-item .btn {
+            margin-top: 10px;
+        }
+</style>

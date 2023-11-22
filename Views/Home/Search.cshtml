@@ -1,0 +1,11 @@
+﻿
+@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+
+<form method="get" action="@Url.Action("Search", "Home")">
+    <input type="text" name="keyword" />
+    <input type="submit" value="Search" />
+</form>
