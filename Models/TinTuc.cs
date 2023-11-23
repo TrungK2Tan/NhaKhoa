@@ -29,11 +29,6 @@ namespace NhaKhoa.Models
         [StringLength(128)]
         public string Id_admin { get; set; }
 
-        [StringLength(128)]
-        public string Id_Benhnhan { get; set; }
-
-        public int? Thich { get; set; }
-
         public virtual AspNetUser AspNetUser { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

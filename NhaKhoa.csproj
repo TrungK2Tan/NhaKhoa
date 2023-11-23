@@ -225,11 +225,9 @@
     <Compile Include="Models\HoaDon.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\KhungGio.cs" />
-    <Compile Include="Models\LichKham.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\NhaKhoaModel.cs" />
     <Compile Include="Models\PhieuDatLich.cs" />
-    <Compile Include="Models\PhiKham.cs" />
     <Compile Include="Models\Phong.cs" />
     <Compile Include="Models\SearchViewModel.cs" />
     <Compile Include="Models\ThoiKhoaBieu.cs" />
@@ -853,6 +851,7 @@
     <Content Include="Views\Home\Search.cshtml" />
     <Content Include="Views\Home\SearchResults.cshtml" />
     <Content Include="Views\Home\NoResults.cshtml" />
+    <Content Include="Views\Home\BookingView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

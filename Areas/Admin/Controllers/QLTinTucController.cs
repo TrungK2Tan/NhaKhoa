@@ -60,7 +60,7 @@ namespace NhaKhoa.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id_tintuc,Tieude,Noidung,Hinhanh,Ngaygiotao,Id_admin,Id_Benhnhan,Thich,Id_danhgia")] TinTuc tinTuc, HttpPostedFileBase HinhanhFile)
+        public ActionResult Create([Bind(Include = "Id_tintuc,Tieude,Noidung,Hinhanh,Ngaygiotao,Id_admin,Id_danhgia")] TinTuc tinTuc, HttpPostedFileBase HinhanhFile)
         {
             if (ModelState.IsValid)
             {
@@ -118,7 +118,7 @@ namespace NhaKhoa.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id_tintuc,Tieude,Noidung,Hinhanh,Ngaygiotao,Id_admin,Id_Benhnhan,Thich,Id_danhgia")] TinTuc tinTuc, HttpPostedFileBase HinhanhFile)
+        public ActionResult Edit([Bind(Include = "Id_tintuc,Tieude,Noidung,Hinhanh,Ngaygiotao,Id_admin,Id_danhgia")] TinTuc tinTuc, HttpPostedFileBase HinhanhFile)
         {
             if (ModelState.IsValid)
             {

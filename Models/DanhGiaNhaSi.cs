@@ -14,7 +14,7 @@ namespace NhaKhoa.Models
 
         public string Noidung { get; set; }
 
-        public double SaoDanhGia { get; set; }
+        public double? SaoDanhGia { get; set; }
 
         public DateTime? NgayDanhGia { get; set; }
 

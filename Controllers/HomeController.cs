@@ -109,7 +109,7 @@ namespace NhaKhoa.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Appointment([Bind(Include = "Id_Phieudat,NgayKham,Gia,Id_hinhthuc,IdNhaSi,IdBenhNhan,Id_TKB")] PhieuDatLich DatLich)
+        public ActionResult Appointment([Bind(Include = "Id_Phieudat,NgayKham,Gia,Id_hinhthuc,IdNhaSi,IdBenhNhan,Id_TKB,STT")] PhieuDatLich DatLich)
         {
             if (ModelState.IsValid)
             {
@@ -120,6 +120,15 @@ namespace NhaKhoa.Controllers
                     .Where(t => t.NgayLamViec == DatLich.NgayKham)
                     .Select(t => t.Id_TKB)
                     .FirstOrDefault();
+                DatLich.TrangThai = false;
+                var numberOfAppointments = db.PhieuDatLiches.Count(l => l.IdNhaSi == DatLich.IdNhaSi && l.NgayKham.HasValue && DbFunctions.TruncateTime(l.NgayKham) == DbFunctions.TruncateTime(DatLich.NgayKham));
+
+                if (numberOfAppointments >= 2)
+                {
+                    ModelState.AddModelError("", "Nha sĩ này đã đủ số lượng lịch hẹn cho khung giờ này. Vui lòng chọn nha sĩ khác.");
+                    
+                    return View(DatLich);
+                }
 
                 // Your existing code to save the appointment
                 string currentUserId = User.Identity.GetUserId();
@@ -235,6 +244,31 @@ namespace NhaKhoa.Controllers
                 nhasi.DanhGiaNhaSis = db.DanhGiaNhaSis.Where(r => r.Id_Nhasi == reviewnhasi.Id_Nhasi).ToList();
                 return View("DetailsDoctor", nhasi);
             }
+        }
+        [Authorize]
+        public ActionResult BookingView()
+        {
+
+            // Lấy ID đăng nhập của người dùng hiện tại
+            string currentUserId = User.Identity.GetUserId();
+            // Lấy danh sách lịch hẹn dựa trên ID đăng nhập
+            var lichHens = db.PhieuDatLiches
+                .Where(l => l.IdBenhNhan == currentUserId).OrderBy(l => l.NgayKham).ToList();
+            return View(lichHens);
+        }
+        [HttpPost]
+        public ActionResult CancelBooking(int bookingId)
+        {
+            // Kiểm tra trạng thái của đặt lịch và thực hiện hủy nếu hợp lệ
+            var booking = db.PhieuDatLiches.Find(bookingId);
+            if (booking != null && booking.TrangThai == false) // Thay đổi ở đây
+            {
+                db.PhieuDatLiches.Remove(booking);
+                db.SaveChanges();
+                return Json(new { success = true });
+            }
+
+            return Json(new { success = false });
         }
     }
 }

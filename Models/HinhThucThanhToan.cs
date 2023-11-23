@@ -13,7 +13,7 @@ namespace NhaKhoa.Models
         public HinhThucThanhToan()
         {
             HoaDons = new HashSet<HoaDon>();
-            PhiKhams = new HashSet<PhiKham>();
+            PhieuDatLiches = new HashSet<PhieuDatLich>();
         }
 
         [Key]
@@ -25,6 +25,6 @@ namespace NhaKhoa.Models
         public virtual ICollection<HoaDon> HoaDons { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PhiKham> PhiKhams { get; set; }
+        public virtual ICollection<PhieuDatLich> PhieuDatLiches { get; set; }
     }
 }

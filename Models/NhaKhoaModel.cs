@@ -23,9 +23,7 @@ namespace NhaKhoa.Models
         public virtual DbSet<HinhThucThanhToan> HinhThucThanhToans { get; set; }
         public virtual DbSet<HoaDon> HoaDons { get; set; }
         public virtual DbSet<KhungGio> KhungGios { get; set; }
-        public virtual DbSet<LichKham> LichKhams { get; set; }
         public virtual DbSet<PhieuDatLich> PhieuDatLiches { get; set; }
-        public virtual DbSet<PhiKham> PhiKhams { get; set; }
         public virtual DbSet<Phong> Phongs { get; set; }
         public virtual DbSet<ThoiKhoaBieu> ThoiKhoaBieux { get; set; }
         public virtual DbSet<Thu> Thus { get; set; }
@@ -67,11 +65,6 @@ namespace NhaKhoa.Models
                 .HasForeignKey(e => e.Id_benhnhan);
 
             modelBuilder.Entity<AspNetUser>()
-                .HasMany(e => e.LichKhams)
-                .WithOptional(e => e.AspNetUser)
-                .HasForeignKey(e => e.Id_Nhasi);
-
-            modelBuilder.Entity<AspNetUser>()
                 .HasMany(e => e.PhieuDatLiches)
                 .WithOptional(e => e.AspNetUser)
                 .HasForeignKey(e => e.IdBenhNhan);
@@ -106,11 +99,6 @@ namespace NhaKhoa.Models
                 .HasMany(e => e.VatTuSuDungs1)
                 .WithRequired(e => e.HoaDon1)
                 .HasForeignKey(e => e.Id_Vattu)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<PhieuDatLich>()
-                .HasMany(e => e.PhiKhams)
-                .WithRequired(e => e.PhieuDatLich)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<VatTu>()

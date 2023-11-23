@@ -16,7 +16,6 @@ namespace NhaKhoa.Models
             DanhGiaNhaSis = new HashSet<DanhGiaNhaSi>();
             DonThuocs = new HashSet<DonThuoc>();
             HoaDons = new HashSet<HoaDon>();
-            LichKhams = new HashSet<LichKham>();
             PhieuDatLiches = new HashSet<PhieuDatLich>();
             ThoiKhoaBieux = new HashSet<ThoiKhoaBieu>();
             TinTucs = new HashSet<TinTuc>();
@@ -85,9 +84,6 @@ namespace NhaKhoa.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<HoaDon> HoaDons { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<LichKham> LichKhams { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PhieuDatLich> PhieuDatLiches { get; set; }

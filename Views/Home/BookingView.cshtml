@@ -1,0 +1,78 @@
+﻿@model IEnumerable<NhaKhoa.Models.PhieuDatLich>
+
+@{
+    ViewBag.Title = "BookingView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="container">
+    <h2 class="text-center mt-5">Lịch Đã Đặt</h2>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Tên</th>
+                    <th>Số Điện Thoại</th>
+                    <th>Ngày Khám</th>
+                    <th>Email</th>
+
+                    <th>Tên Nha Sĩ</th>
+                    <th>Trạng thái</th>
+                    <th>Tái khám </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.AspNetUser.FullName)</td>
+                        <td>@Html.DisplayFor(modelItem => item.AspNetUser.PhoneNumber)</td>
+                        <td>@Html.DisplayFor(modelItem => item.NgayKham)</td>
+                        <td>@Html.DisplayFor(modelItem => item.AspNetUser.Email)</td>
+                        <td>@Html.DisplayFor(modelItem => item.AspNetUser.FullName)</td>
+                        <td>
+                            @if (item.TrangThai == true)
+                            {
+                                <span class="text-success">Đã xác nhận</span>
+                            <td>
+                                <a href="@Url.Action("Appointment", "Home", new { ten = item.AspNetUser.FullName, sdt = item.AspNetUser.PhoneNumber, tennhasi = item.AspNetUser.FullName, @IDBACSI = item.IdNhaSi })" class="btn btn-primary">ĐẶT LẠI</a>
+                            </td>
+                        }
+                        else
+                        {
+                            <span class="text-danger">Chưa xác nhận</span>
+                            <button class="btn btn-primary" onclick="cancelBooking('@item.Id_Phieudat')">
+                                Hủy đặt lịch
+                            </button>
+                        }
+                        </tr>
+                    }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    function cancelBooking(bookingId) {
+        if (confirm('Bạn có chắc chắn muốn hủy đặt lịch này?')) {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("CancelBooking", "Home")',
+                data: { bookingId: bookingId },
+                success: function (result) {
+                    if (result.success) {
+                        alert('Hủy đặt lịch thành công.');
+                        location.reload();
+                    } else {
+                        alert('Không thể hủy đặt lịch.');
+                    }
+                },
+                error: function () {
+                    alert('Đã xảy ra lỗi.');
+                }
+            });
+        }
+    }
+</script>
