@@ -121,14 +121,14 @@ namespace NhaKhoa.Controllers
                     .Select(t => t.Id_TKB)
                     .FirstOrDefault();
                 DatLich.TrangThai = false;
-                var numberOfAppointments = db.PhieuDatLiches.Count(l => l.IdNhaSi == DatLich.IdNhaSi && l.NgayKham.HasValue && DbFunctions.TruncateTime(l.NgayKham) == DbFunctions.TruncateTime(DatLich.NgayKham));
+                //var numberOfAppointments = db.PhieuDatLiches.Count(l => l.IdNhaSi == DatLich.IdNhaSi && l.NgayKham.HasValue && DbFunctions.TruncateTime(l.NgayKham) == DbFunctions.TruncateTime(DatLich.NgayKham));
 
-                if (numberOfAppointments >= 2)
-                {
-                    ModelState.AddModelError("", "Nha sĩ này đã đủ số lượng lịch hẹn cho khung giờ này. Vui lòng chọn nha sĩ khác.");
+                //if (numberOfAppointments >= 2)
+                //{
+                //    ModelState.AddModelError("", "Nha sĩ này đã đủ số lượng lịch hẹn cho khung giờ này. Vui lòng chọn nha sĩ khác.");
                     
-                    return View(DatLich);
-                }
+                //    return View(DatLich);
+                //}
 
                 // Your existing code to save the appointment
                 string currentUserId = User.Identity.GetUserId();
@@ -251,6 +251,8 @@ namespace NhaKhoa.Controllers
 
             // Lấy ID đăng nhập của người dùng hiện tại
             string currentUserId = User.Identity.GetUserId();
+            string tennguoidung = User.Identity.GetUserName();
+            ViewBag.tennguoidung = tennguoidung;
             // Lấy danh sách lịch hẹn dựa trên ID đăng nhập
             var lichHens = db.PhieuDatLiches
                 .Where(l => l.IdBenhNhan == currentUserId).OrderBy(l => l.NgayKham).ToList();

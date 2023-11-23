@@ -1,0 +1,83 @@
+﻿@model NhaKhoa.Models.PhieuDatLich
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PhieuDatLich</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AspNetUser.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AspNetUser.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HinhThucThanhToan.TenHinhThuc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HinhThucThanhToan.TenHinhThuc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ThoiKhoaBieu.Id_Nhasi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ThoiKhoaBieu.Id_Nhasi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NgayKham)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NgayKham)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Gia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Gia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdNhaSi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdNhaSi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.STT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.STT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TrangThai)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TrangThai)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id_Phieudat }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

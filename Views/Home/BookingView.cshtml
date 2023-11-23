@@ -1,5 +1,4 @@
 ﻿@model IEnumerable<NhaKhoa.Models.PhieuDatLich>
-
 @{
     ViewBag.Title = "BookingView";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -14,21 +13,20 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Tên</th>
+                    <th>Tên bệnh nhân</th>
                     <th>Số Điện Thoại</th>
                     <th>Ngày Khám</th>
                     <th>Email</th>
-
                     <th>Tên Nha Sĩ</th>
                     <th>Trạng thái</th>
-                    <th>Tái khám </th>
+                    <th> Tái khám</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>@Html.DisplayFor(modelItem => item.AspNetUser.FullName)</td>
+                        <td>@ViewBag.tennguoidung</td>
                         <td>@Html.DisplayFor(modelItem => item.AspNetUser.PhoneNumber)</td>
                         <td>@Html.DisplayFor(modelItem => item.NgayKham)</td>
                         <td>@Html.DisplayFor(modelItem => item.AspNetUser.Email)</td>
@@ -47,7 +45,9 @@
                             <button class="btn btn-primary" onclick="cancelBooking('@item.Id_Phieudat')">
                                 Hủy đặt lịch
                             </button>
+
                         }
+                            </td>
                         </tr>
                     }
             </tbody>
