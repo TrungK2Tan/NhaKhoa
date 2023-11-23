@@ -453,11 +453,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="images\tintuc\Screenshot 2023-09-14 194616_71dd1186.png" />
-    <Content Include="images\tintuc\Screenshot 2023-10-11 115944_ee0d2300.png" />
-    <Content Include="images\tintuc\Screenshot 2023-10-16 144253_11e7f32f.png" />
-    <Content Include="images\tintuc\Screenshot 2023-10-22 202754_b083448c.png" />
-    <Content Include="images\tintuc\Screenshot 2023-10-31 035610_6f05ba36.png" />
     <Content Include="img\Nhaisiimg\trung.jpg" />
     <Content Include="img\Nhaisiimg\trungdeptrai.jpg" />
     <Content Include="lib\easing\easing.js" />
@@ -865,6 +860,7 @@
     <Folder Include="Areas\NhanVien\Data\" />
     <Folder Include="Areas\NhaSi\Data\" />
     <Folder Include="assets\images\tintuc\" />
+    <Folder Include="images\tintuc\" />
     <Folder Include="img\BangCap\" />
   </ItemGroup>
   <ItemGroup>

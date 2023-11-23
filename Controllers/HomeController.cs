@@ -92,10 +92,8 @@ namespace NhaKhoa.Controllers
         {
             // Truy vấn cơ sở dữ liệu để lấy danh sách Id_hinhthuc
             var hinhThucList = db.HinhThucThanhToans.ToList();
-
             // Tạo SelectList từ danh sách
             SelectList hinhThucSelectList = new SelectList(hinhThucList, "Id_hinhthuc", "TenHinhThuc");
-
             // Đặt SelectList vào ViewBag hoặc mô hình
             ViewBag.HinhThucList = hinhThucSelectList;
             var nhaSiList = db.AspNetUsers
@@ -104,39 +102,58 @@ namespace NhaKhoa.Controllers
                      .ToList();
             SelectList nhaSiSelectList = new SelectList(nhaSiList, "IdNhaSi", "TenNhaSi");
             ViewBag.NhaSiList = nhaSiSelectList;
-
+            // Populate the dates from ThoiKhoaBieu
+            var availableDates = db.ThoiKhoaBieux.Select(t => t.NgayLamViec).Distinct().ToList();
+            ViewBag.AvailableDates = new SelectList(availableDates);
             return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-
-        public ActionResult Appointment([Bind(Include = "Id_Phieudat,NgayKham,Gia,Id_hinhthuc,IdNhaSi,IdBenhNhan,Id_Thu")] PhieuDatLich DatLich)
-        {   
+        public ActionResult Appointment([Bind(Include = "Id_Phieudat,NgayKham,Gia,Id_hinhthuc,IdNhaSi,IdBenhNhan,Id_TKB")] PhieuDatLich DatLich)
+        {
             if (ModelState.IsValid)
             {
                 // Gán giá trị cố định 150 cho trường Gia
                 DatLich.Gia = 150;
+                // Lấy Id_TKB tương ứng với NgayKham từ cơ sở dữ liệu
+                DatLich.Id_TKB = db.ThoiKhoaBieux
+                    .Where(t => t.NgayLamViec == DatLich.NgayKham)
+                    .Select(t => t.Id_TKB)
+                    .FirstOrDefault();
+
+                // Your existing code to save the appointment
                 string currentUserId = User.Identity.GetUserId();
                 DatLich.IdBenhNhan = currentUserId;
+                // Add the appointment to the database
                 db.PhieuDatLiches.Add(DatLich);
                 db.SaveChanges();
                 return RedirectToAction("Index", "Home");
             }
-            // Nếu ModelState không hợp lệ, tái sử dụng SelectList cho dropdown
-            var hinhThucList = db.HinhThucThanhToans.ToList();
-            SelectList hinhThucSelectList = new SelectList(hinhThucList, "Id_hinhthuc", "TenHinhThuc");
-            ViewBag.HinhThucList = hinhThucSelectList;
-            // Đặt SelectList vào ViewBag hoặc mô hình
-            ViewBag.HinhThucList = hinhThucSelectList;
-            var nhaSiList = db.AspNetUsers
-                     .Where(u => u.AspNetRoles.Any(r => r.Name == "NhaSi"))
-                     .Select(u => new { IdNhaSi = u.Id, TenNhaSi = u.FullName })
-                     .ToList();
-            SelectList nhaSiSelectList = new SelectList(nhaSiList, "IdNhaSi", "TenNhaSi");
-            ViewBag.NhaSiList = nhaSiSelectList;
+            else
+            {
+                // Re-populate dropdown lists in case of validation errors
+                var hinhThucList = db.HinhThucThanhToans.ToList();
+                SelectList hinhThucSelectList = new SelectList(hinhThucList, "Id_hinhthuc", "TenHinhThuc");
+                ViewBag.HinhThucList = hinhThucSelectList;
 
+                var nhaSiList = db.AspNetUsers
+                    .Where(u => u.AspNetRoles.Any(r => r.Name == "NhaSi"))
+                    .Select(u => new { IdNhaSi = u.Id, TenNhaSi = u.FullName })
+                    .ToList();
+                SelectList nhaSiSelectList = new SelectList(nhaSiList, "IdNhaSi", "TenNhaSi");
+                ViewBag.NhaSiList = nhaSiSelectList;
+                return View(DatLich);
+            }
+        }
+        [HttpGet]
+        public ActionResult GetNhaSiList(DateTime selectedDate)
+        {
+            var nhaSiList = db.ThoiKhoaBieux
+                .Where(t => t.NgayLamViec == selectedDate)
+                .Select(t => new { IdNhaSi = t.Id_Nhasi, TenNhaSi = t.AspNetUser.FullName })
+                .ToList();
 
-            return View(DatLich);
+            return Json(nhaSiList, JsonRequestBehavior.AllowGet);
         }
         public ActionResult Search(string keyword)
         {

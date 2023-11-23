@@ -10,13 +10,13 @@
     <title>TĐM - Trang chủ</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
+    <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="../../assets/css/fontawesome.css">
-    <link rel="stylesheet" href="../../assets/css/templatemo-villa-agency.css">
-    <link rel="stylesheet" href="../../assets/css/owl.css">
-    <link rel="stylesheet" href="../../assets/css/animate.css">
+
+    <link href="~/assets/css/fontawesome.css" rel="stylesheet" />
+    <link href="~/assets/css/templatemo-villa-agency.css" rel="stylesheet" />
+    <link href="~/assets/css/owl.css" rel="stylesheet" />
+    <link href="~/assets/css/animate.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
 
     <!--
@@ -32,15 +32,15 @@
 
     <!-- ***** Preloader Start ***** -->
     @*<div id="js-preloader" class="js-preloader">
-        <div class="preloader-inner">
-            <span class="dot"></span>
-            <div class="dots">
-                <span></span>
-                <span></span>
-                <span></span>
+            <div class="preloader-inner">
+                <span class="dot"></span>
+                <div class="dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </div>
-        </div>
-    </div>*@
+        </div>*@
     <!-- ***** Preloader End ***** -->
 
     <div class="sub-header">
@@ -104,13 +104,13 @@
     </header>
 
     @RenderBody()
-    <footer>
-        <div class="container">
-            <div class="col-lg-8">
-                <h2>​LIÊN HỆ VỚI TĐM Booking </h2>
+    @*<footer>
+            <div class="container">
+                <div class="col-lg-8">
+                    <h2>​LIÊN HỆ VỚI TĐM Booking </h2>
+                </div>
             </div>
-        </div>
-    </footer>
+        </footer>*@
 
     <style>
         /* Add this to your existing stylesheet or create a new one */
@@ -145,12 +145,13 @@
     </style>
     <!-- Scripts -->
     <!-- Bootstrap core JavaScript -->
-    <script src="../vendor/jquery/jquery.min.js"></script>
-    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
-    <script src="../assets/js/isotope.min.js"></script>
-    <script src="../assets/js/owl-carousel.js"></script>
-    <script src="../assets/js/counter.js"></script>
-    <script src="../assets/js/custom.js"></script>
+
+    <script src="~/vendor/jquery/jquery.min.js"></script>
+    <script src="~/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/assets/js/isotope.min.js"></script>
+    <script src="~/assets/js/owl-carousel.js"></script>
+    <script src="~/assets/js/counter.js"></script>
+    <script src="~/assets/js/custom.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 
