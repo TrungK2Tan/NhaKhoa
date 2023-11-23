@@ -800,6 +800,7 @@
     <Content Include="Areas\Admin\Views\ManagerBooking\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\ManagerBooking\Details.cshtml" />
     <Content Include="Areas\Admin\Views\ManagerBooking\Index.cshtml" />
+    <Content Include="Areas\NhaSi\Views\QLLich\AddCalendar.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

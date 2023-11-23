@@ -121,12 +121,14 @@ namespace NhaKhoa.Controllers
                     .Select(t => t.Id_TKB)
                     .FirstOrDefault();
                 DatLich.TrangThai = false;
+                // Calculate STT
+                DatLich.STT = CalculateSTT(DatLich.NgayKham, DatLich.IdNhaSi);
                 //var numberOfAppointments = db.PhieuDatLiches.Count(l => l.IdNhaSi == DatLich.IdNhaSi && l.NgayKham.HasValue && DbFunctions.TruncateTime(l.NgayKham) == DbFunctions.TruncateTime(DatLich.NgayKham));
 
                 //if (numberOfAppointments >= 2)
                 //{
                 //    ModelState.AddModelError("", "Nha sĩ này đã đủ số lượng lịch hẹn cho khung giờ này. Vui lòng chọn nha sĩ khác.");
-                    
+
                 //    return View(DatLich);
                 //}
 
@@ -154,12 +156,21 @@ namespace NhaKhoa.Controllers
                 return View(DatLich);
             }
         }
+        private int CalculateSTT(DateTime? ngayKham, string idNhaSi)
+        {
+            // Get the number of appointments for the selected date and doctor
+            int numberOfAppointments = db.PhieuDatLiches
+                .Count(l => l.IdNhaSi == idNhaSi && l.NgayKham == ngayKham);
+
+            // Increment the number to get the next sequence number
+            return numberOfAppointments + 1;
+        }
         [HttpGet]
         public ActionResult GetNhaSiList(DateTime selectedDate)
         {
             var nhaSiList = db.ThoiKhoaBieux
                 .Where(t => t.NgayLamViec == selectedDate)
-                .Select(t => new { IdNhaSi = t.Id_Nhasi, TenNhaSi = t.AspNetUser.FullName })
+                .Select(t => new { IdNhaSi = t.Id_Nhasi, TenNhaSi = t.AspNetUser.FullName})
                 .ToList();
 
             return Json(nhaSiList, JsonRequestBehavior.AllowGet);

@@ -6,6 +6,7 @@
 <header class="cd-main-header text-center flex flex-column flex-center">
     <h1 class="text-xl">THỜI GIAN BIỂU</h1>
     <a href="@Url.Action("ViewCalendar","QLLich","NhaSi")"> Xem tất cả lịch</a>
+    <a href="@Url.Action("AddCalendar","QLLich","NhaSi")"> Thêm lịch mới</a>
 </header>
 
 <div class="cd-schedule cd-schedule--loading margin-top-lg margin-bottom-lg js-cd-schedule">
@@ -73,9 +74,12 @@
                 <div>
                     <a>Xem thông tin lịch khám </a>
                 </div>
+
+               
             </div>
             <div class="cd-schedule-modal__body-bg"></div>
         </div>
+
 
         <a href="#0" class="cd-schedule-modal__close text-replace">Close</a>
     </div>

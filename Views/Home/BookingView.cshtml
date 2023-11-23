@@ -16,6 +16,10 @@
                     <th>Tên bệnh nhân</th>
                     <th>Số Điện Thoại</th>
                     <th>Ngày Khám</th>
+                    @if (Model.Any(item => item.TrangThai==true)) // Kiểm tra nếu có ít nhất một phần tử có TrangThai=true
+                    {
+                        <th>Số thứ tự</th>
+                    }
                     <th>Email</th>
                     <th>Tên Nha Sĩ</th>
                     <th>Trạng thái</th>
@@ -29,8 +33,13 @@
                         <td>@ViewBag.tennguoidung</td>
                         <td>@Html.DisplayFor(modelItem => item.AspNetUser.PhoneNumber)</td>
                         <td>@Html.DisplayFor(modelItem => item.NgayKham)</td>
-                        <td>@Html.DisplayFor(modelItem => item.AspNetUser.Email)</td>
-                        <td>@Html.DisplayFor(modelItem => item.AspNetUser.FullName)</td>
+                        @if (item.TrangThai==true)
+                        {
+                            <td>@Html.DisplayFor(modelItem => item.STT)-@Html.DisplayFor(modelItem => item.ThoiKhoaBieu.KhungGio.TenCa)</td>
+                        }
+                    <td>@Html.DisplayFor(modelItem => item.AspNetUser.Email)  </td>
+                        <!--chua lay duoc ten nha si ra trang nguoi dung-->
+                    <td>@item.IdNhaSi- @Html.DisplayFor(modelItem => item.ThoiKhoaBieu.Phong.TenPhong)</td>
                         <td>
                             @if (item.TrangThai == true)
                             {
