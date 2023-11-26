@@ -16,12 +16,13 @@
                     <th>Tên bệnh nhân</th>
                     <th>Số Điện Thoại</th>
                     <th>Ngày Khám</th>
-                    @if (Model.Any(item => item.TrangThai==true)) // Kiểm tra nếu có ít nhất một phần tử có TrangThai=true
+                    @if (Model.Any(item => item.TrangThai == true)) // Kiểm tra nếu có ít nhất một phần tử có TrangThai=true
                     {
                         <th>Số thứ tự</th>
                     }
                     <th>Email</th>
                     <th>Tên Nha Sĩ</th>
+                    <th>Thanh toán</th>
                     <th>Trạng thái</th>
                     <th> Tái khám</th>
                 </tr>
@@ -40,6 +41,15 @@
                     <td>@Html.DisplayFor(modelItem => item.AspNetUser.Email)  </td>
                         <!--chua lay duoc ten nha si ra trang nguoi dung-->
                     <td>@item.IdNhaSi- @Html.DisplayFor(modelItem => item.ThoiKhoaBieu.Phong.TenPhong)</td>
+                        <td>
+                            @if (item.TrangThaiThanhToan == true)
+                            {<span class="text-success"> Đã thanh toán</span>
+                            }
+                            else
+                            {
+                            <span class="text-warning">Chưa thanh toán</span>
+                            }
+                        </td>
                         <td>
                             @if (item.TrangThai == true)
                             {

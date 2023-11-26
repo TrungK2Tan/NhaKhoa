@@ -207,6 +207,7 @@
     <Compile Include="Areas\NhanVien\Controllers\InfoNVController.cs" />
     <Compile Include="Areas\NhanVien\Controllers\NhanVienController.cs" />
     <Compile Include="Areas\NhanVien\Controllers\QLBenhNhanController.cs" />
+    <Compile Include="Areas\NhanVien\Controllers\QLLichKhamController.cs" />
     <Compile Include="Areas\NhanVien\NhanVienAreaRegistration.cs" />
     <Compile Include="Areas\NhaSi\Controllers\InfoController.cs" />
     <Compile Include="Areas\NhaSi\Controllers\NhaSiController.cs" />
@@ -806,6 +807,10 @@
     <Content Include="Areas\Admin\Views\ManagerBooking\Index.cshtml" />
     <Content Include="Areas\NhaSi\Views\QLLich\AddCalendar.cshtml" />
     <Content Include="Areas\NhaSi\Views\QLLich\EditCalendar.cshtml" />
+    <Content Include="Areas\NhanVien\Views\QLBenhNhan\Booking.cshtml" />
+    <Content Include="Areas\NhanVien\Views\QLLichKham\Delete.cshtml" />
+    <Content Include="Areas\NhanVien\Views\QLLichKham\Details.cshtml" />
+    <Content Include="Areas\NhanVien\Views\QLLichKham\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

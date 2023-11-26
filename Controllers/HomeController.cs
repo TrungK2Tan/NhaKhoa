@@ -373,16 +373,10 @@ namespace NhaKhoa.Controllers
         //Tham khảo bảng mã lỗi tại: https://developers.momo.vn/#/docs/aio/?id=b%e1%ba%a3ng-m%c3%a3-l%e1%bb%97i
         public ActionResult ConfirmPaymentClient(Result result)
         {
-            if (result != null && result.errorCode == "0")
-            {
-                var hd = db.PhieuDatLiches.FirstOrDefault(u => u.Id_Phieudat.ToString() == result.orderId);
-                hd.TrangThaiThanhToan = true;
-                db.PhieuDatLiches.AddOrUpdate(hd);
-                db.SaveChanges();
-                ViewBag.Noification = "Thanh toán thành công";
-                return View();
-            }
-            ViewBag.Noification = "Thanh toán lỗi";
+            //lấy kết quả Momo trả về và hiển thị thông báo cho người dùng (có thể lấy dữ liệu ở đây cập nhật xuống db)
+            string rMessage = result.message;
+            string rOrderId = result.orderId;
+            string rErrorCode = result.errorCode; // = 0: thanh toán thành công
             return View();
         }
 
