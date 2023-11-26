@@ -31,6 +31,8 @@ namespace NhaKhoa.Models
 
         public bool? TrangThai { get; set; }
 
+        public bool? TrangThaiThanhToan { get; set; }
+
         public virtual AspNetUser AspNetUser { get; set; }
 
         public virtual HinhThucThanhToan HinhThucThanhToan { get; set; }

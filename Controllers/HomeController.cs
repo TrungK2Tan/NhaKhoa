@@ -8,6 +8,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using PagedList;
+using MoMo;
+using Newtonsoft.Json.Linq;
+using System.Data.Entity.Migrations;
 
 namespace NhaKhoa.Controllers
 {
@@ -42,17 +45,17 @@ namespace NhaKhoa.Controllers
         }
         public ActionResult About()
         {
-           
+
             return View();
         }
 
         public ActionResult Contact()
         {
-            
+
 
             return View();
         }
-        
+
         public ActionResult Service()
         {
 
@@ -88,7 +91,7 @@ namespace NhaKhoa.Controllers
         }
 
         [Authorize]
-        public ActionResult Appointment( )
+        public ActionResult Appointment()
         {
             // Truy vấn cơ sở dữ liệu để lấy danh sách Id_hinhthuc
             var hinhThucList = db.HinhThucThanhToans.ToList();
@@ -109,7 +112,7 @@ namespace NhaKhoa.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Appointment([Bind(Include = "Id_Phieudat,NgayKham,Gia,Id_hinhthuc,IdNhaSi,IdBenhNhan,Id_TKB,STT")] PhieuDatLich DatLich)
+        public ActionResult Appointment([Bind(Include = "Id_Phieudat,NgayKham,Gia,Id_hinhthuc,IdNhaSi,IdBenhNhan,Id_TKB,STT,TrangThai,TrangThaiThanhToan")] PhieuDatLich DatLich)
         {
             if (ModelState.IsValid)
             {
@@ -121,6 +124,7 @@ namespace NhaKhoa.Controllers
                     .Select(t => t.Id_TKB)
                     .FirstOrDefault();
                 DatLich.TrangThai = false;
+                DatLich.TrangThaiThanhToan = false;
                 // Calculate STT
                 DatLich.STT = CalculateSTT(DatLich.NgayKham, DatLich.IdNhaSi);
                 //var numberOfAppointments = db.PhieuDatLiches.Count(l => l.IdNhaSi == DatLich.IdNhaSi && l.NgayKham.HasValue && DbFunctions.TruncateTime(l.NgayKham) == DbFunctions.TruncateTime(DatLich.NgayKham));
@@ -138,6 +142,11 @@ namespace NhaKhoa.Controllers
                 // Add the appointment to the database
                 db.PhieuDatLiches.Add(DatLich);
                 db.SaveChanges();
+                if (DatLich.Id_hinhthuc == 1)
+                {
+                    //DatLich.TrangThaiThanhToan = true; // Gán TrangThai là false
+                    return RedirectToAction("Payment", "Home", new { order = DatLich.Id_Phieudat });
+                }
                 return RedirectToAction("Index", "Home");
             }
             else
@@ -170,7 +179,7 @@ namespace NhaKhoa.Controllers
         {
             var nhaSiList = db.ThoiKhoaBieux
                 .Where(t => t.NgayLamViec == selectedDate)
-                .Select(t => new { IdNhaSi = t.Id_Nhasi, TenNhaSi = t.AspNetUser.FullName})
+                .Select(t => new { IdNhaSi = t.Id_Nhasi, TenNhaSi = t.AspNetUser.FullName })
                 .ToList();
 
             return Json(nhaSiList, JsonRequestBehavior.AllowGet);
@@ -222,11 +231,12 @@ namespace NhaKhoa.Controllers
 
                 return RedirectToAction("BlogDetail", new { id = review.Id_tintuc });
             }
-            else{ 
-            // Nếu dữ liệu không hợp lệ, quay lại trang Details với thông tin nha sĩ và các đánh giá và bình luận đã nhập trước đó
-            TinTuc tintuc = db.TinTucs.Find(review.Id_tintuc);
-            tintuc.DanhGias = db.DanhGias.Where(r => r.Id_tintuc == review.Id_tintuc).ToList();
-            return View("BlogDetail", tintuc);
+            else
+            {
+                // Nếu dữ liệu không hợp lệ, quay lại trang Details với thông tin nha sĩ và các đánh giá và bình luận đã nhập trước đó
+                TinTuc tintuc = db.TinTucs.Find(review.Id_tintuc);
+                tintuc.DanhGias = db.DanhGias.Where(r => r.Id_tintuc == review.Id_tintuc).ToList();
+                return View("BlogDetail", tintuc);
             }
         }
 
@@ -283,5 +293,98 @@ namespace NhaKhoa.Controllers
 
             return Json(new { success = false });
         }
+        public ActionResult Payment(int order)
+        {
+            // Retrieve appointment information based on the provided order ID
+            var appointment = db.PhieuDatLiches.Find(order);
+         
+            if (appointment == null)
+            {
+                // Handle the case where the appointment is not found
+                // You may want to redirect the user to an error page or take appropriate action
+                return RedirectToAction("Index", "Home");
+            }
+
+            //request params need to request to MoMo system
+            string endpoint = "https://test-payment.momo.vn/gw_payment/transactionProcessor";
+            string partnerCode = "MOMOOJOI20210710";
+            string accessKey = "iPXneGmrJH0G8FOP";
+            string serectkey = "sFcbSGRSJjwGxwhhcEktCHWYUuTuPNDB";
+            string orderInfo = "Thanh toán đặt lịch";
+            string returnUrl = "https://localhost:44374/Home/ConfirmPaymentClient";
+            string notifyurl = "https://4c8d-2001-ee0-5045-50-58c1-b2ec-3123-740d.ap.ngrok.io/Home/SavePayment"; //lưu ý: notifyurl không được sử dụng localhost, có thể sử dụng ngrok để public localhost trong quá trình test
+
+            string amount = "150000";
+            string orderid = DateTime.Now.Ticks.ToString(); //mã đơn hàng
+            string requestId = DateTime.Now.Ticks.ToString();
+            string extraData = "";
+
+            //Before sign HMAC SHA256 signature
+            string rawHash = "partnerCode=" +
+                partnerCode + "&accessKey=" +
+                accessKey + "&requestId=" +
+                requestId + "&amount=" +
+                amount + "&orderId=" +
+                orderid + "&orderInfo=" +
+                orderInfo + "&returnUrl=" +
+                returnUrl + "&notifyUrl=" +
+                notifyurl + "&extraData=" +
+                extraData;
+
+            MoMoSecurity crypto = new MoMoSecurity();
+            //sign signature SHA256
+            string signature = crypto.signSHA256(rawHash, serectkey);
+
+            //build body json request
+            JObject message = new JObject
+    {
+        { "partnerCode", partnerCode },
+        { "accessKey", accessKey },
+        { "requestId", requestId },
+        { "amount", amount },
+        { "orderId", orderid },
+        { "orderInfo", orderInfo },
+        { "returnUrl", returnUrl },
+        { "notifyUrl", notifyurl },
+        { "extraData", extraData },
+        { "requestType", "captureMoMoWallet" },
+        { "signature", signature }
+
+    };
+
+            string responseFromMomo = PaymentRequest.sendPaymentRequest(endpoint, message.ToString());
+
+            JObject jmessage = JObject.Parse(responseFromMomo);
+
+            // Assuming the payment is successful, update TrangThaiThanhToan to true
+            if (jmessage.GetValue("errorCode").ToString() == "0")
+            {
+
+                appointment.TrangThaiThanhToan = true;
+                db.SaveChanges();
+            }
+
+            return Redirect(jmessage.GetValue("payUrl").ToString());
+        }
+
+
+        //Khi thanh toán xong ở cổng thanh toán Momo, Momo sẽ trả về một số thông tin, trong đó có errorCode để check thông tin thanh toán
+        //errorCode = 0 : thanh toán thành công (Request.QueryString["errorCode"])
+        //Tham khảo bảng mã lỗi tại: https://developers.momo.vn/#/docs/aio/?id=b%e1%ba%a3ng-m%c3%a3-l%e1%bb%97i
+        public ActionResult ConfirmPaymentClient(Result result)
+        {
+            if (result != null && result.errorCode == "0")
+            {
+                var hd = db.PhieuDatLiches.FirstOrDefault(u => u.Id_Phieudat.ToString() == result.orderId);
+                hd.TrangThaiThanhToan = true;
+                db.PhieuDatLiches.AddOrUpdate(hd);
+                db.SaveChanges();
+                ViewBag.Noification = "Thanh toán thành công";
+                return View();
+            }
+            ViewBag.Noification = "Thanh toán lỗi";
+            return View();
+        }
+
     }
 }

@@ -7,6 +7,7 @@
     <h1 class="text-xl">THỜI GIAN BIỂU</h1>
     <a href="@Url.Action("ViewCalendar","QLLich","NhaSi")"> Xem tất cả lịch</a>
     <a href="@Url.Action("AddCalendar","QLLich","NhaSi")"> Thêm lịch mới</a>
+
 </header>
 
 <div class="cd-schedule cd-schedule--loading margin-top-lg margin-bottom-lg js-cd-schedule">
@@ -38,22 +39,27 @@
             @foreach (var daySchedule in Model)
             {
                 <li class="cd-schedule__group">
-                    <div class="cd-schedule__top-info"><span>@daySchedule.TenThu</span></div>
+                    <div class="cd-schedule__top-info"><span>@daySchedule.TenThu</span> </div>
                     <ul>
                         @foreach (var eventItem in daySchedule.ThoiKhoaBieux.OrderBy(e => e.NgayLamViec))
                         {
                             <li class="cd-schedule__event">
                                 <a data-start="@eventItem.KhungGio.GioBatDau" data-end="@eventItem.KhungGio.GioKetThuc" data-event="event-4">
                                     <!-- Displaying event details -->
+
                                     <em class="cd-schedule__name"> @eventItem.Phong.TenPhong-@eventItem.KhungGio.TenCa</em>
-                                    <em class="cd-schedule__name"> @eventItem.AspNetUser.FullName</em>
+                                    <em class="cd-schedule__name">
+                                        @eventItem.AspNetUser.FullName
+                                    </em>
                                     @if (eventItem.NgayLamViec.HasValue)
                                     {
                                         <!-- Display date if available -->
                                         <em class="cd-schedule__name"> @eventItem.NgayLamViec.Value.Date.ToString("yyyy-MM-dd")</em>
                                     }
                                 </a>
+
                             </li>
+
                         }
                     </ul>
                 </li>
@@ -65,24 +71,25 @@
             <div class="cd-schedule-modal__content">
                 <span class="cd-schedule-modal__date"></span>
                 <h3 class="cd-schedule-modal__name"></h3>
+                @foreach (var eventItem in Model.SelectMany(daySchedule => daySchedule.ThoiKhoaBieux).OrderBy(e => e.NgayLamViec))
+                {
+                    @Html.ActionLink("Sửa", "EditCalendar", new { id = eventItem.Id_TKB })
+                }
             </div>
-            <div class="cd-schedule-modal__header-bg"></div>
+                <div class="cd-schedule-modal__header-bg"></div>
         </header>
-
         <div class="cd-schedule-modal__body">
             <div class="cd-schedule-modal__event-info">
                 <div>
                     <a>Xem thông tin lịch khám </a>
                 </div>
 
-               
+
             </div>
             <div class="cd-schedule-modal__body-bg"></div>
         </div>
-
-
-        <a href="#0" class="cd-schedule-modal__close text-replace">Close</a>
-    </div>
+            <a href="#0" class="cd-schedule-modal__close text-replace">Close</a>
+        </div>
 
     <div class="cd-schedule__cover-layer"></div>
 </div> <!-- .cd-schedule -->

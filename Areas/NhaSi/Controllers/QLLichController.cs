@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using PagedList;
 using System.Data.Entity;
+using System.Net;
 
 namespace NhaKhoa.Areas.NhaSi.Controllers
 {
@@ -50,6 +51,44 @@ namespace NhaKhoa.Areas.NhaSi.Controllers
             ViewBag.ListKhungGio = new SelectList(db.KhungGios, "Id_khunggio", "TenCa");
 
             return View();
+        }
+        // GET: NhaSi/ThoiKhoaBieux/Edit/5
+        public ActionResult EditCalendar(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ThoiKhoaBieu thoiKhoaBieu = db.ThoiKhoaBieux.Find(id);
+            if (thoiKhoaBieu == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.Id_Nhasi = new SelectList(db.AspNetUsers, "Id", "Email", thoiKhoaBieu.Id_Nhasi);
+            ViewBag.Id_khunggio = new SelectList(db.KhungGios, "Id_khunggio", "TenCa", thoiKhoaBieu.Id_khunggio);
+            ViewBag.Id_Phong = new SelectList(db.Phongs, "Id_Phong", "TenPhong", thoiKhoaBieu.Id_Phong);
+            ViewBag.Id_Thu = new SelectList(db.Thus, "Id_Thu", "TenThu", thoiKhoaBieu.Id_Thu);
+            return View(thoiKhoaBieu);
+        }
+
+        // POST: NhaSi/ThoiKhoaBieux/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditCalendar([Bind(Include = "Id_TKB,Id_Thu,Id_Phong,Id_khunggio,NgayLamViec,Id_Nhasi")] ThoiKhoaBieu thoiKhoaBieu)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(thoiKhoaBieu).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.Id_Nhasi = new SelectList(db.AspNetUsers, "Id", "Email", thoiKhoaBieu.Id_Nhasi);
+            ViewBag.Id_khunggio = new SelectList(db.KhungGios, "Id_khunggio", "TenCa", thoiKhoaBieu.Id_khunggio);
+            ViewBag.Id_Phong = new SelectList(db.Phongs, "Id_Phong", "TenPhong", thoiKhoaBieu.Id_Phong);
+            ViewBag.Id_Thu = new SelectList(db.Thus, "Id_Thu", "TenThu", thoiKhoaBieu.Id_Thu);
+            return View(thoiKhoaBieu);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
