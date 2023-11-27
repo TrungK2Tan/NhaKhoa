@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using PagedList;
 using System.Data.Entity;
 using System.Net;
+using System.Globalization;
 
 namespace NhaKhoa.Areas.NhaSi.Controllers
 {
@@ -174,7 +175,7 @@ namespace NhaKhoa.Areas.NhaSi.Controllers
                 return new NgayVaThu { NgayLamViec = null, IdThu = -1 }; // Modify this default value based on your actual model
             }
         }
-        public ActionResult ViewCalendar(int? page)
+        public ActionResult ViewCalendar(DateTime? selectedWeek)
         {
             // Get the currently logged-in user's ID
             string currentUserId = User.Identity.GetUserId();
@@ -183,25 +184,79 @@ namespace NhaKhoa.Areas.NhaSi.Controllers
             ViewBag.HinhAnh = user.HinhAnh;
             try
             {
-                var thoiKhoaBieu = db.Thus.ToList();
+                // Lấy danh sách các ngày trong tuần và lịch làm việc từ cơ sở dữ liệu
+                var danhSachThu = db.Thus.ToList();
+                var danhSachThoiKhoaBieu = db.ThoiKhoaBieux.ToList();
 
-                if (!thoiKhoaBieu.Any())
+                // Kiểm tra xem có dữ liệu để hiển thị không
+                if (danhSachThu.Any() && danhSachThoiKhoaBieu.Any())
                 {
-                    ViewBag.ErrorMessage = "Không có dữ liệu để hiển thị.";
-                    return View(thoiKhoaBieu.ToPagedList(1, 7)); // Mặc định hiển thị trang 1, mỗi trang 10 phần tử
+                    DateTime startOfWeek = selectedWeek ?? DateTime.Now;
+
+                    // Nếu có tuần đã chọn, lọc danh sách thời khóa biểu cho tuần đó
+                    var filteredThoiKhoaBieu = danhSachThoiKhoaBieu
+                        .Where(tkb => tkb.NgayLamViec.HasValue && tkb.NgayLamViec.Value.Date == startOfWeek.Date)
+                        .OrderBy(e => e.Id_Thu)
+                        .ThenBy(e => e.NgayLamViec)
+                        .ToList();
+
+                    // Lấy calendar hiện tại (GregorianCalendar)
+                    GregorianCalendar calendar = new GregorianCalendar();
+
+                    // Tạo mảng chứa các tuần
+                    DateTime[] weeks = GetWeeksInYear(DateTime.Now.Year, calendar);
+
+                    // Tạo ViewModel
+                    var viewModel = new ThoiKhoaBieuViewModel
+                    {
+                        DanhSachThu = danhSachThu,
+                        DanhSachThoiKhoaBieu = filteredThoiKhoaBieu,
+                        weeks = weeks,
+                        SelectedWeek = startOfWeek
+                    };
+
+                    // Trả về view với ViewModel
+                    return View(viewModel);
                 }
-
-                int pageSize = 7; // Số lượng mục hiển thị trên mỗi trang
-                int pageNumber = (page ?? 1);
-
-                return View(thoiKhoaBieu.ToPagedList(pageNumber, pageSize));
+                else
+                {
+                    // Nếu không có dữ liệu, hiển thị thông báo lỗi
+                    ViewBag.ErrorMessage = "Không có dữ liệu để hiển thị.";
+                    return View("ErrorView");
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "Đã xảy ra lỗi khi lấy dữ liệu. Vui lòng thử lại sau.";
-
+                // Log exception
+                ViewBag.ErrorMessage = $"Đã xảy ra lỗi khi lấy dữ liệu: {ex.Message}";
                 return View("ErrorView");
             }
+        }
+
+        static DateTime[] GetWeeksInYear(int year, GregorianCalendar calendar)
+        {
+            DateTime[] weeks = new DateTime[calendar.GetWeekOfYear(new DateTime(year, 12, 31), CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday)];
+
+            // Ngày đầu tiên của năm
+            DateTime startDate = new DateTime(year, 1, 1);
+
+            // Đếm số ngày đã được thêm vào mảng
+            int daysAdded = 0;
+
+            // Duyệt qua từng ngày trong năm
+            for (int i = 0; i < 365; i++)
+            {
+                DateTime currentDate = startDate.AddDays(i);
+
+                // Nếu là ngày đầu tiên của một tuần, thêm vào mảng
+                if (currentDate.DayOfWeek == DayOfWeek.Monday)
+                {
+                    weeks[calendar.GetWeekOfYear(currentDate, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday) - 1] = currentDate;
+                    daysAdded++;
+                }
+            }
+
+            return weeks;
         }
     }
 }

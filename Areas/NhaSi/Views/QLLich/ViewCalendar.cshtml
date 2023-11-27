@@ -1,8 +1,14 @@
-﻿@model PagedList.IPagedList<NhaKhoa.Models.Thu>
-﻿@using PagedList.Mvc
+﻿@model NhaKhoa.Models.ThoiKhoaBieuViewModel
+
 @{
     ViewBag.Title = "TKB";
     Layout = "~/Areas/NhaSi/Views/Shared/Layout.cshtml";
+    var now = DateTime.Now;
+
+    var daysUntilMonday = ((int)now.DayOfWeek - (int)DayOfWeek.Monday + 7) % 7;
+    var monday = now.AddDays(-daysUntilMonday);
+    var sunday = monday.AddDays(6);
+    int numberweek = 0;
 }
 
 <header class="cd-main-header text-center flex flex-column flex-center">
@@ -10,57 +16,86 @@
     <a href="@Url.Action("Index","QLLich","NhaSi")">Quay lai</a>
 </header>
 
+<select id="weekSelect">
+    @foreach (var week in Model.weeks)
+    {
+        numberweek++;
+        var startOfWeek = week;
+        var endOfWeek = week.AddDays(6);
+        <option value="@startOfWeek.ToString("yyyy-MM-dd")"
+                @(startOfWeek == Model.SelectedWeek ? "selected" : "")>
+            Tuần @numberweek: @startOfWeek.ToString("dd/MM/yyyy") - @endOfWeek.ToString("dd/MM/yyyy")
+        </option>
+    }
+</select>
+
 <div class="cd-schedule cd-schedule--loading margin-top-lg margin-bottom-lg js-cd-schedule">
-    <div class="cd-schedule__timeline">
-        <ul>
-            <li><span>09:00</span></li>
-            <li><span>09:30</span></li>
-            <li><span>10:00</span></li>
-            <li><span>10:30</span></li>
-            <li><span>11:00</span></li>
-            <li><span>11:30</span></li>
-            <li><span>12:00</span></li>
-            <li><span>12:30</span></li>
-            <li><span>13:00</span></li>
-            <li><span>13:30</span></li>
-            <li><span>14:00</span></li>
-            <li><span>14:30</span></li>
-            <li><span>15:00</span></li>
-            <li><span>15:30</span></li>
-            <li><span>16:00</span></li>
-            <li><span>16:30</span></li>
-            <li><span>17:00</span></li>
-            <li><span>17:30</span></li>
-            <li><span>18:00</span></li>
-        </ul>
-    </div> <!-- .cd-schedule__timeline -->
+    @if (Model.DanhSachThu.Any())
+    {
+        <div class="cd-schedule__timeline">
+            <ul>
+                <li><span>09:00</span></li>
+                <li><span>09:30</span></li>
+                <li><span>10:00</span></li>
+                <li><span>10:30</span></li>
+                <li><span>11:00</span></li>
+                <li><span>11:30</span></li>
+                <li><span>12:00</span></li>
+                <li><span>12:30</span></li>
+                <li><span>13:00</span></li>
+                <li><span>13:30</span></li>
+                <li><span>14:00</span></li>
+                <li><span>14:30</span></li>
+                <li><span>15:00</span></li>
+                <li><span>15:30</span></li>
+                <li><span>16:00</span></li>
+                <li><span>16:30</span></li>
+                <li><span>17:00</span></li>
+                <li><span>17:30</span></li>
+                <li><span>18:00</span></li>
+            </ul>
+        </div> <!-- .cd-schedule__timeline -->
+        <!-- Your existing code ... -->
+        <div class="cd-schedule__events">
+            <ul id="loadlich">
+                @if (Model.DanhSachThu.Any())
+                {
+                    var selectedWeekStartDate = Model.SelectedWeek.Date;
+                    var selectedWeekEndDate = selectedWeekStartDate.AddDays(6);
 
-    <div class="cd-schedule__events">
-        <ul>
-            @foreach (var daySchedule in Model)
-            {
-                <li class="cd-schedule__group">
-                    <div class="cd-schedule__top-info"><span>@daySchedule.TenThu</span></div>
-                    <ul>
-                        @foreach (var eventItem in daySchedule.ThoiKhoaBieux.OrderBy(e => e.NgayLamViec))
-                        {
-                            <li class="cd-schedule__event">
-                                <a data-start="@eventItem.KhungGio.GioBatDau" data-end="@eventItem.KhungGio.GioKetThuc" data-event="event-4">
-                                    <em class="cd-schedule__name"> @eventItem.Phong.TenPhong-@eventItem.KhungGio.TenCa</em>
-                                    <em class="cd-schedule__name"> @eventItem.AspNetUser.FullName</em>
-                                    @if (eventItem.NgayLamViec.HasValue)
-                                    {
-                                        <em class="cd-schedule__name"> @eventItem.NgayLamViec.Value.Date.ToString("yyyy-MM-dd")</em>
-                                    }
-                                </a>
-                            </li>
-                        }
-                    </ul>
-                </li>
-            }
-        </ul>
-    </div>
-
+                    foreach (var day in Model.DanhSachThu)
+                    {
+                        <li class="cd-schedule__group">
+                            <div class="cd-schedule__top-info"><span>@day.TenThu</span></div>
+                            <ul>
+                                @foreach (var eventItem in day.ThoiKhoaBieux
+                                .Where(e => e.NgayLamViec.HasValue &&
+                                            e.NgayLamViec.Value.Date >= selectedWeekStartDate &&
+                                            e.NgayLamViec.Value.Date <= selectedWeekEndDate)
+                                .OrderBy(e => e.NgayLamViec))
+                                {
+                                    <li class="cd-schedule__event">
+                                        <a data-start="@eventItem.KhungGio.GioBatDau" data-end="@eventItem.KhungGio.GioKetThuc" data-event="event-4">
+                                            <em class="cd-schedule__name">@eventItem.Phong.TenPhong-@eventItem.KhungGio.TenCa</em>
+                                            <em class="cd-schedule__name">@eventItem.AspNetUser.FullName</em>
+                                            @if (eventItem.NgayLamViec.HasValue)
+                                            {
+                                                <em class="cd-schedule__name">@eventItem.NgayLamViec.Value.ToString("yyyy-MM-dd")</em>
+                                            }
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+    }
+    else
+    {
+        <p>Không có dữ liệu thời khóa biểu.</p>
+    }
     <div class="cd-schedule-modal">
         <header class="cd-schedule-modal__header">
             <div class="cd-schedule-modal__content">
@@ -73,7 +108,7 @@
 
         <div class="cd-schedule-modal__body">
             <div class="cd-schedule-modal__event-info">
-                <h1> hehee</h1>
+                <h1></h1>
             </div>
             <div class="cd-schedule-modal__body-bg"></div>
         </div>
@@ -82,9 +117,20 @@
     </div>
 
     <div class="cd-schedule__cover-layer"></div>
-</div> <!-- .cd-schedule -->
-<div class="pager-container">
-    @Html.PagedListPager(Model, page => Url.Action("ViewCalendar", new { page }))
 </div>
+<!-- Your existing code ... -->
 <script src="~/Areas/assetTKB/js/util.js"></script> <!-- util functions included in the CodyHouse framework -->
 <script src="~/Areas/assetTKB/js/main.js"></script>
+
+
+@section scripts {
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#weekSelect').change(function () {
+                var selectedWeek = $(this).val();
+                window.location.href = "@Url.Action("ViewCalendar", "QLLich")" + "?page=1&selectedWeek=" + selectedWeek;
+            });
+        });
+    </script>
+}
