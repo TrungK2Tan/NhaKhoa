@@ -20,66 +20,67 @@
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.NgayKham, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(model => model.NgayKham, ViewBag.AvailableDates as SelectList, "Chọn ngày", new { @class = "form-control", id = "NgayKhamDropdown" })
-            @Html.ValidationMessageFor(model => model.NgayKham, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.IdNhaSi, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(model => model.IdNhaSi, Enumerable.Empty<SelectListItem>(), "Chọn nha si", new { @class = "form-control", id = "IdNhaSiDropdown" })
-        </div>
-    </div>
-
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Gia, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            <input type="text" class="form-control" value="150" readonly />
-            @Html.HiddenFor(model => model.Gia, new { @Value = "150" }) <!-- Giữ giá trị khi gửi form -->
-            @Html.ValidationMessageFor(model => model.Gia, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="col-12 col-sm-6">
-        @Html.DropDownListFor(model => model.Id_hinhthuc, GetPaymentMethods(), "Chọn Hình Thức Thanh Toán", htmlAttributes: new { @class = "form-control"})
-        @Html.ValidationMessageFor(model => model.Id_hinhthuc, "", new { @class = "text-danger" })
-    </div>
-
-    @*<div class="form-group">
-            @Html.LabelFor(model => model.Id_hinhthuc, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.NgayKham, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Id_hinhthuc, ViewBag.HinhThucList as SelectList, "Chọn hình thức thanh toán", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Id_hinhthuc, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.NgayKham, new { htmlAttributes = new { @class = "form-control", type = "date", id = "NgayKhamDropdown", name = "NgayKhamDropdown" } })
+                @Html.ValidationMessageFor(model => model.NgayKham, "", new { @class = "text-danger" })
             </div>
-        </div>*@
+        </div>
 
-    <div class="form-group" hidden>
-        @Html.LabelFor(model => model.IdBenhNhan, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.HiddenFor(model => model.IdBenhNhan)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IdNhaSi, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.IdNhaSi, Enumerable.Empty<SelectListItem>(), "Chọn nha si", new { @class = "form-control", id = "IdNhaSiDropdown" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Gia, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="text" class="form-control" value="150" readonly />
+                @Html.HiddenFor(model => model.Gia, new { @Value = "150" }) <!-- Giữ giá trị khi gửi form -->
+                @Html.ValidationMessageFor(model => model.Gia, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-12 col-sm-6">
+            @Html.DropDownListFor(model => model.Id_hinhthuc, GetPaymentMethods(), "Chọn Hình Thức Thanh Toán", htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Id_hinhthuc, "", new { @class = "text-danger" })
+        </div>
+
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.Id_hinhthuc, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Id_hinhthuc, ViewBag.HinhThucList as SelectList, "Chọn hình thức thanh toán", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Id_hinhthuc, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        <div class="form-group" hidden>
+            @Html.LabelFor(model => model.IdBenhNhan, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.HiddenFor(model => model.IdBenhNhan)
+            </div>
+        </div>
+        <!-- Thêm trường ẩn cho Id_TKB -->
+        <div class="form-group" hidden>
+            @Html.LabelFor(model => model.Id_TKB, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.HiddenFor(model => model.Id_TKB)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Đặt Lịch" class="btn btn-default" />
+            </div>
         </div>
     </div>
-    <!-- Thêm trường ẩn cho Id_TKB -->
-    <div class="form-group" hidden>
-        @Html.LabelFor(model => model.Id_TKB, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.HiddenFor(model => model.Id_TKB)
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Đặt Lịch" class="btn btn-default" />
-        </div>
-    </div>
-</div>
 }
 
 <div>
@@ -87,32 +88,54 @@
 </div>
 @section scripts {
     <script>
-        $(document).ready(function () {
-            $("#NgayKhamDropdown").change(function () {
-                var selectedDate = $("#NgayKhamDropdown").val();
+    $(document).ready(function () {
+        // Set the minimum date for "Ngày khám" input to tomorrow's date
+        var tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        var dd = String(tomorrow.getDate()).padStart(2, '0');
+        var mm = String(tomorrow.getMonth() + 1).padStart(2, '0'); // January is 0!
+        var yyyy = tomorrow.getFullYear();
 
-                $.ajax({
-                    url: '@Url.Action("GetNhaSiList", "Home")',
-                    type: 'GET',
-                    data: { selectedDate: selectedDate },
-                    success: function (result) {
-                        // Xóa tất cả các mục hiện có trong dropdown NhaSiList
-                        $("#IdNhaSiDropdown").empty();
+        tomorrow = yyyy + '-' + mm + '-' + dd;
+        document.getElementById("NgayKhamDropdown").setAttribute("min", tomorrow);
 
-                        // Thêm các mục mới từ kết quả Ajax
-                        $.each(result, function (index, item) {
-                            $("#IdNhaSiDropdown").append($('<option>', {
-                                value: item.IdNhaSi,
-                                text: item.TenNhaSi
-                            }));
-                        });
-                    },
-                    error: function (error) {
-                        console.log(error);
-                    }
-                });
+        // Set the maximum date for "Ngày khám" input to 1 month from today
+        var maxDate = new Date();
+        maxDate.setMonth(maxDate.getMonth() + 1);
+        var maxDd = String(maxDate.getDate()).padStart(2, '0');
+        var maxMm = String(maxDate.getMonth() + 1).padStart(2, '0');
+        var maxYyyy = maxDate.getFullYear();
+
+        var oneMonthFromNow = maxYyyy + '-' + maxMm + '-' + maxDd;
+        document.getElementById("NgayKhamDropdown").setAttribute("max", oneMonthFromNow);
+
+        $("#NgayKhamDropdown").change(function () {
+            var selectedDate = $("#NgayKhamDropdown").val();
+
+            $.ajax({
+                url: '@Url.Action("GetNhaSiList", "Home")',
+                type: 'GET',
+                data: { selectedDate: selectedDate },
+                success: function (result) {
+                    // Xóa tất cả các mục hiện có trong dropdown NhaSiList
+                    $("#IdNhaSiDropdown").empty();
+
+                    // Thêm các mục mới từ kết quả Ajax
+                    $.each(result, function (index, item) {
+                        $("#IdNhaSiDropdown").append($('<option>', {
+                            value: item.IdNhaSi,
+                            text: item.TenNhaSi
+                        }));
+                    });
+                },
+                error: function (error) {
+                    console.log(error);
+                }
             });
-            
         });
+
+        // Trigger change event on page load to populate the initial list
+        $("#NgayKhamDropdown").trigger("change");
+    });
     </script>
-}
+    }
