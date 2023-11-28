@@ -6,7 +6,7 @@
     ViewBag.Title = "TKB";
     Layout = "~/Areas/Admin/Views/Shared/Layout.cshtml";
     var now = DateTime.Now;
-
+    int counter = 1;
     var daysUntilMonday = ((int)now.DayOfWeek - (int)DayOfWeek.Monday + 7) % 7;
     var monday = now.AddDays(-daysUntilMonday);
     var sunday = monday.AddDays(6);
@@ -77,8 +77,10 @@
                                             e.NgayLamViec.Value.Date <= selectedWeekEndDate)
                                 .OrderBy(e => e.NgayLamViec))
                                 {
+                                    var uniqueEventId = $"event-{counter}";
+                                    counter++;
                                     <li class="cd-schedule__event">
-                                        <a data-start="@eventItem.KhungGio.GioBatDau" data-end="@eventItem.KhungGio.GioKetThuc" data-event="event-4">
+                                        <a data-start="@eventItem.KhungGio.GioBatDau" data-end="@eventItem.KhungGio.GioKetThuc" data-event="@uniqueEventId">
                                             <em class="cd-schedule__name">@eventItem.Phong.TenPhong-@eventItem.KhungGio.TenCa</em>
                                             <em class="cd-schedule__name">@eventItem.AspNetUser.FullName</em>
                                             @if (eventItem.NgayLamViec.HasValue)
