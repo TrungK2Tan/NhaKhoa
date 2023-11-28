@@ -432,6 +432,17 @@
     <Content Include="assets\images\dentist-2530990_640.jpg" />
     <Content Include="assets\images\dentist-428645_640.jpg" />
     <Content Include="assets\images\dentist-4373290_640.jpg" />
+    <Content Include="assets\images\Dich-vu\boc-rang-su.png" />
+    <Content Include="assets\images\Dich-vu\cay-ghep-rang-implant.png" />
+    <Content Include="assets\images\Dich-vu\cham-soc-rang-mieng.jpg" />
+    <Content Include="assets\images\Dich-vu\dieu-tri-tuy.png" />
+    <Content Include="assets\images\Dich-vu\mat-dan-su.png" />
+    <Content Include="assets\images\Dich-vu\nho-rang.png" />
+    <Content Include="assets\images\Dich-vu\nieng-rang.png" />
+    <Content Include="assets\images\Dich-vu\rang-gia-thao-lap.png" />
+    <Content Include="assets\images\Dich-vu\tay-trang-rang.png" />
+    <Content Include="assets\images\Dich-vu\tram-rang.png" />
+    <Content Include="assets\images\Dich-vu\trong-rang.png" />
     <Content Include="assets\images\email-icon.png" />
     <Content Include="assets\images\featured-icon.png" />
     <Content Include="assets\images\featured.jpg" />

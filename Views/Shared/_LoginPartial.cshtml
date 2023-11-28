@@ -5,12 +5,33 @@
     {
         @Html.AntiForgeryToken()
 
-        <ul class="nav navbar-nav navbar-right">
+        <ul class="navbar-nav navbar-right">
             <li>
-                @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage", id = "hello" })
             </li>
-            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()" class="hidden-link" style="display: none">Log off</a></li>
         </ul>
+
+        <style>
+            .hidden-link {
+                display: none;
+            }
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $("#hello").click(function () {
+                    $(".hidden-link").toggle(); // Sử dụng toggle() để chuyển đổi trạng thái hiển thị/ẩn
+                });
+            });
+        </script>
+        <script>
+            document.getElementById('hello').addEventListener('click', function (event) {
+                event.preventDefault();
+            });
+
+        </script>
+
     }
 }
 else

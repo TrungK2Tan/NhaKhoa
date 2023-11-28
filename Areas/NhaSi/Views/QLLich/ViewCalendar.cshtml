@@ -4,7 +4,6 @@
     ViewBag.Title = "TKB";
     Layout = "~/Areas/NhaSi/Views/Shared/Layout.cshtml";
     var now = DateTime.Now;
-
     var daysUntilMonday = ((int)now.DayOfWeek - (int)DayOfWeek.Monday + 7) % 7;
     var monday = now.AddDays(-daysUntilMonday);
     var sunday = monday.AddDays(6);

@@ -16,7 +16,7 @@ namespace NhaKhoa.Areas.NhaSi.Controllers
     {
         private NhaKhoaModel db = new NhaKhoaModel();
         // GET: NhaSi/QLLich
-        public ActionResult Index()
+        public ActionResult Index(DateTime? selectedWeek)
         {
 
             // Get the currently logged-in user's ID
@@ -24,26 +24,57 @@ namespace NhaKhoa.Areas.NhaSi.Controllers
             var user = db.AspNetUsers.Find(currentUserId);
             ViewBag.TenNhaSi = user.FullName;
             ViewBag.HinhAnh = user.HinhAnh;
+            ViewBag.CurrentUserId = currentUserId;
             try
             {
-                // Filter ThoiKhoaBieu based on the Id_Nhasi
-                var thoiKhoaBieu = db.Thus.Where(u => u.ThoiKhoaBieux.Any(r => r.Id_Nhasi == currentUserId))
-                    .Include(tkb => tkb.ThoiKhoaBieux.Select(t => t.PhieuDatLiches)) // Include PhieuDatLiches
+                // Lấy danh sách các ngày trong tuần và lịch làm việc từ cơ sở dữ liệu
+                var danhSachThu = db.Thus.ToList();
+                var danhSachThoiKhoaBieu = db.ThoiKhoaBieux
+            .Where(tkb => tkb.Id_Nhasi == currentUserId)
             .ToList();
 
-
-                if (thoiKhoaBieu == null || !thoiKhoaBieu.Any())
+                // Kiểm tra xem có dữ liệu để hiển thị không
+                if (danhSachThu.Any() && danhSachThoiKhoaBieu.Any())
                 {
-                    // Xử lý khi không có dữ liệu
-                    return View("ErrorView"); // Thay "ErrorView" bằng tên view hiển thị thông báo lỗi
-                }
+                    DateTime startOfWeek = selectedWeek ?? DateTime.Now;
 
-                return View(thoiKhoaBieu);
+                    // Nếu có tuần đã chọn, lọc danh sách thời khóa biểu cho tuần đó
+                    var filteredThoiKhoaBieu = danhSachThoiKhoaBieu
+                        .Where(tkb => tkb.NgayLamViec.HasValue && tkb.NgayLamViec.Value.Date == startOfWeek.Date && tkb.Id_Nhasi == currentUserId)
+                        .OrderBy(e => e.Id_Thu)
+                        .ThenBy(e => e.NgayLamViec)
+                        .ToList();
+
+                    // Lấy calendar hiện tại (GregorianCalendar)
+                    GregorianCalendar calendar = new GregorianCalendar();
+
+                    // Tạo mảng chứa các tuần
+                    DateTime[] weeks = GetWeeksInYear(DateTime.Now.Year, calendar);
+
+                    // Tạo ViewModel
+                    var viewModel = new ThoiKhoaBieuViewModel
+                    {
+                        DanhSachThu = danhSachThu,
+                        DanhSachThoiKhoaBieu = filteredThoiKhoaBieu,
+                        weeks = weeks,
+                        SelectedWeek = startOfWeek
+                    };
+
+                    // Trả về view với ViewModel
+                    return View(viewModel);
+                }
+                else
+                {
+                    // Nếu không có dữ liệu, hiển thị thông báo lỗi
+                    ViewBag.ErrorMessage = "Không có dữ liệu để hiển thị.";
+                    return View("ErrorView");
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // Xử lý exception, log và hiển thị thông báo lỗi
-                return View("ErrorView"); // Thay "ErrorView" bằng tên view hiển thị thông báo lỗi
+                // Log exception
+                ViewBag.ErrorMessage = $"Đã xảy ra lỗi khi lấy dữ liệu: {ex.Message}";
+                return View("ErrorView");
             }
         }
         public ActionResult AddCalendar()
