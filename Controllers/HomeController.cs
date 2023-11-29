@@ -119,7 +119,7 @@ namespace NhaKhoa.Controllers
             if (ModelState.IsValid)
             {
                 // Gán giá trị cố định 150 cho trường Gia
-                DatLich.Gia = 150;
+                DatLich.Gia = 150000;
                 // Lấy Id_TKB tương ứng với NgayKham từ cơ sở dữ liệu
                 DatLich.Id_TKB = db.ThoiKhoaBieux
                     .Where(t => t.NgayLamViec == DatLich.NgayKham)
@@ -303,7 +303,8 @@ namespace NhaKhoa.Controllers
         {
             // Retrieve appointment information based on the provided order ID
             var appointment = db.PhieuDatLiches.Find(order);
-         
+            string gia = appointment.Gia.ToString();
+            string order_datlich = order.ToString();
             if (appointment == null)
             {
                 // Handle the case where the appointment is not found
@@ -320,8 +321,8 @@ namespace NhaKhoa.Controllers
             string returnUrl = "https://localhost:44374/Home/ConfirmPaymentClient";
             string notifyurl = "https://4c8d-2001-ee0-5045-50-58c1-b2ec-3123-740d.ap.ngrok.io/Home/SavePayment"; //lưu ý: notifyurl không được sử dụng localhost, có thể sử dụng ngrok để public localhost trong quá trình test
 
-            string amount = "150000";
-            string orderid = DateTime.Now.Ticks.ToString(); //mã đơn hàng
+            string amount = gia;
+            string orderid = order_datlich; //mã đơn hàng
             string requestId = DateTime.Now.Ticks.ToString();
             string extraData = "";
 
@@ -386,8 +387,18 @@ namespace NhaKhoa.Controllers
             return View();
         }
 
-        public ActionResult PaymentVNPay()
+        public ActionResult PaymentVNPay(int order)
         {
+            // Retrieve appointment information based on the provided order ID
+            var appointment = db.PhieuDatLiches.Find(order);
+            appointment.Gia = 15000000;
+            if (appointment == null)
+            {
+                // Handle the case where the appointment is not found
+                // You may want to redirect the user to an error page or take appropriate action
+                return RedirectToAction("Index", "Home");
+            }
+            string gia = appointment.Gia.ToString();
             string url = ConfigurationManager.AppSettings["vnp_Url"];
             string returnUrl = ConfigurationManager.AppSettings["ReturnUrl"];
             string tmnCode = ConfigurationManager.AppSettings["vnp_TmnCode"];
@@ -398,7 +409,7 @@ namespace NhaKhoa.Controllers
             pay.AddRequestData("vnp_Version", "2.1.0"); //Phiên bản api mà merchant kết nối. Phiên bản hiện tại là 2.1.0
             pay.AddRequestData("vnp_Command", "pay"); //Mã API sử dụng, mã cho giao dịch thanh toán là 'pay'
             pay.AddRequestData("vnp_TmnCode", tmnCode); //Mã website của merchant trên hệ thống của VNPAY (khi đăng ký tài khoản sẽ có trong mail VNPAY gửi về)
-            pay.AddRequestData("vnp_Amount", "1000000"); //số tiền cần thanh toán, công thức: số tiền * 100 - ví dụ 10.000 (mười nghìn đồng) --> 1000000
+            pay.AddRequestData("vnp_Amount", gia); //số tiền cần thanh toán, công thức: số tiền * 100 - ví dụ 10.000 (mười nghìn đồng) --> 1000000
             pay.AddRequestData("vnp_BankCode", ""); //Mã Ngân hàng thanh toán (tham khảo: https://sandbox.vnpayment.vn/apis/danh-sach-ngan-hang/), có thể để trống, người dùng có thể chọn trên cổng thanh toán VNPAY
             pay.AddRequestData("vnp_CreateDate", DateTime.Now.ToString("yyyyMMddHHmmss")); //ngày thanh toán theo định dạng yyyyMMddHHmmss
             pay.AddRequestData("vnp_CurrCode", "VND"); //Đơn vị tiền tệ sử dụng thanh toán. Hiện tại chỉ hỗ trợ VND
@@ -407,10 +418,11 @@ namespace NhaKhoa.Controllers
             pay.AddRequestData("vnp_OrderInfo", "Thanh toan don hang"); //Thông tin mô tả nội dung thanh toán
             pay.AddRequestData("vnp_OrderType", "other"); //topup: Nạp tiền điện thoại - billpayment: Thanh toán hóa đơn - fashion: Thời trang - other: Thanh toán trực tuyến
             pay.AddRequestData("vnp_ReturnUrl", returnUrl); //URL thông báo kết quả giao dịch khi Khách hàng kết thúc thanh toán
-            pay.AddRequestData("vnp_TxnRef", DateTime.Now.Ticks.ToString()); //mã hóa đơn
+            pay.AddRequestData("vnp_TxnRef", order.ToString()); //mã hóa đơn
 
             string paymentUrl = pay.CreateRequestUrl(url, hashSecret);
-
+            appointment.TrangThaiThanhToan = true;
+            db.SaveChanges();
             return Redirect(paymentUrl);
         }
 

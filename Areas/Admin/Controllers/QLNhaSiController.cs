@@ -197,7 +197,7 @@ namespace NhaKhoa.Areas.Admin.Controllers
                 var danhSachThoiKhoaBieu = db.ThoiKhoaBieux.ToList();
 
                 // Kiểm tra xem có dữ liệu để hiển thị không
-                if (danhSachThu.Any() && danhSachThoiKhoaBieu.Any())
+                if (danhSachThu.Any() || danhSachThoiKhoaBieu.Any())
                 {
                     DateTime startOfWeek = selectedWeek ?? DateTime.Now;
 
