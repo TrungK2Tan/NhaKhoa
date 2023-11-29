@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 
-namespace Payment
+namespace NhaKhoa.Other
 {
     public class PayCompare : IComparer<string>
     {

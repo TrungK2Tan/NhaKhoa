@@ -12,7 +12,7 @@ using MoMo;
 using Newtonsoft.Json.Linq;
 using System.Data.Entity.Migrations;
 using System.Configuration;
-using Payment;
+using NhaKhoa.Other;
 
 namespace NhaKhoa.Controllers
 {
@@ -388,10 +388,10 @@ namespace NhaKhoa.Controllers
 
         public ActionResult PaymentVNPay()
         {
-            string url = ConfigurationManager.AppSettings["Url"];
+            string url = ConfigurationManager.AppSettings["vnp_Url"];
             string returnUrl = ConfigurationManager.AppSettings["ReturnUrl"];
-            string tmnCode = ConfigurationManager.AppSettings["TmnCode"];
-            string hashSecret = ConfigurationManager.AppSettings["HashSecret"];
+            string tmnCode = ConfigurationManager.AppSettings["vnp_TmnCode"];
+            string hashSecret = ConfigurationManager.AppSettings["vnp_HashSecret"];
 
             PayLib pay = new PayLib();
 
@@ -418,7 +418,7 @@ namespace NhaKhoa.Controllers
         {
             if (Request.QueryString.Count > 0)
             {
-                string hashSecret = ConfigurationManager.AppSettings["HashSecret"]; //Chuỗi bí mật
+                string hashSecret = ConfigurationManager.AppSettings["vnp_HashSecret"]; //Chuỗi bí mật
                 var vnpayData = Request.QueryString;
                 PayLib pay = new PayLib();
 
