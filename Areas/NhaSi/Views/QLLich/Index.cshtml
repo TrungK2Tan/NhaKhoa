@@ -85,6 +85,7 @@
                                                 <em class="cd-schedule__name">@eventItem.NgayLamViec.Value.ToString("yyyy-MM-dd")</em>
                                             }
                                         </a>
+                                        <a class="cd-schedule-modal__edit" data-tkbid="@eventItem.Id_TKB"> thay đổi lịch khám</a>
                                     </li>
                                 }
                             </ul>
@@ -110,7 +111,8 @@
 
         <div class="cd-schedule-modal__body">
             <div class="cd-schedule-modal__event-info">
-                <h1></h1>
+                <h1>Lịch khám ngày </h1>
+               
             </div>
             <div class="cd-schedule-modal__body-bg"></div>
         </div>
@@ -132,6 +134,11 @@
             $('#weekSelect').change(function () {
                 var selectedWeek = $(this).val();
                 window.location.href = "@Url.Action("Index", "QLLich")" + "?page=1&selectedWeek=" + selectedWeek;
+            });
+             // Handle click event for "Thay đổi lịch khám" link
+            $('.cd-schedule-modal__edit').click(function () {
+                var tkbId = $(this).data('tkbid');
+                window.location.href = "@Url.Action("EditCalendar", "QLLich")" + "?id=" + tkbId;
             });
         });
     </script>

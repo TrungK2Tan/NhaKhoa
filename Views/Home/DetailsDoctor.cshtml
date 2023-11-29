@@ -18,11 +18,18 @@
                 <div class="row">
                     <div class="col-md-6">
                         <h2 class="text-primary border-bottom border-5">Thời gian làm việc:</h2>
-                        @*<p class="text-primary" style="font-size: 20px">@Html.DisplayFor(model => model.ThoiKhoaBieux)</p>*@
+                        <ul class="list-unstyled">
+                            @foreach (var workingHour in Model.ThoiKhoaBieux)
+                            {
+                                <li class="btn">
+                                    <a href="@Url.Action("Appointment", "BookingDentist", new { NgayKham = workingHour.NgayLamViec, TenNhaSi = Model.FullName, idnhasi = Model.Id })"> @workingHour.KhungGio.TenCa - @workingHour.NgayLamViec-@workingHour.Phong.TenPhong</a>
+                                </li>
+                            }
+                        </ul>
                     </div>
-                    <div class="col-md-6">
-                        <a class="btn btn-primary btn-lg w-100 py-2" href="@Url.Action("Appointment", "Home", new {@IDBACSI = Model.Id})">Đặt Lịch</a>
-                    </div>
+                    @*<div class="col-md-6">
+                        <a class="btn btn-primary btn-lg w-100 py-2" href="">Đặt Lịch</a>
+                    </div>*@
                 </div>
             </div>
         </div>

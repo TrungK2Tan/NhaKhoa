@@ -21,67 +21,66 @@
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.NgayKham, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.NgayKham, new { htmlAttributes = new { @class = "form-control", type = "date", id = "NgayKhamDropdown", name = "NgayKhamDropdown" } })
-            @Html.ValidationMessageFor(model => model.NgayKham, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.IdNhaSi, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(model => model.IdNhaSi, Enumerable.Empty<SelectListItem>(), "Chọn nha si", new { @class = "form-control", id = "IdNhaSiDropdown" })
-        </div>
-    </div>
-
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Gia, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            <input type="text" class="form-control" value="150" readonly />
-            @Html.HiddenFor(model => model.Gia, new { @Value = "150" }) <!-- Giữ giá trị khi gửi form -->
-            @Html.ValidationMessageFor(model => model.Gia, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="col-12 col-sm-6">
-        @Html.DropDownListFor(model => model.Id_hinhthuc, GetPaymentMethods(), "Chọn Hình Thức Thanh Toán", htmlAttributes: new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.Id_hinhthuc, "", new { @class = "text-danger" })
-    </div>
-
-    @*<div class="form-group">
-            @Html.LabelFor(model => model.Id_hinhthuc, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="form-group">
+            @Html.Label("Ngày Khám", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Id_hinhthuc, ViewBag.HinhThucList as SelectList, "Chọn hình thức thanh toán", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Id_hinhthuc, "", new { @class = "text-danger" })
+                <input type="text" class="form-control" value="@ViewBag.NgayKham" readonly />
             </div>
-        </div>*@
+        </div>
 
-    <div class="form-group" hidden>
-        @Html.LabelFor(model => model.IdBenhNhan, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.HiddenFor(model => model.IdBenhNhan)
+        <div class="form-group">
+            @Html.Label("Tên Nha Sĩ", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="text" class="form-control" value="@ViewBag.Idnhasi" readonly hidden/>
+                <input type="text" class="form-control" value="@ViewBag.TenNhaSi" readonly />
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Gia, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="text" class="form-control" value="150" readonly />
+                @Html.HiddenFor(model => model.Gia, new { @Value = "150" }) <!-- Giữ giá trị khi gửi form -->
+                @Html.ValidationMessageFor(model => model.Gia, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-12 col-sm-6">
+            @Html.DropDownListFor(model => model.Id_hinhthuc, GetPaymentMethods(), "Chọn Hình Thức Thanh Toán", htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Id_hinhthuc, "", new { @class = "text-danger" })
+        </div>
+
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.Id_hinhthuc, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Id_hinhthuc, ViewBag.HinhThucList as SelectList, "Chọn hình thức thanh toán", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Id_hinhthuc, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        <div class="form-group" hidden>
+            @Html.LabelFor(model => model.IdBenhNhan, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.HiddenFor(model => model.IdBenhNhan)
+            </div>
+        </div>
+        <!-- Thêm trường ẩn cho Id_TKB -->
+        <div class="form-group" hidden>
+            @Html.LabelFor(model => model.Id_TKB, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.HiddenFor(model => model.Id_TKB)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Đặt Lịch" class="btn btn-default" />
+            </div>
         </div>
     </div>
-    <!-- Thêm trường ẩn cho Id_TKB -->
-    <div class="form-group" hidden>
-        @Html.LabelFor(model => model.Id_TKB, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.HiddenFor(model => model.Id_TKB)
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Đặt Lịch" class="btn btn-default" />
-        </div>
-    </div>
-</div>
 }
 
 <div>
@@ -139,4 +138,4 @@
         $("#NgayKhamDropdown").trigger("change");
     });
     </script>
-    }
+}

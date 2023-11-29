@@ -69,7 +69,13 @@
                                             </div>
                                             <div class="info-table" style="margin-top:20px">
                                                 <ul>
-                                                    <li>Nhận xét<span></span></li>
+                                                    <li>Nhận xét nổi bật<span></span></li>
+                                                    <ul>
+                                                        @foreach (var review in nhaSi.DanhGiaNhaSis)
+                                                        {
+                                                            <li>@review.SaoDanhGia-@review.Noidung</li>
+                                                        }
+                                                    </ul>
                                                 </ul>
 
                                             </div>

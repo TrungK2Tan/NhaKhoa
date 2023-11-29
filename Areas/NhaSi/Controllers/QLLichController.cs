@@ -87,7 +87,7 @@ namespace NhaKhoa.Areas.NhaSi.Controllers
         // GET: NhaSi/ThoiKhoaBieux/Edit/5
         public ActionResult EditCalendar(int? id)
         {
-            if (id == null)
+            if (id == null) 
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
