@@ -892,6 +892,7 @@
     <Content Include="Views\Home\ConfirmPaymentClient.cshtml" />
     <Content Include="Views\BookingDentist\Appointment.cshtml" />
     <Content Include="Views\Home\PaymentVNPayConfirm.cshtml" />
+    <Content Include="Views\Home\ServiceDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

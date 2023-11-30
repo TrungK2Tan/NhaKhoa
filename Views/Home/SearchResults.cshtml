@@ -20,7 +20,7 @@
                         </a>
                         <div class="card-body">
                             <h5 class="card-title">@nhaSi.FullName</h5>
-                            <a href="@Url.Action("Appointment", "Home", new { IDBACSI = nhaSi.Id })" class="btn btn-primary">Đặt lịch</a>
+                            <a href="@Url.Action("DetailsDoctor", "Home", new { id = nhaSi.Id })" class="btn btn-primary">Xem Thông Tin </a>
                         </div>
                     </div>
                 </div>
@@ -39,15 +39,31 @@
                         <h4>@tintuc.Tieude</h4>
                         <p>@tintuc.Ngaygiotao</p>
                         <img class="img-fluid rounded-top" src="~/images/tintuc/@tintuc.Hinhanh" alt="">
-                        <a href="@Url.Action("BlogGrid", "Home", new { Id_tintuc=tintuc.Id_tintuc })" class="btn btn-primary">Xem Tin</a>
+                        @Html.ActionLink("Xem Ngay", "BlogDetail", "Home", new { id = tintuc.Id_tintuc }, new { @class = "btn btn-info btn-sm" })
+                    </div>
+                </li>
+            }
+        </ul>
+    }
+    @if (Model.DicVuResults.Any())
+    {
+        <h3>Dịch vụ cần tìm:</h3>
+        <ul>
+            @foreach (var dichvu in Model.DicVuResults)
+            {
+                <li>
+                    <div class="dichvu-item">
+                        <h4>@dichvu.Tendichvu</h4>
+                        <p>@dichvu.Mota</p>
+                        <img class="img-fluid rounded-top" src="~/assets/images/Dich-vu/@dichvu.HinhAnh" alt="">
+                        <a href="@Url.Action("ServiceDetail", "Home", new { id = dichvu.Id_dichvu })" class="btn btn-primary">Xem Dich Vu</a>
                     </div>
                 </li>
             }
         </ul>
     }
 
-
-    @if (!Model.NhaSiResults.Any() && !Model.TinTucResults.Any())
+    @if (!Model.NhaSiResults.Any() && !Model.TinTucResults.Any() && !Model.DicVuResults.Any())
     {
         <p>No results found.</p>
     }

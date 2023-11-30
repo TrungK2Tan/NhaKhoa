@@ -1,4 +1,5 @@
-﻿
+﻿@model PagedList.IPagedList<NhaKhoa.Models.DichVu>
+    @using PagedList.Mvc;
 @{
     ViewBag.Title = "Service";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -23,133 +24,47 @@
             </li>
         </ul>
         <div class="row properties-box">
-            <div class="col-lg-4 col-md-6 align-self-center mb-30 properties-items col-md-6 adv">
-                <div class="item">
-                    <a href="property-details.html"><img src="~/assets/images/Dich-vu/trong-rang.png" alt=""></a>
-                    <span class="category">Dịch vụ</span>
-                    <h4><a href="property-details.html">Trồng răng tháo lắp</a></h4>
-                    <ul>
-                        <li>là phương pháp phục hình răng tối ưu nhằm thay thế cho nhiều răng.</li>
-                    </ul>
-                    <div class="main-button">
-                        <a href="property-details.html">Tìm hiểu ngay</a>
+            @foreach (var service in Model)
+            {
+                <div class="col-lg-4 col-md-6 align-self-center mb-30 properties-items col-md-6 adv">
+                    <div class="item">
+                        <a href="property-details.html"><img src="~/assets/images/Dich-vu/@service.HinhAnh" alt=""></a>
+                        <span class="category">Dịch vụ</span>
+                        <h4><a href="property-details.html">@service.Tendichvu</a></h4>
+                        <ul>
+                            <li>@service.Mota</li>
+                        </ul>
+                        <div class="main-button">
+                            @Html.ActionLink("Tìm hiểu ngay", "ServiceDetail", "Home", new { id = service.Id_dichvu }, new { @class = "btn btn-info btn-sm" })
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-4 col-md-6 align-self-center mb-30 properties-items col-md-6 str">
-                <div class="item">
-                    <a href="property-details.html"><img src="~/assets/images/Dich-vu/nieng-rang.png" alt=""></a>
-                    <span class="category">Dịch vụ</span>
-                    <h4><a href="property-details.html">Niềng răng</a></h4>
-                    <ul>
-                        <li>là phương pháp nha khoa giúp điều chỉnh các răng về đúng hướng và đúng vị trí.</li>
-                    </ul>
-                    <div class="main-button">
-                        <a href="property-details.html">Tìm hiểu ngay</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 align-self-center mb-30 properties-items col-md-6 adv rac">
-                <div class="item">
-                    <a href="property-details.html"><img src="~/assets/images/Dich-vu/tay-trang-rang.png" alt=""></a>
-                    <span class="category">Dịch vụ</span>
-                    <h4><a href="property-details.html">Tẩy trắng răng</a></h4>
-                    <ul>
-                        <li>là phương pháp nha khoa nhằm lấy đi các sắc tố vàng, nâu… ở men răng và ngà răng.</li>
-                    </ul>
-                    <div class="main-button">
-                        <a href="property-details.html">Tìm hiểu ngay</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 align-self-center mb-30 properties-items col-md-6 str">
-                <div class="item">
-                    <a href="property-details.html"><img src="~/assets/images/Dich-vu/nho-rang.png" alt=""></a>
-                    <span class="category">Dịch vụ</span>
-                    <h4><a href="property-details.html">Nhổ Răng Hư Tổn</a></h4>
-                    <ul>
-                        <li>giải pháp điều trị nha khoa cuối cùng khi răng không còn có thể bảo tồn được nữa.</li>
-                    </ul>
-                    <div class="main-button">
-                        <a href="property-details.html">Tìm hiểu ngay</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 align-self-center mb-30 properties-items col-md-6 rac str">
-                <div class="item">
-                    <a href="property-details.html"><img src="~/assets/images/Dich-vu/cham-soc-rang-mieng.jpg" alt=""></a>
-                    <span class="category">Dịch vụ</span>
-                    <h4><a href="property-details.html">Phòng ngừa sâu răng</a></h4>
-                    <ul>
-                        <li>Giúp ngăn chặn trước các nguy cơ xuất hiện các bệnh về răng.</li>
-                    </ul>
-                    <div class="main-button">
-                        <a href="property-details.html">Tìm hiểu ngay</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 align-self-center mb-30 properties-items col-md-6 rac adv">
-                <div class="item">
-                    <a href="property-details.html"><img src="~/assets/images/Dich-vu/boc-rang-su.png" alt=""></a>
-                    <span class="category">Dịch vụ</span>
-                    <h4><a href="property-details.html">Bọc răng sứ</a></h4>
-                    <ul>
-                        <li>là phương pháp phục hình răng giúp khắc phục những khuyết điểm của răng.</li>
-                    </ul>
-                    <div class="main-button">
-                        <a href="property-details.html">Tìm hiểu ngay</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 align-self-center mb-30 properties-items col-md-6 rac str">
-                <div class="item">
-                    <a href="property-details.html"><img src="~/assets/images/Dich-vu/mat-dan-su.png" alt=""></a>
-                    <span class="category">Dịch vụ</span>
-                    <h4><a href="property-details.html">Mặt Dán Sứ</a></h4>
-                    <ul>
-                        <li>là một giải pháp thẩm mỹ hoàn hảo, bảo toàn mô răng tốt nhất trong nha khoa hiện đại.</li>
-                    </ul>
-                    <div class="main-button">
-                        <a href="property-details.html">Tìm hiểu ngay</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 align-self-center mb-30 properties-items col-md-6 rac adv">
-                <div class="item">
-                    <a href="property-details.html"><img src="~/assets/images/Dich-vu/cay-ghep-rang-implant.png" alt=""></a>
-                    <span class="category">Dịch vụ</span>
-                    <h4><a href="property-details.html">Cấy ghép Implant</a></h4>
-                    <ul>
-                        <li>là giải pháp phục hồi răng bị mất hiệu quả nhất bởi không chỉ giúp khôi phục thẩm mỹ hàm răng.</li>
-                    </ul>
-                    <div class="main-button">
-                        <a href="property-details.html">Tìm hiểu ngay</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 align-self-center mb-30 properties-items col-md-6 rac adv">
-                <div class="item">
-                    <a href="property-details.html"><img src="~/assets/images/Dich-vu/dieu-tri-tuy.png" alt=""></a>
-                    <span class="category">Dịch vụ</span>
-                    <h4><a href="property-details.html">Điều trị tủy</a></h4>
-                    <ul>
-                        <li>Tủy răng đóng vai trò quan trọng trong việc nuôi dưỡng răng chắc khỏe.</li>
-                    </ul>
-                    <div class="main-button">
-                        <a href="property-details.html">Tìm hiểu ngay</a>
-                    </div>
-                </div>
-            </div>
+            }
         </div>
-        <!-- <div class="row">
-          <div class="col-lg-12">
+
+        <div class="d-flex justify-content-center mt-4">
             <ul class="pagination">
-              <li><a href="#">1</a></li>
-              <li><a class="is_active" href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">>></a></li>
+                <li class="page-item @(Model.PageNumber == 1 ? "disabled" : "")">
+                    @if (Model.HasPreviousPage)
+                    {
+                        <a class="page-link" href="@Url.Action("Service", new { page = Model.PageNumber - 1 })">&laquo; </a>
+                    }
+                </li>
+
+                @for (int i = 1; i <= Model.PageCount; i++)
+                {
+                    <li class="page-item @(Model.PageNumber == i ? "active" : "")">
+                        <a class="page-link" href="@Url.Action("Service", new { page = i })">@i</a>
+                    </li>
+                }
+
+                <li class="page-item @(Model.PageNumber == Model.PageCount ? "disabled" : "")">
+                    @if (Model.HasNextPage)
+                    {
+                        <a class="page-link" href="@Url.Action("Service", new { page = Model.PageNumber + 1 })"> &raquo;</a>
+                    }
+                </li>
             </ul>
-          </div>
-        </div> -->
+        </div>
     </div>
 </div>

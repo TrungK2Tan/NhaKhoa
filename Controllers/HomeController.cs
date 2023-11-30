@@ -58,11 +58,35 @@ namespace NhaKhoa.Controllers
             return View();
         }
 
-        public ActionResult Service()
+        public ActionResult Service(int? page)
         {
+            const int pageSize = 3; // Adjust the number of items per page as needed
 
-            return View();
+            // Lấy danh sách các bài viết từ database và sắp xếp theo Id_tintuc
+            var dichvus = db.DichVus.OrderBy(b => b.Id_dichvu);
+
+            int pageNumber = (page ?? 1); // If page is null, default to page 1
+            var pagesdichvu = dichvus.OrderBy(t => t.Id_dichvu).ToPagedList(pageNumber, pageSize);
+
+            return View(pagesdichvu);
         }
+        public ActionResult ServiceDetail(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            DichVu dichvus = db.DichVus.Find(id);
+
+            if (dichvus == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(dichvus);
+        }
+
         public ActionResult BlogGrid(int? page)
         {
             const int pageSize = 3; // Adjust the number of items per page as needed
@@ -197,17 +221,19 @@ namespace NhaKhoa.Controllers
 
             // Tìm kiếm theo từ khóa keyword trong tên tin tức
             var tintucResults = db.TinTucs.Where(d => d.Tieude.Contains(keyword)).ToList();
+            var dichvuResults = db.DichVus.Where(d=>d.Tendichvu.Contains(keyword)).ToList();
 
             // Tạo một ViewModel để chứa kết quả tìm kiếm
             var searchResults = new SearchViewModel
             {
                 Keyword = keyword,
                 NhaSiResults = nhaSiResults,
-                TinTucResults = tintucResults
+                TinTucResults = tintucResults,
+                DicVuResults = dichvuResults
             };
 
             // Kiểm tra kết quả tìm kiếm để xác định view cần hiển thị
-            if (nhaSiResults.Any() || tintucResults.Any())
+            if (nhaSiResults.Any() || tintucResults.Any()|| dichvuResults.Any())
             {
                 // Gửi kết quả tìm kiếm cho view "SearchResults"
                 return View("SearchResults", searchResults);

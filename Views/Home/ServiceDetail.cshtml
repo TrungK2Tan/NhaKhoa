@@ -1,0 +1,42 @@
+﻿@model NhaKhoa.Models.DichVu
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<div class="page-heading header-text">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <span class="breadcrumb"><a href="#">Trang chủ</a> / Dịch Vụ</span>
+                <h3>Dịch Vụ</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="section properties">
+    <div class="container">
+        <ul class="properties-filter">
+            <li>
+                <a class="is_active" href="~/Home/Service" data-filter="*">Tất cả Dịch Vụ</a>
+            </li>
+        </ul>
+        <div class="container py-5">
+            <div class="row">
+                <div class="item">
+                    <div class="mb-5">
+                        <h1 class="mb-4">@Html.DisplayFor(model => model.Tendichvu)</h1>
+                        <img class="img-fluid rounded mb-5" src="~/assets/images/Dich-vu/@Model.HinhAnh" alt="" style="max-width: 100%;">
+                        <p>Mô tả dịch vụ :@Html.DisplayFor(model => model.Mota)</p>
+                        <p>Giá : @Html.DisplayFor(model => model.Giadichvu)</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
