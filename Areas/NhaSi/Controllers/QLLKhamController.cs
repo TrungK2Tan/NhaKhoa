@@ -106,6 +106,50 @@ namespace NhaKhoa.Areas.NhaSi.Controllers
             }
             return View(phieuDatLich);
         }
+
+        public ActionResult LapDonThuoc(int? id_phieudat)
+        {
+            if (id_phieudat == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            // Retrieve the appointment associated with the given id_phieudat
+            PhieuDatLich phieuDatLich = db.PhieuDatLiches.Find(id_phieudat);
+
+            if (phieuDatLich == null)
+            {
+                return HttpNotFound();
+            }
+
+            DonThuoc donThuoc = new DonThuoc
+            {
+                Id_phieudat = id_phieudat,
+                // Set other properties as needed
+            };
+
+            // Pass the DonThuoc instance to the view for user input
+            return View(donThuoc);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult LapDonThuoc([Bind(Include = "Id_phieudat,Mota,Soluong,Id_thuoc,Chandoan")] DonThuoc donThuoc)
+        {
+            if (ModelState.IsValid)
+            {
+                // Save the prescription to the database
+                db.DonThuocs.Add(donThuoc);
+                db.SaveChanges();
+
+                // Redirect to a relevant page, e.g., the details page for the created prescription
+                return RedirectToAction("Index", "QLLKham");
+            }
+
+            // If ModelState is not valid, return to the view with the entered data
+            return View(donThuoc);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

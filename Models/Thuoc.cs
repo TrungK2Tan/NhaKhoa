@@ -32,9 +32,6 @@ namespace NhaKhoa.Models
 
         public string Thanhphan { get; set; }
 
-        [StringLength(128)]
-        public string Id_nhanvien { get; set; }
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DonThuoc> DonThuocs { get; set; }
     }

@@ -831,6 +831,7 @@
     <Content Include="Areas\NhaSi\Views\QLLKham\Details.cshtml" />
     <Content Include="Areas\NhaSi\Views\QLLKham\Index.cshtml" />
     <Content Include="Areas\NhaSi\Views\QLLKham\ViewAllBooking.cshtml" />
+    <Content Include="Areas\NhaSi\Views\QLLKham\LapDonThuoc.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

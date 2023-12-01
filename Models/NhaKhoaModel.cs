@@ -55,11 +55,6 @@ namespace NhaKhoa.Models
                 .HasForeignKey(e => e.Id_Nhasi);
 
             modelBuilder.Entity<AspNetUser>()
-                .HasMany(e => e.DonThuocs)
-                .WithOptional(e => e.AspNetUser)
-                .HasForeignKey(e => e.Id_bacsi);
-
-            modelBuilder.Entity<AspNetUser>()
                 .HasMany(e => e.HoaDons)
                 .WithOptional(e => e.AspNetUser)
                 .HasForeignKey(e => e.Id_benhnhan);
