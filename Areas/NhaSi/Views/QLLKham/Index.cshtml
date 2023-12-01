@@ -1,0 +1,76 @@
+﻿@model IEnumerable<NhaKhoa.Models.PhieuDatLich>
+
+@using (Html.BeginForm("Index", "QLLKham", FormMethod.Get, new { @class = "form-inline" }))
+{
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.TextBox("searchString", ViewBag.CurrentFilter as string, new { @class = "form-control", placeholder = "Search by Email or Fullname" })
+                <input type="submit" value="Tìm kiếm" class="btn btn-primary mt-2" />
+            </div>
+        </div>
+
+        <div class="col-md-4 text-right">
+            <div class="form-group">
+                @Html.TextBox("filterDate", null, new { @class = "form-control datepicker", placeholder = "Select a date" })
+                <input type="submit" value="Lọc lịch" class="btn btn-success mt-2" />
+                <a href="@Url.Action("ViewAllBooking")" class="btn btn-info mt-2">Xem tất cả lịch</a>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Rest of your view code -->
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/NhaSi/Views/Shared/Layout.cshtml";
+}
+
+<h2 class="mt-4">Lịch khám</h2>
+
+<table class="table table-bordered mt-2">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Full Name</th>
+            <th scope="col">Payment Method</th>
+            <th scope="col">Day</th>
+            <th scope="col">Room</th>
+            <th scope="col">Appointment Date</th>
+            <th scope="col">Price</th>
+            <th scope="col">Doctor ID</th>
+            <th scope="col">STT</th>
+            <th scope="col">Status</th>
+            <th scope="col">Payment Status</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.AspNetUser.FullName)</td>
+            <td>@Html.DisplayFor(modelItem => item.HinhThucThanhToan.TenHinhThuc)</td>
+            <td>@Html.DisplayFor(modelItem => item.ThoiKhoaBieu.Thu.TenThu)</td>
+            <td>@Html.DisplayFor(modelItem => item.ThoiKhoaBieu.Phong.TenPhong)</td>
+            <td>@Html.DisplayFor(modelItem => item.NgayKham)</td>
+            <td>@Html.DisplayFor(modelItem => item.Gia)</td>
+            <td>@Html.DisplayFor(modelItem => item.IdNhaSi)</td>
+            <td>@Html.DisplayFor(modelItem => item.STT)</td>
+            <td>@Html.DisplayFor(modelItem => item.TrangThai)</td>
+            <td>@Html.DisplayFor(modelItem => item.TrangThaiThanhToan)</td>
+            <td>@Html.ActionLink("Chi Tiết", "Details", new { id = item.Id_Phieudat }, new { @class = "btn btn-info btn-sm" })</td>
+        </tr>
+    }
+</table>
+
+@section scripts {
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script>
+        $(function () {
+            $(".datepicker").datepicker();
+        });
+    </script>
+}

@@ -32,7 +32,7 @@ namespace NhaKhoa.Areas.NhaSi.Controllers
                 var danhSachThoiKhoaBieu = db.ThoiKhoaBieux
             .Where(tkb => tkb.Id_Nhasi == currentUserId)
             .ToList();
-
+               
                 // Kiểm tra xem có dữ liệu để hiển thị không
                 if (danhSachThu.Any() && danhSachThoiKhoaBieu.Any())
                 {
@@ -44,7 +44,6 @@ namespace NhaKhoa.Areas.NhaSi.Controllers
                         .OrderBy(e => e.Id_Thu)
                         .ThenBy(e => e.NgayLamViec)
                         .ToList();
-
                     // Lấy calendar hiện tại (GregorianCalendar)
                     GregorianCalendar calendar = new GregorianCalendar();
 
@@ -59,7 +58,6 @@ namespace NhaKhoa.Areas.NhaSi.Controllers
                         weeks = weeks,
                         SelectedWeek = startOfWeek
                     };
-
                     // Trả về view với ViewModel
                     return View(viewModel);
                 }

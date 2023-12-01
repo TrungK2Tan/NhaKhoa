@@ -212,6 +212,7 @@
     <Compile Include="Areas\NhaSi\Controllers\InfoController.cs" />
     <Compile Include="Areas\NhaSi\Controllers\NhaSiController.cs" />
     <Compile Include="Areas\NhaSi\Controllers\QLLichController.cs" />
+    <Compile Include="Areas\NhaSi\Controllers\QLLKhamController.cs" />
     <Compile Include="Areas\NhaSi\Controllers\RateViewController.cs" />
     <Compile Include="Areas\NhaSi\NhaSiAreaRegistration.cs" />
     <Compile Include="ChatHub.cs" />
@@ -827,6 +828,9 @@
     <Content Include="Areas\NhanVien\Views\QLLichKham\Delete.cshtml" />
     <Content Include="Areas\NhanVien\Views\QLLichKham\Details.cshtml" />
     <Content Include="Areas\NhanVien\Views\QLLichKham\Index.cshtml" />
+    <Content Include="Areas\NhaSi\Views\QLLKham\Details.cshtml" />
+    <Content Include="Areas\NhaSi\Views\QLLKham\Index.cshtml" />
+    <Content Include="Areas\NhaSi\Views\QLLKham\ViewAllBooking.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
