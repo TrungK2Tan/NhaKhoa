@@ -268,38 +268,63 @@ namespace NhaKhoa.Areas.Admin.Controllers
             {
                 if (thoiKhoaBieu.NgayLamViec < DateTime.Now.Date)
                 {
-                    ModelState.AddModelError(string.Empty, "Lịch làm việc đã quá ngày, Vui lòng chọn lịch khác");
-                    SetupDropdownLists();
-                    return View(thoiKhoaBieu);
+                    return AddValidationErrorAndReturnView("Ngày làm việc đã quá ngày, Vui lòng chọn ngày khác", thoiKhoaBieu);
                 }
-                // Lấy giá trị của trường NgayLamViec và IdThu từ đối tượng NgayVaThu
+
+                if (thoiKhoaBieu.NgayLamViec == DateTime.Now.Date)
+                {
+                    return AddValidationErrorAndReturnView("Vui lòng chọn ngày làm việc khác ngày hiện tại", thoiKhoaBieu);
+                }
+
                 NgayVaThu ngayVaThu = LayNgayVaThu(thoiKhoaBieu.NgayLamViec);
 
-                // Gán giá trị của NgayLamViec và IdThu từ đối tượng NgayVaThu
                 thoiKhoaBieu.NgayLamViec = ngayVaThu.NgayLamViec;
-                thoiKhoaBieu.Id_Thu = ngayVaThu.IdThu; // Use IdThu instead of TenThuId
+                thoiKhoaBieu.Id_Thu = ngayVaThu.IdThu;
 
-                // Kiểm tra trùng lặp trước khi thêm mới
-                if (KiemTraTrungLich(thoiKhoaBieu))
+                if (thoiKhoaBieu.NgayLamViec == null)
                 {
-                    // Nếu trùng lịch, thêm lỗi vào ModelState và chuyển hướng quay lại view
-                    ModelState.AddModelError(string.Empty, "Lịch làm việc đã trùng. Vui lòng chọn lịch khác.");
-                    SetupDropdownLists(); // Gọi hàm này để cập nhật lại danh sách dropdown
-                    return View(thoiKhoaBieu);
+                    return AddValidationErrorAndReturnView("Vui lòng chọn ngày làm việc", thoiKhoaBieu);
                 }
 
-                // Thêm mới vào cơ sở dữ liệu và chuyển hướng
+                if (thoiKhoaBieu.Id_Nhasi == null)
+                {
+                    return AddValidationErrorAndReturnView("Vui lòng chọn Nha Sĩ", thoiKhoaBieu);
+                }
+                if (thoiKhoaBieu.Id_Nhasi != thoiKhoaBieu.Id_Phong.ToString())
+                {
+                    return AddValidationErrorAndReturnView("Nha sĩ và phòng dã bị trùng", thoiKhoaBieu);
+                }
+
+                if (thoiKhoaBieu.Id_Phong == null)
+                {
+                    return AddValidationErrorAndReturnView("Vui lòng chọn phòng làm việc", thoiKhoaBieu);
+                }
+
+                if (thoiKhoaBieu.Id_khunggio == null || thoiKhoaBieu.Id_khunggio == 0)
+                {
+                    return AddValidationErrorAndReturnView("Vui lòng chọn ca làm việc", thoiKhoaBieu);
+                }
+
+                if (KiemTraTrungLich(thoiKhoaBieu))
+                {
+                    return AddValidationErrorAndReturnView("Lịch làm việc đã trùng. Vui lòng chọn lịch khác.", thoiKhoaBieu);
+                }
+
                 db.ThoiKhoaBieux.Add(thoiKhoaBieu);
                 db.SaveChanges();
 
                 return RedirectToAction("Index");
             }
 
-            // Nếu ModelState không hợp lệ, hiển thị lại view với thông báo lỗi và danh sách dropdown đã chọn
-            SetupDropdownLists(); // Gọi hàm này để cập nhật lại danh sách dropdown
+            SetupDropdownLists();
             return View(thoiKhoaBieu);
         }
-
+        private ActionResult AddValidationErrorAndReturnView(string errorMessage, ThoiKhoaBieu model)
+        {
+            ModelState.AddModelError(string.Empty, errorMessage);
+            SetupDropdownLists();
+            return View(model);
+        }
         // Hàm kiểm tra trùng lịch
         private bool KiemTraTrungLich(ThoiKhoaBieu thoiKhoaBieu)
         {
