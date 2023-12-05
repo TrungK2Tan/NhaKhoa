@@ -247,8 +247,6 @@
     <Compile Include="Models\Thu.cs" />
     <Compile Include="Models\Thuoc.cs" />
     <Compile Include="Models\TinTuc.cs" />
-    <Compile Include="Models\VatTu.cs" />
-    <Compile Include="Models\VatTuSuDung.cs" />
     <Compile Include="Others\MoMoSecurity.cs" />
     <Compile Include="Others\PaymentRequest.cs" />
     <Compile Include="Other\PayCompare.cs" />
@@ -822,7 +820,6 @@
     <Content Include="Areas\Admin\Views\ManagerBooking\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\ManagerBooking\Details.cshtml" />
     <Content Include="Areas\Admin\Views\ManagerBooking\Index.cshtml" />
-    <Content Include="Areas\NhaSi\Views\QLLich\AddCalendar.cshtml" />
     <Content Include="Areas\NhaSi\Views\QLLich\EditCalendar.cshtml" />
     <Content Include="Areas\NhanVien\Views\QLBenhNhan\Booking.cshtml" />
     <Content Include="Areas\NhanVien\Views\QLLichKham\Delete.cshtml" />

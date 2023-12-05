@@ -75,13 +75,6 @@ namespace NhaKhoa.Areas.NhaSi.Controllers
                 return View("ErrorView");
             }
         }
-        public ActionResult AddCalendar()
-        {
-            ViewBag.ListPhong = new SelectList(db.Phongs, "Id_Phong", "TenPhong");
-            ViewBag.ListKhungGio = new SelectList(db.KhungGios, "Id_khunggio", "TenCa");
-
-            return View();
-        }
         // GET: NhaSi/ThoiKhoaBieux/Edit/5
         public ActionResult EditCalendar(int? id)
         {

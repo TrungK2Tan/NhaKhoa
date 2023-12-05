@@ -18,7 +18,7 @@ namespace NhaKhoa.Areas.NhanVien.Controllers
         public ActionResult Index()
         {
             var phieuDatLiches = db.PhieuDatLiches.Include(p => p.AspNetUser).Include(p => p.HinhThucThanhToan).Include(p => p.ThoiKhoaBieu);
-            return View(phieuDatLiches.ToList());
+            return View(phieuDatLiches.ToList()); 
         }
 
         // GET: NhanVien/QLLichKham/Details/5

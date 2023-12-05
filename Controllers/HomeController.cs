@@ -153,15 +153,21 @@ namespace NhaKhoa.Controllers
                 DatLich.TrangThaiThanhToan = false;
                 // Calculate STT
                 DatLich.STT = CalculateSTT(DatLich.NgayKham, DatLich.IdNhaSi);
-                //var numberOfAppointments = db.PhieuDatLiches.Count(l => l.IdNhaSi == DatLich.IdNhaSi && l.NgayKham.HasValue && DbFunctions.TruncateTime(l.NgayKham) == DbFunctions.TruncateTime(DatLich.NgayKham));
+                var numberOfAppointments = db.PhieuDatLiches.Count(l => l.IdNhaSi == DatLich.IdNhaSi && l.NgayKham.HasValue && DbFunctions.TruncateTime(l.NgayKham) == DbFunctions.TruncateTime(DatLich.NgayKham));
 
-                //if (numberOfAppointments >= 2)
-                //{
-                //    ModelState.AddModelError("", "Nha sĩ này đã đủ số lượng lịch hẹn cho khung giờ này. Vui lòng chọn nha sĩ khác.");
+                if (numberOfAppointments >= 2)
+                {
+                    ModelState.AddModelError("", "Nha sĩ này đã đủ số lượng lịch hẹn cho khung giờ này. Vui lòng chọn nha sĩ khác.");
 
-                //    return View(DatLich);
-                //}
+                    return View(DatLich);
+                }
+                var appointmentvalue = db.PhieuDatLiches.Count(l=>l.IdBenhNhan == DatLich.IdBenhNhan && l.Id_TKB.HasValue && l.NgayKham.HasValue && DbFunctions.TruncateTime(l.NgayKham) == DbFunctions.TruncateTime(DatLich.NgayKham));
+                if (numberOfAppointments >= 1)
+                {
+                    ModelState.AddModelError("", "Bạn đã đặt lịch này. Vui lòng hủy lịch cũ nếu bạn muốn đặt lịch mới");
 
+                    return View(DatLich);
+                }
                 // Your existing code to save the appointment
                 string currentUserId = User.Identity.GetUserId();
                 DatLich.IdBenhNhan = currentUserId;
