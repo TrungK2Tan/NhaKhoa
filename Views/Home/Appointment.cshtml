@@ -15,78 +15,549 @@
     }
 }
 
-<h2>Đặt lịch khám</h2>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en-US" class="supernova">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="alternate" type="application/json+oembed" href="https://www.jotform.com/oembed/?format=json&amp;url=https%3A%2F%2Fform.jotform.com%2F233265355069460" title="oEmbed Form">
+    <link rel="alternate" type="text/xml+oembed" href="https://www.jotform.com/oembed/?format=xml&amp;url=https%3A%2F%2Fform.jotform.com%2F233265355069460" title="oEmbed Form">
+    <meta property="og:title" content="Hotel Reservation Form">
+    <meta property="og:url" content="https://form.jotform.com/233265355069460">
+    <meta property="og:description" content="Please click the link to complete this form.">
+    <meta name="slack-app-id" content="AHNMASS8M">
+    <meta property="og:image" content="https://cdn.jotfor.ms/assets/img/landing/opengraph.png" />
+    <link rel="shortcut icon" href="https://cdn.jotfor.ms/assets/img/favicons/favicon-2021-light%402x.png">
+    <link rel="apple-touch-icon" href="https://cdn.jotfor.ms/assets/img/favicons/favicon-2021-light%402x.png">
+    <script>
+        var favicon = document.querySelector('link[rel="shortcut icon"]');
+        window.isDarkMode = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        if (favicon && window.isDarkMode) {
+            favicon.href = favicon.href.replaceAll('favicon-2021-light%402x.png', 'favicon-2021-dark%402x.png');
+        }
+    </script>
+    <link rel="canonical" href="https://form.jotform.com/233265355069460" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=1" />
+    <meta name="HandheldFriendly" content="true" />
+    <title>ĐẶT LỊCH KHÁM</title>
+    <link type="text/css" rel="stylesheet" href="https://cdn01.jotfor.ms/themes/CSS/form-common.css?v=9b5ac39" />
+    <style type="text/css">
+        print {
+            *{
+            -webkit-print-color-adjust: exact !important;
+            color-adjust: exact !important;
+        }
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
+        .form-section {
+            display: inline !important
+        }
 
-<div class="form-horizontal">
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        .form-pagebreak {
+            display: none !important
+        }
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.NgayKham, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.NgayKham, new { htmlAttributes = new { @class = "form-control", type = "date", id = "NgayKhamDropdown", name = "NgayKhamDropdown" } })
-            @Html.ValidationMessageFor(model => model.NgayKham, "", new { @class = "text-danger" })
-        </div>
-    </div>
+        .form-section-closed {
+            height: auto !important
+        }
+
+        .page-section {
+            position: initial !important
+        }
+        }
+    </style>
+    <link type="text/css" rel="stylesheet" href="https://cdn02.jotfor.ms/themes/CSS/5e6b428acc8c4e222d1beb91.css?v=3.3.47987&themeRevisionID=5f7ed99c2c2c7240ba580251" />
+    <link type="text/css" rel="stylesheet" href="https://cdn03.jotfor.ms/css/styles/payment/payment_styles.css?3.3.47987" />
+    <link type="text/css" rel="stylesheet" href="https://cdn01.jotfor.ms/css/styles/payment/payment_feature.css?3.3.47987" />
+    <link type="text/css" rel="stylesheet" href="https://cdn02.jotfor.ms/stylebuilder/donationBox.css?v=3.3.47987">
+    <style type="text/css" id="form-designer-style">
+        /* Injected CSS Code */
+
+        /* Begining of advanced designer */
+
+        /* 17 - INPUT WIDTHS */
+        /*  20 - FORM PADDING */
+        .form-section {
+            padding: 0px 38px;
+        }
+        /* Heights */
+        /* 11 - LINE PADDING */
+        /* LABEL STYLE */
+        /* 12 - ROUNDED INPUTS */
+        .form-radio-item,
+        .form-checkbox-item {
+            padding-bottom: 0px;
+        }
+
+            .form-radio-item:last-child,
+            .form-checkbox-item:last-child {
+                padding-bottom: 0;
+            }
+
+        .form-single-column .form-checkbox-item,
+        .form-single-column .form-radio-item {
+            width: 100%;
+        }
+
+        .form-checkbox-item .editor-container div,
+        .form-radio-item .editor-container div {
+            position: relative;
+        }
+
+            .form-checkbox-item .editor-container div:before,
+            .form-radio-item .editor-container div:before {
+                display: inline-block;
+                vertical-align: middle;
+                left: 0;
+                width: 20px;
+                height: 20px;
+            }
+
+        .submit-button {
+            font-size: 16px;
+            font-weight: normal;
+            font-family: inherit;
+        }
+
+        .submit-button {
+            min-width: 180px;
+        }
+
+        .form-all .form-pagebreak-back,
+        .form-all .form-pagebreak-next {
+            font-family: "Inter", sans-serif;
+            font-size: 16px;
+            font-weight: normal;
+        }
+
+        .form-all .form-pagebreak-back,
+        .form-all .form-pagebreak-next {
+            min-width: 128px;
+        }
+
+        li[data-type="control_image"] div {
+            text-align: left;
+        }
+
+        li[data-type="control_image"] img {
+            border: none;
+            border-width: 0px !important;
+            border-style: solid !important;
+            border-color: false !important;
+        }
+
+        .supernova {
+            height: 100%;
+            background-repeat: no-repeat;
+            background-attachment: scroll;
+            background-position: center top;
+            background-repeat: repeat;
+        }
+
+        .supernova {
+            background-image: none;
+        }
+
+        #stage {
+            background-image: none;
+        }
+        /* | */
+        .form-all {
+            background-repeat: no-repeat;
+            background-attachment: scroll;
+            background-position: center top;
+            background-repeat: repeat;
+        }
+
+        .form-header-group {
+            background-repeat: no-repeat;
+            background-attachment: scroll;
+            background-position: center top;
+        }
+
+        .header-large h1.form-header {
+            font-size: 2em;
+        }
+
+        .header-large h2.form-header {
+            font-size: 1.5em;
+        }
+
+        .header-large h3.form-header {
+            font-size: 1.17em;
+        }
+
+        .header-large h1 + .form-subHeader {
+            font-size: 1em;
+        }
+
+        .header-large h2 + .form-subHeader {
+            font-size: .875em;
+        }
+
+        .header-large h3 + .form-subHeader {
+            font-size: .75em;
+        }
+
+        .header-default h1.form-header {
+            font-size: 2em;
+        }
+
+        .header-default h2.form-header {
+            font-size: 1.5em;
+        }
+
+        .header-default h3.form-header {
+            font-size: 1.17em;
+        }
+
+        .header-default h1 + .form-subHeader {
+            font-size: 1em;
+        }
+
+        .header-default h2 + .form-subHeader {
+            font-size: .875em;
+        }
+
+        .header-default h3 + .form-subHeader {
+            font-size: .75em;
+        }
+
+        .header-small h1.form-header {
+            font-size: 2em;
+        }
+
+        .header-small h2.form-header {
+            font-size: 1.5em;
+        }
+
+        .header-small h3.form-header {
+            font-size: 1.17em;
+        }
+
+        .header-small h1 + .form-subHeader {
+            font-size: 1em;
+        }
+
+        .header-small h2 + .form-subHeader {
+            font-size: .875em;
+        }
+
+        .header-small h3 + .form-subHeader {
+            font-size: .75em;
+        }
+
+        .form-header-group {
+            text-align: left;
+        }
+
+        .form-header-group {
+            font-family: "false", sans-serif;
+        }
+
+        div.form-header-group.header-large,
+        div.form-header-group.hasImage {
+            margin: 0px -38px;
+        }
+
+        div.form-header-group.header-large,
+        div.form-header-group.hasImage {
+            padding: 0px 0px;
+        }
+
+        .form-header-group .form-header,
+        .form-header-group .form-subHeader {
+            color: -1;
+        }
+
+        .form-header-group {
+            border-bottom: none;
+        }
+
+        .form-line-error {
+            -webkit-transition-property: none;
+            -moz-transition-property: none;
+            -ms-transition-property: none;
+            -o-transition-property: none;
+            transition-property: none;
+            -webkit-transition-duration: 0.3s;
+            -moz-transition-duration: 0.3s;
+            -ms-transition-duration: 0.3s;
+            -o-transition-duration: 0.3s;
+            transition-duration: 0.3s;
+            -webkit-transition-timing-function: ease;
+            -moz-transition-timing-function: ease;
+            -ms-transition-timing-function: ease;
+            -o-transition-timing-function: ease;
+            transition-timing-function: ease;
+            background-color: #fff4f4;
+        }
+
+            .form-line-error .form-error-message {
+                background-color: #f23a3c;
+                clear: both;
+                float: none;
+            }
+
+                .form-line-error .form-error-message .form-error-arrow {
+                    border-bottom-color: #f23a3c;
+                }
+
+            .form-line-error input:not(#coupon-input),
+            .form-line-error textarea,
+            .form-line-error .form-validation-error {
+                border: 1px solid #f23a3c;
+                box-shadow: 0 0 3px #f23a3c;
+            }
+
+        .form-line-error {
+            -webkit-transition-property: none;
+            -moz-transition-property: none;
+            -ms-transition-property: none;
+            -o-transition-property: none;
+            transition-property: none;
+            -webkit-transition-duration: 0.3s;
+            -moz-transition-duration: 0.3s;
+            -ms-transition-duration: 0.3s;
+            -o-transition-duration: 0.3s;
+            transition-duration: 0.3s;
+            -webkit-transition-timing-function: ease;
+            -moz-transition-timing-function: ease;
+            -ms-transition-timing-function: ease;
+            -o-transition-timing-function: ease;
+            transition-timing-function: ease;
+            background-color: #fff4f4;
+        }
+
+        .form-line-active {
+            background-color: #ffffe0;
+        }
+        /* 29 - FORM COLUMNS */
+
+        /*PREFERENCES STYLE*/
+        .form-all {
+            font-family: Inter, sans-serif;
+        }
+
+        .form-label.form-label-auto {
+            display: block;
+            float: none;
+            text-align: left;
+            width: 100%;
+        }
+
+        .form-line {
+            margin-top: 12px;
+            margin-bottom: 12px;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        .form-all {
+            max-width: 752px;
+            width: 100%;
+        }
+
+        .form-label.form-label-left,
+        .form-label.form-label-right,
+        .form-label.form-label-left.form-label-auto,
+        .form-label.form-label-right.form-label-auto {
+            width: 230px;
+        }
+
+        .form-all {
+            font-size: 16px
+        }
+
+        .supernova .form-all, .form-all {
+            background-color: #fff;
+        }
+
+        .form-all {
+            color: #2C3345;
+        }
+
+        .form-header-group .form-header {
+            color: #2C3345;
+        }
+
+        .form-header-group .form-subHeader {
+            color: #2C3345;
+        }
+
+        .form-label-top,
+        .form-label-left,
+        .form-label-right,
+        .form-html,
+        .form-checkbox-item label,
+        .form-radio-item label,
+        span.FITB .qb-checkbox-label,
+        span.FITB .qb-radiobox-label,
+        span.FITB .form-radio label,
+        span.FITB .form-checkbox label,
+        [data-blotid][data-type=checkbox] [data-labelid],
+        [data-blotid][data-type=radiobox] [data-labelid],
+        span.FITB-inptCont[data-type=checkbox] label,
+        span.FITB-inptCont[data-type=radiobox] label {
+            color: #2C3345;
+        }
+
+        .form-sub-label {
+            color: #464d5f;
+        }
+
+        .supernova {
+            background-color: #d4e6e3;
+        }
+
+            .supernova body {
+                background: transparent;
+            }
+
+        .form-textbox,
+        .form-textarea,
+        .form-dropdown,
+        .form-radio-other-input,
+        .form-checkbox-other-input,
+        .form-captcha input,
+        .form-spinner input {
+            background-color: #fff;
+        }
 
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.IdNhaSi, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(model => model.IdNhaSi, Enumerable.Empty<SelectListItem>(), "Chọn nha si", new { @class = "form-control", id = "IdNhaSiDropdown" })
-        </div>
-    </div>
+        .supernova {
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center top;
+        }
 
+        .supernova, #stage {
+            background-image: none;
+        }
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Gia, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            <input type="text" class="form-control" value="150000" readonly />
-            @Html.HiddenFor(model => model.Gia, new { @Value = "150000" }) <!-- Giữ giá trị khi gửi form -->
-            @Html.ValidationMessageFor(model => model.Gia, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="col-12 col-sm-6">
-        @Html.DropDownListFor(model => model.Id_hinhthuc, GetPaymentMethods(), "Chọn Hình Thức Thanh Toán", htmlAttributes: new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.Id_hinhthuc, "", new { @class = "text-danger" })
-    </div>
+        .form-all {
+            background-image: none;
+        }
 
-    @*<div class="form-group">
-            @Html.LabelFor(model => model.Id_hinhthuc, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Id_hinhthuc, ViewBag.HinhThucList as SelectList, "Chọn hình thức thanh toán", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Id_hinhthuc, "", new { @class = "text-danger" })
+            .form-all:before {
+                content: none;
+            }
+
+        .form-all {
+            margin-top: 72px;
+        }
+        /*PREFERENCES STYLE*/ /*__INSPECT_SEPERATOR__*/
+
+        /* Injected CSS Code */
+    </style>
+
+    <script src="https://cdn03.jotfor.ms/static/prototype.forms.js?3.3.47987" type="text/javascript"></script>
+    <script src="https://cdn01.jotfor.ms/static/jotform.forms.js?3.3.47987" type="text/javascript"></script>
+    <script src="https://cdn02.jotfor.ms/js/vendor/jquery-1.8.0.min.js?v=3.3.47987" type="text/javascript"></script>
+    <script defer src="https://cdn03.jotfor.ms/js/vendor/maskedinput.min.js?v=3.3.47987" type="text/javascript"></script>
+    <script defer src="https://cdn01.jotfor.ms/js/vendor/jquery.maskedinput.min.js?v=3.3.47987" type="text/javascript"></script>
+    <script defer src="https://cdn02.jotfor.ms//js/punycode-1.4.1.min.js"></script>
+    <script src="https://cdn03.jotfor.ms/js/payments/validategateways.js?v=3.3.47987" type="text/javascript"></script>
+    <script src="https://cdn01.jotfor.ms/s/umd/305f868379c/for-sign-form-integration.js?v=3.3.47987" type="text/javascript" defer></script>
+    <script src="https://cdn01.jotfor.ms/s/umd/305f868379c/for-form-branding-footer.js?v=3.3.47987" type="text/javascript" defer></script>
+   
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <form class="jotform-form" onsubmit="return typeof testSubmitFunction !== 'undefined' && testSubmitFunction();" action="https://submit.jotform.com/submit/233265355069460" method="post" name="form_233265355069460" id="233265355069460" accept-charset="utf-8" autocomplete="on">
+            <input type="hidden" name="formID" value="233265355069460" /><input type="hidden" id="JWTContainer" value="" /><input type="hidden" id="cardinalOrderNumber" value="" /><input type="hidden" id="jsExecutionTracker" name="jsExecutionTracker" value="build-date-1700760899597" /><input type="hidden" id="submitSource" name="submitSource" value="unknown" /><input type="hidden" id="buildDate" name="buildDate" value="1700760899597" />
+            <div role="main" class="form-all">
+                <ul class="form-section page-section">
+                    <li id="cid_3" class="form-input-wide" data-type="control_head">
+                        <div style="display:table;width:100%">
+                            <div class="form-header-group hasImage header-large" data-imagealign="Top">
+                                <div class="header-logo"><img src="https://www.jotform.com/uploads/ugurg/form_files/Brown%20White%20Minimalist%20Elegant%20Wedding%20Planner%20Instagram%20Story%20(1).652e6527a91ec3.98254085.png" alt="ĐẶT LỊCH KHÁM" width="752" class="header-logo-top" /></div>
+                                <div class="header-text httac htvam">
+                                    <h1 id="header_3" class="form-header" data-component="header">ĐẶT LỊCH KHÁM</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="form-line allowTime" data-type="control_datetime" id="id_10">
+                        <label class="form-label form-label-top" id="label_10" for="lite_mode_10" aria-hidden="false"> THỜI GIAN KHÁM </label>
+                        <div id="cid_10" class="form-input-wide" data-layout="full">
+                            <div data-wrapper-react="true" class="extended">
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.NgayKham, new { htmlAttributes = new { @class = "form-control", type = "date", id = "NgayKhamDropdown", name = "NgayKhamDropdown" } })
+                                    @Html.ValidationMessageFor(model => model.NgayKham, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="form-line" data-type="control_radio" id="id_18">
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => model.IdNhaSi, Enumerable.Empty<SelectListItem>(), "Chọn nha si", new { @class = "form-control", id = "IdNhaSiDropdown" })
+                            </div>
+
+                    </li>
+                    <li class="form-line" data-type="control_radio" id="id_18">
+
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" value="150000" readonly />
+
+                                @Html.HiddenFor(model => model.Gia, new { @Value = "150000" }) <!-- Giữ giá trị khi gửi form -->
+                                @Html.ValidationMessageFor(model => model.Gia, "", new { @class = "text-danger" })
+                            </div>
+
+                    </li>
+                    <li class="form-line" data-type="control_radio" id="id_18">
+
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => model.Id_hinhthuc, GetPaymentMethods(), "Chọn Hình Thức Thanh Toán", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Id_hinhthuc, "", new { @class = "text-danger" })
+                                </div>
+
+                    </li>
+                    <li class="form-line" data-type="control_divider" id="id_25">
+                        <div id="cid_25" class="form-input-wide" data-layout="full">
+                            <div class="divider" data-component="divider" style="border-bottom-width:1px;border-bottom-style:solid;border-color:rgba(255,255,255,0);height:1px;margin-left:0px;margin-right:0px;margin-top:5px;margin-bottom:5px"></div>
+                        </div>
+                    </li>
+
+                    <li class="form-group" hidden>
+                        @Html.LabelFor(model => model.IdBenhNhan, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.HiddenFor(model => model.IdBenhNhan)
+                        </div>
+                    </li>
+                    <!-- Thêm trường ẩn cho Id_TKB -->
+                    <li class="form-group" hidden>
+                        @Html.LabelFor(model => model.Id_TKB, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.HiddenFor(model => model.Id_TKB)
+                        </div>
+                    </li>
+                    <li class="form-line" data-type="control_button" id="id_2">
+                        <div id="cid_2" class="form-input-wide" data-layout="full">
+                            <div data-align="center" class="form-buttons-wrapper form-buttons-center   jsTest-button-wrapperField">
+                            <button id="input_2" style="display:none !important" type="submit" class="form-submit-button form-submit-button-navy-700 submit-button jf-form-buttons jsTest-submitField" data-component="button" data-content="">Đặt lịch</button>
+                            <button type="submit" class="form-submit-button form-submit-button-navy-700 submit-button jf-form-buttons jsTest-submitField useJotformSign-button useJotformSign " data-component="button" data-content="">Đặt lịch</button></div>
+                        </div>
+                    </li>
+                </ul>
             </div>
-        </div>*@
 
-    <div class="form-group" hidden>
-        @Html.LabelFor(model => model.IdBenhNhan, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.HiddenFor(model => model.IdBenhNhan)
-        </div>
-    </div>
-    <!-- Thêm trường ẩn cho Id_TKB -->
-    <div class="form-group" hidden>
-        @Html.LabelFor(model => model.Id_TKB, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.HiddenFor(model => model.Id_TKB)
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Đặt Lịch" class="btn btn-default" />
-        </div>
-    </div>
-</div>
-}
+        </form>
+    }
 
-<div>
-    @Html.ActionLink("Quay lại", "Index")
-</div>
+</body>
+</html>
+<script type="text/javascript">JotForm.ownerView = true;</script>
+<script src="https://cdn.jotfor.ms//js/vendor/smoothscroll.min.js?v=3.3.47987"></script>
+<script src="https://cdn.jotfor.ms//js/errorNavigation.js?v=3.3.47987"></script>
+<script type="text/javascript">JotForm.isNewSACL = true;</script>
+
+
+
+
 @section scripts {
     <script>
     $(document).ready(function () {
