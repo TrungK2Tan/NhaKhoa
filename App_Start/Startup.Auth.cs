@@ -55,13 +55,13 @@ namespace NhaKhoa
             //   consumerSecret: "");
 
             //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            //   appId: "753734009924172",
+            //   appSecret: "c22bb2c5e0d2aecee391ed1e371f21cd");
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{
-            //    ClientId = "",
-            //    ClientSecret = ""
+            //    ClientId = "919507444844-1d4m1egfcrvoqjdka8pebtad5sc6irh3.apps.googleusercontent.com",
+            //    ClientSecret = "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"
             //});
         }
     }

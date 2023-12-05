@@ -168,39 +168,23 @@ namespace NhaKhoa.Areas.Admin.Controllers
             }
             base.Dispose(disposing);
         }
-        //public ActionResult TKB()
-        //{
-        //    try
-        //    {
-        //        var thoiKhoaBieu = db.Thus.ToList();
-
-        //        if (thoiKhoaBieu == null || !thoiKhoaBieu.Any())
-        //        {
-        //            // Xử lý khi không có dữ liệu
-        //            return View("ErrorView"); // Thay "ErrorView" bằng tên view hiển thị thông báo lỗi
-        //        }
-
-        //        return View(thoiKhoaBieu);
-        //    }
-        //    catch (Exception)
-        //    {
-        //        // Xử lý exception, log và hiển thị thông báo lỗi
-        //        return View("ErrorView"); // Thay "ErrorView" bằng tên view hiển thị thông báo lỗi
-        //    }
-        //}
+       
         public ActionResult TKB(DateTime? selectedWeek)
         {
             try
             {
                 // Lấy danh sách các ngày trong tuần và lịch làm việc từ cơ sở dữ liệu
                 var danhSachThu = db.Thus.ToList();
-                var danhSachThoiKhoaBieu = db.ThoiKhoaBieux.ToList();
+                var danhSachThoiKhoaBieu = db.ThoiKhoaBieux.OrderBy(e=>e.Id_Thu).ThenBy(e=>e.NgayLamViec).ToList();
 
                 // Kiểm tra xem có dữ liệu để hiển thị không
                 if (danhSachThu.Any() || danhSachThoiKhoaBieu.Any())
                 {
-                    DateTime startOfWeek = selectedWeek ?? DateTime.Now;
-
+                    //DateTime startOfWeek = selectedWeek ?? DateTime.Now;
+                    var now = DateTime.Now;
+                    var daysUntilMonday = ((int)now.DayOfWeek - (int)DayOfWeek.Monday + 7) % 7;
+                    var monday = now.AddDays(-daysUntilMonday);
+                    DateTime startOfWeek = selectedWeek ?? monday;
                     // Nếu có tuần đã chọn, lọc danh sách thời khóa biểu cho tuần đó
                     var filteredThoiKhoaBieu = danhSachThoiKhoaBieu
                         .Where(tkb => tkb.NgayLamViec.HasValue && tkb.NgayLamViec.Value.Date == startOfWeek.Date)

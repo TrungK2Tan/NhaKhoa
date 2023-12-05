@@ -1,4 +1,6 @@
-﻿<section class="vh-100">
+﻿@using NhaKhoa.Models
+@model LoginViewModel
+<section class="vh-100">
     <div class="container-fluid h-custom">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-md-9 col-lg-6 col-xl-5">
@@ -13,6 +15,9 @@
                         <button type="button" class="btn btn-primary btn-floating mx-1">
                             <i class="fab fa-facebook-f"></i>
                         </button>
+
+                        @*@Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })*@
+
 
                         <button type="button" class="btn btn-primary btn-floating mx-1">
                             <i class="fab fa-google"></i>
@@ -63,3 +68,7 @@
         </div>
     </div>
 </section>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
