@@ -7,8 +7,8 @@
 
 <h2>Trang Quản Lý Lịch Khám Admin</h2>
 <div class="payment-buttons">
-    <a class="btn btn-success" href="@Url.Action("Index", "ManagerBooking")" data-filter="da-xac-nhan">Đã xác nhận</a>
-    <a class="btn btn-danger" href="@Url.Action("Index", "ManagerBooking")" data-filter="chua-xac-nhan">Chưa xác nhận</a>
+    <a class="btn btn-success" href="@Url.Action("Index", "ManagerBooking")" data-filter="da-xac-nhan">Đã khám</a>
+    <a class="btn btn-danger" href="@Url.Action("Index", "ManagerBooking")" data-filter="chua-xac-nhan">Chưa khám</a>
     <a class="btn btn-primary" id="btnXemTatCa">Xem tất cả</a>
 </div>
 <div class="table-responsive">
@@ -37,11 +37,11 @@
                     <td>
                         @if (item.TrangThai == true)
                         {
-                            <button class="btn btn-sm btn-primary btn-approve" data-id="@item.Id_Phieudat" disabled>Đã xác nhận</button>
+                            <button class="btn btn-sm btn-primary btn-approve" data-id="@item.Id_Phieudat" disabled>Đã khám</button>
                         }
                         else
                         {
-                            <button class="btn btn-sm btn-primary btn-approve" data-id="@item.Id_Phieudat">Chưa xác nhận</button>
+                            <button class="btn btn-sm btn-primary btn-approve" data-id="@item.Id_Phieudat">Chưa khám</button>
                         }
                     </td>
                     <td>

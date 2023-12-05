@@ -13,13 +13,14 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Tên bệnh nhân</th>
-                    <th>Số Điện Thoại</th>
-                    <th>Ngày Khám</th>
-                    @if (Model.Any(item => item.TrangThai == true)) // Kiểm tra nếu có ít nhất một phần tử có TrangThai=true
+                    @if (Model.Any(item => item.TrangThaiThanhToan == true)) // Kiểm tra nếu có ít nhất một phần tử có TrangThai=true
                     {
                         <th>Số thứ tự</th>
                     }
+else { <th></th>}
+                    <th>Tên bệnh nhân</th>
+                    <th>Số Điện Thoại</th>
+                    <th>Ngày Khám</th>
                     <th>Email</th>
                     <th>Tên Nha Sĩ</th>
                     <th>Thanh toán</th>
@@ -31,36 +32,41 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>@ViewBag.tennguoidung</td>
-                        <td>@Html.DisplayFor(modelItem => item.AspNetUser.PhoneNumber)</td>
-                        <td>@Html.DisplayFor(modelItem => item.NgayKham)</td>
-                        @if (item.TrangThai==true)
+                        @if (item.TrangThaiThanhToan == true)
                         {
                             <td>@Html.DisplayFor(modelItem => item.STT)-@Html.DisplayFor(modelItem => item.ThoiKhoaBieu.KhungGio.TenCa)</td>
                         }
-                    <td>@Html.DisplayFor(modelItem => item.AspNetUser.Email)  </td>
+                        else
+                        {
+                            <td></td>
+                        }
+                        <td>@ViewBag.tennguoidung</td>
+                        <td>@Html.DisplayFor(modelItem => item.AspNetUser.PhoneNumber)</td>
+                        <td>@Html.DisplayFor(modelItem => item.NgayKham)</td>
+
+                        <td>@Html.DisplayFor(modelItem => item.AspNetUser.Email)  </td>
                         <!--chua lay duoc ten nha si ra trang nguoi dung-->
-                    <td>@item.IdNhaSi- @Html.DisplayFor(modelItem => item.ThoiKhoaBieu.Phong.TenPhong)</td>
+                        <td>@item.IdNhaSi- @Html.DisplayFor(modelItem => item.ThoiKhoaBieu.Phong.TenPhong)</td>
                         <td>
                             @if (item.TrangThaiThanhToan == true)
                             {<span class="text-success"> Đã thanh toán</span>
                             }
                             else
                             {
-                            <span class="text-warning">Chưa thanh toán</span>
+                                <span class="text-warning">Chưa thanh toán</span>
                             }
                         </td>
                         <td>
                             @if (item.TrangThai == true)
                             {
-                                <span class="text-success">Đã xác nhận</span>
+                                <span class="text-success">Đã khám</span>
                             <td>
                                 <a href="@Url.Action("Appointment", "Home", new { ten = item.AspNetUser.FullName, sdt = item.AspNetUser.PhoneNumber, tennhasi = item.AspNetUser.FullName, @IDBACSI = item.IdNhaSi })" class="btn btn-primary">ĐẶT LẠI</a>
                             </td>
                         }
                         else
                         {
-                            <span class="text-danger">Chưa xác nhận</span>
+                            <span class="text-danger">Chưa khám</span>
                             <button class="btn btn-primary" onclick="cancelBooking('@item.Id_Phieudat')">
                                 Hủy đặt lịch
                             </button>
