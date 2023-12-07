@@ -1,0 +1,168 @@
+﻿@model NhaKhoa.Models.PhieuDatLich
+
+@{
+    ViewBag.Title = "ChangeAppointment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<SelectListItem> GetPaymentMethods()
+    {
+        List<SelectListItem> paymentMethods = new List<SelectListItem>();
+        paymentMethods.Add(new SelectListItem { Text = "Thanh toán bằng Momo", Value = "1" });
+        paymentMethods.Add(new SelectListItem { Text = "Thanh toán VNPay", Value = "2" });
+        paymentMethods.Add(new SelectListItem { Text = "Thanh toán trực tiếp", Value = "3" });
+        return paymentMethods;
+    }
+}
+
+<h2>Change Appointment</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>PhieuDatLich</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id_Phieudat)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NgayKham, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.NgayKham, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @id = "NgayKhamDropdown", @name = "NgayKhamDropdown" })
+                @Html.ValidationMessageFor(model => model.NgayKham, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Gia, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Gia, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.Gia, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.HinhThucThanhToan, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Id_hinhthuc, GetPaymentMethods(), "Chọn Hình Thức Thanh Toán", htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                @Html.ValidationMessageFor(model => model.Id_hinhthuc, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IdNhaSi, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.IdNhaSi, Enumerable.Empty<SelectListItem>(), "Chọn nha si", new { @class = "form-control", @id = "IdNhaSiDropdown", @readonly = "readonly" })
+                @Html.ValidationMessageFor(model => model.IdNhaSi, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.STT, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.STT, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.STT, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group" hidden>
+            @Html.LabelFor(model => model.IdBenhNhan, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.IdBenhNhan)
+            </div>
+        </div>
+
+        <div class="form-group" hidden>
+            @Html.LabelFor(model => model.Id_TKB, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Id_TKB)
+            </div>
+        </div>
+
+        <div class="form-group" hidden>
+            @Html.LabelFor(model => model.TrangThai, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.TrangThai)
+                    @Html.ValidationMessageFor(model => model.TrangThai, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" hidden>
+            @Html.LabelFor(model => model.TrangThaiThanhToan, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.TrangThaiThanhToan)
+                    @Html.ValidationMessageFor(model => model.TrangThaiThanhToan, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+</div>
+
+
+@section scripts {
+    <script>
+    $(document).ready(function () {
+        // Set the minimum date for "Ngày khám" input to tomorrow's date
+        var tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        var dd = String(tomorrow.getDate()).padStart(2, '0');
+        var mm = String(tomorrow.getMonth() + 1).padStart(2, '0'); // January is 0!
+        var yyyy = tomorrow.getFullYear();
+
+        tomorrow = yyyy + '-' + mm + '-' + dd;
+        document.getElementById("NgayKhamDropdown").setAttribute("min", tomorrow);
+
+        // Set the maximum date for "Ngày khám" input to 1 month from today
+        var maxDate = new Date();
+        maxDate.setMonth(maxDate.getMonth() + 1);
+        var maxDd = String(maxDate.getDate()).padStart(2, '0');
+        var maxMm = String(maxDate.getMonth() + 1).padStart(2, '0');
+        var maxYyyy = maxDate.getFullYear();
+
+        var oneMonthFromNow = maxYyyy + '-' + maxMm + '-' + maxDd;
+        document.getElementById("NgayKhamDropdown").setAttribute("max", oneMonthFromNow);
+
+        $("#NgayKhamDropdown").change(function () {
+            var selectedDate = $("#NgayKhamDropdown").val();
+
+            $.ajax({
+    url: '@Url.Action("GetNhaSiList", "Home")',
+    type: 'GET',
+    data: { selectedDate: selectedDate },
+    success: function (result) {
+        $("#IdNhaSiDropdown").empty();
+
+        $.each(result, function (index, item) {
+            var doctorOption = $('<option>', {
+                value: item.IdNhaSi,
+                text: item.TenNhaSi + " -Ca " + item.WorkingShifts.join(', ')
+            });
+            $("#IdNhaSiDropdown").append(doctorOption);
+        });
+    },
+    error: function (error) {
+        console.log(error);
+    }
+});
+
+        });
+
+        // Trigger change event on page load to populate the initial list
+        $("#NgayKhamDropdown").trigger("change");
+    });
+    </script>
+}

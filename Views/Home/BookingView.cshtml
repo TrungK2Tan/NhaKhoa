@@ -67,8 +67,8 @@ else { <th></th>}
                         else
                         {
                             <span class="text-danger">Chưa khám</span>
-                            <button class="btn btn-primary" onclick="cancelBooking('@item.Id_Phieudat')">
-                                Hủy đặt lịch
+                            <button class="btn btn-primary" onclick="changeBooking('@item.Id_Phieudat')">
+                                Đổi lịch đặt
                             </button>
 
                         }
@@ -80,24 +80,11 @@ else { <th></th>}
     </div>
 </div>
 <script>
-    function cancelBooking(bookingId) {
-        if (confirm('Bạn có chắc chắn muốn hủy đặt lịch này?')) {
-            $.ajax({
-                type: 'POST',
-                url: '@Url.Action("CancelBooking", "Home")',
-                data: { bookingId: bookingId },
-                success: function (result) {
-                    if (result.success) {
-                        alert('Hủy đặt lịch thành công.');
-                        location.reload();
-                    } else {
-                        alert('Không thể hủy đặt lịch.');
-                    }
-                },
-                error: function () {
-                    alert('Đã xảy ra lỗi.');
-                }
-            });
+    function changeBooking(appointmentId) {
+        var confirmChange = confirm("Bạn có chắc muốn đổi lịch đặt không?");
+        if (confirmChange) {
+            // Redirect to the change appointment action
+            window.location.href = '@Url.Action("ChangeAppointment", "Home")?appointmentId=' + appointmentId;
         }
     }
 </script>

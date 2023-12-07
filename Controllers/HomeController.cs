@@ -320,20 +320,60 @@ namespace NhaKhoa.Controllers
                 .Where(l => l.IdBenhNhan == currentUserId).OrderBy(l => l.NgayKham).ToList();
             return View(lichHens);
         }
-        [HttpPost]
-        public ActionResult CancelBooking(int bookingId)
+        public ActionResult ChangeAppointment(int appointmentId)
         {
-            // Kiểm tra trạng thái của đặt lịch và thực hiện hủy nếu hợp lệ
-            var booking = db.PhieuDatLiches.Find(bookingId);
-            if (booking != null && booking.TrangThai == false) // Thay đổi ở đây
+            // Retrieve the appointment based on the provided appointmentId
+            var appointment = db.PhieuDatLiches.Find(appointmentId);
+
+            // Check if the appointment is found
+            if (appointment == null)
             {
-                db.PhieuDatLiches.Remove(booking);
-                db.SaveChanges();
-                return Json(new { success = true });
+                // Handle the case where the appointment is not found
+                // You may want to redirect the user to an error page or take appropriate action
+                return RedirectToAction("Index", "Home");
             }
 
-            return Json(new { success = false });
+            // You can add additional logic here if needed, for example, getting available dates or times for rescheduling
+
+            // Pass the appointment data to the view for editing
+            return View(appointment);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangeAppointment([Bind(Include = "Id_Phieudat,NgayKham,Gia,Id_hinhthuc,IdNhaSi,IdBenhNhan,Id_TKB,STT,TrangThai,TrangThaiThanhToan")] PhieuDatLich updatedAppointment)
+        {
+            if (ModelState.IsValid)
+            {
+                // Additional validation and logic if needed
+
+                // Update the existing appointment data with the new values
+                var existingAppointment = db.PhieuDatLiches.Find(updatedAppointment.Id_Phieudat);
+
+                if (existingAppointment != null)
+                {
+                    // Update the necessary properties
+                    existingAppointment.NgayKham = updatedAppointment.NgayKham;
+                    existingAppointment.Id_TKB = updatedAppointment.Id_TKB;
+                    // Your existing code to save the appointment
+                    string currentUserId = User.Identity.GetUserId();
+                    updatedAppointment.IdBenhNhan = currentUserId;
+                    updatedAppointment.Id_TKB = db.ThoiKhoaBieux
+                  .Where(t => t.NgayLamViec == updatedAppointment.NgayKham)
+                  .Select(t => t.Id_TKB)
+                  .FirstOrDefault();
+                    // Save the changes to the database
+                    db.SaveChanges();
+
+                    // Redirect to the BookingView or another appropriate action
+                    return RedirectToAction("BookingView");
+                }
+            }
+
+            // If ModelState is not valid or any other issue occurs, return to the edit view with the existing data
+            return View(updatedAppointment);
+        }
+
         public ActionResult Payment(int order)
         {
             // Retrieve appointment information based on the provided order ID
