@@ -18,10 +18,7 @@
                         <th>Số thứ tự</th>
                     }
 else { <th></th>}
-                    <th>Tên bệnh nhân</th>
-                    <th>Số Điện Thoại</th>
                     <th>Ngày Khám</th>
-                    <th>Email</th>
                     <th>Tên Nha Sĩ</th>
                     <th>Thanh toán</th>
                     <th>Trạng thái</th>
@@ -40,13 +37,16 @@ else { <th></th>}
                         {
                             <td></td>
                         }
-                        <td>@ViewBag.tennguoidung</td>
-                        <td>@Html.DisplayFor(modelItem => item.AspNetUser.PhoneNumber)</td>
-                        <td>@Html.DisplayFor(modelItem => item.NgayKham)</td>
 
-                        <td>@Html.DisplayFor(modelItem => item.AspNetUser.Email)  </td>
-                        <!--chua lay duoc ten nha si ra trang nguoi dung-->
-                        <td>@item.IdNhaSi- @Html.DisplayFor(modelItem => item.ThoiKhoaBieu.Phong.TenPhong)</td>
+                        <td>@Html.DisplayFor(modelItem => item.NgayKham)</td>
+                        
+                        <td>
+                            @if (!string.IsNullOrEmpty(item.IdNhaSi))
+                            {
+                                string nhaSiName = ViewBag.NhaSiNames[item.IdNhaSi];
+                                <span>@nhaSiName- @Html.DisplayFor(modelItem => item.ThoiKhoaBieu.Phong.TenPhong)</span>
+                            }
+                        </td>
                         <td>
                             @if (item.TrangThaiThanhToan == true)
                             {<span class="text-success"> Đã thanh toán</span>

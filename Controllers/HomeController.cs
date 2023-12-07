@@ -151,6 +151,9 @@ namespace NhaKhoa.Controllers
                     .FirstOrDefault();
                 DatLich.TrangThai = false;
                 DatLich.TrangThaiThanhToan = false;
+                // Your existing code to save the appointment
+                string currentUserId = User.Identity.GetUserId();
+                DatLich.IdBenhNhan = currentUserId;
                 // Calculate STT
                 DatLich.STT = CalculateSTT(DatLich.NgayKham, DatLich.IdNhaSi);
                 var numberOfAppointments = db.PhieuDatLiches.Count(l => l.IdNhaSi == DatLich.IdNhaSi && l.NgayKham.HasValue && DbFunctions.TruncateTime(l.NgayKham) == DbFunctions.TruncateTime(DatLich.NgayKham));
@@ -161,16 +164,14 @@ namespace NhaKhoa.Controllers
 
                     return View(DatLich);
                 }
-                var appointmentvalue = db.PhieuDatLiches.Count(l=>l.IdBenhNhan == DatLich.IdBenhNhan && l.Id_TKB.HasValue && l.NgayKham.HasValue && DbFunctions.TruncateTime(l.NgayKham) == DbFunctions.TruncateTime(DatLich.NgayKham));
-                if (numberOfAppointments >= 1)
+                var appointmentvalue = db.PhieuDatLiches.Count(l=>l.IdBenhNhan == currentUserId && l.Id_TKB.HasValue && l.NgayKham.HasValue && DbFunctions.TruncateTime(l.NgayKham) == DbFunctions.TruncateTime(DatLich.NgayKham));
+                if (appointmentvalue >= 1)
                 {
                     ModelState.AddModelError("", "Bạn đã đặt lịch này. Vui lòng hủy lịch cũ nếu bạn muốn đặt lịch mới");
 
                     return View(DatLich);
                 }
-                // Your existing code to save the appointment
-                string currentUserId = User.Identity.GetUserId();
-                DatLich.IdBenhNhan = currentUserId;
+
                 // Add the appointment to the database
                 db.PhieuDatLiches.Add(DatLich);
                 db.SaveChanges();
@@ -318,6 +319,25 @@ namespace NhaKhoa.Controllers
             // Lấy danh sách lịch hẹn dựa trên ID đăng nhập
             var lichHens = db.PhieuDatLiches
                 .Where(l => l.IdBenhNhan == currentUserId).OrderBy(l => l.NgayKham).ToList();
+            // Tạo một Dictionary để lưu trữ tên của NhaSi dựa trên IdNhaSi
+            Dictionary<string, string> nhaSiNames = new Dictionary<string, string>();
+
+            foreach (var lichHen in lichHens)
+            {
+                // Kiểm tra xem IdNhaSi đã được thêm vào Dictionary chưa
+                if (!nhaSiNames.ContainsKey(lichHen.IdNhaSi))
+                {
+                    // Nếu chưa, thực hiện truy vấn và thêm vào Dictionary
+                    var nhaSi = db.AspNetUsers.Find(lichHen.IdNhaSi);
+                    if (nhaSi != null)
+                    {
+                        nhaSiNames.Add(lichHen.IdNhaSi, nhaSi.FullName);
+                    }
+                }
+            }
+
+            // Truyền danh sách lịch hẹn và tên của NhaSi vào View
+            ViewBag.NhaSiNames = nhaSiNames;
             return View(lichHens);
         }
         public ActionResult ChangeAppointment(int appointmentId)
@@ -332,7 +352,7 @@ namespace NhaKhoa.Controllers
                 // You may want to redirect the user to an error page or take appropriate action
                 return RedirectToAction("Index", "Home");
             }
-
+           
             // You can add additional logic here if needed, for example, getting available dates or times for rescheduling
 
             // Pass the appointment data to the view for editing
@@ -362,6 +382,21 @@ namespace NhaKhoa.Controllers
                   .Where(t => t.NgayLamViec == updatedAppointment.NgayKham)
                   .Select(t => t.Id_TKB)
                   .FirstOrDefault();
+                    var numberOfAppointments = db.PhieuDatLiches.Count(l => l.IdNhaSi == updatedAppointment.IdNhaSi && l.NgayKham.HasValue && DbFunctions.TruncateTime(l.NgayKham) == DbFunctions.TruncateTime(updatedAppointment.NgayKham));
+
+                    if (numberOfAppointments >= 2)
+                    {
+                        ModelState.AddModelError("", "Nha sĩ này đã đủ số lượng lịch hẹn cho ngày này. Vui lòng chọn nha sĩ khác.");
+
+                        return View(updatedAppointment);
+                    }
+                    var appointmentvalue = db.PhieuDatLiches.Count(l => l.IdBenhNhan == currentUserId && l.Id_TKB.HasValue && l.NgayKham.HasValue && DbFunctions.TruncateTime(l.NgayKham) == DbFunctions.TruncateTime(updatedAppointment.NgayKham));
+                    if (appointmentvalue >= 1)
+                    {
+                        ModelState.AddModelError("", "Bạn đã đặt lịch này. Vui lòng hủy lịch cũ nếu bạn muốn đặt lịch mới");
+
+                        return View(updatedAppointment);
+                    }
                     // Save the changes to the database
                     db.SaveChanges();
 

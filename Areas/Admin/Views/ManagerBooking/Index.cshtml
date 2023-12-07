@@ -33,7 +33,13 @@
                     <td>@Html.DisplayFor(modelItem => item.NgayKham)</td>
                     <td>@Html.DisplayFor(modelItem => item.AspNetUser.Email)</td>
                     <!--chua lay duoc ten nha si ra trang admin -->
-                    <td>@Html.DisplayFor(modelItem => item.AspNetUser.FullName)</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.IdNhaSi))
+                        {
+                            string nhaSiName = ViewBag.NhaSiNames[item.IdNhaSi];
+                            <span>@nhaSiName- @Html.DisplayFor(modelItem => item.ThoiKhoaBieu.Phong.TenPhong)</span>
+                        }
+                    </td>
                     <td>
                         @if (item.TrangThai == true)
                         {
