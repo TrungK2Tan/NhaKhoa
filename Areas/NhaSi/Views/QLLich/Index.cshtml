@@ -16,6 +16,8 @@
 
 </header>
 
+<button id="prevWeek">Tuần Trước</button>
+<label for="weekSelect">Chọn Tuần:</label>
 <select id="weekSelect">
     @foreach (var week in Model.weeks)
     {
@@ -23,12 +25,12 @@
         var startOfWeek = week;
         var endOfWeek = week.AddDays(6);
         <option value="@startOfWeek.ToString("yyyy-MM-dd")"
-                @(startOfWeek == Model.SelectedWeek ? "selected" : "")>
+                @(startOfWeek.Date <= Model.SelectedWeek.Date && Model.SelectedWeek.Date <= endOfWeek.Date ? "selected" : "")>
             Tuần @numberweek: @startOfWeek.ToString("dd/MM/yyyy") - @endOfWeek.ToString("dd/MM/yyyy")
         </option>
     }
 </select>
-
+<button id="nextWeek">Tuần Tiếp</button>
 <div class="cd-schedule cd-schedule--loading margin-top-lg margin-bottom-lg js-cd-schedule">
     @if (Model.DanhSachThu.Any())
     {
@@ -98,15 +100,15 @@
     {
         <p>Không có dữ liệu thời khóa biểu.</p>
     }
-<div class="cd-schedule-modal">
-    <header class="cd-schedule-modal__header">
-        <div class="cd-schedule-modal__content">
-            <span class="cd-schedule-modal__date"></span>
-            <h3 class="cd-schedule-modal__name"></h3>
-        </div>
+    <div class="cd-schedule-modal">
+        <header class="cd-schedule-modal__header">
+            <div class="cd-schedule-modal__content">
+                <span class="cd-schedule-modal__date"></span>
+                <h3 class="cd-schedule-modal__name"></h3>
+            </div>
 
-        <div class="cd-schedule-modal__header-bg"></div>
-    </header>
+            <div class="cd-schedule-modal__header-bg"></div>
+        </header>
         <div class="cd-schedule-modal__body">
             <div class="cd-schedule-modal__event-info">
                 <h1>Lịch khám ngày </h1>
@@ -114,8 +116,8 @@
             </div>
             <div class="cd-schedule-modal__body-bg"></div>
         </div>
-    <a href="#0" class="cd-schedule-modal__close text-replace">Close</a>
-</div>
+        <a href="#0" class="cd-schedule-modal__close text-replace">Close</a>
+    </div>
 
     <div class="cd-schedule__cover-layer"></div>
 </div>
@@ -126,17 +128,52 @@
 
 @section scripts {
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="~/Areas/assetTKB/js/util.js"></script>
+    <script src="~/Areas/assetTKB/js/main.js"></script>
     <script>
         $(document).ready(function () {
             $('#weekSelect').change(function () {
                 var selectedWeek = $(this).val();
                 window.location.href = "@Url.Action("Index", "QLLich")" + "?page=1&selectedWeek=" + selectedWeek;
             });
-             // Handle click event for "Thay đổi lịch khám" link
-            $('.cd-schedule-modal__edit').click(function () {
-                var tkbId = $(this).data('tkbid');
-                window.location.href = "@Url.Action("EditCalendar", "QLLich")" + "?id=" + tkbId;
+
+
+    $('.cd-schedule-modal__edit').each(function () {
+    // Lấy ID của thời khoá biểu từ thuộc tính data-tkbid của phần tử
+    var tkbId = $(this).data('tkbid');
+
+    // Lấy ngày hẹn từ phần tử cha gần nhất có class là 'cd-schedule__event'
+    var appointmentDate = new Date($(this).closest('.cd-schedule__event').find('.cd-schedule__name:last').text());
+
+    // Tính số ngày chênh lệch giữa ngày hẹn và ngày hiện tại
+    var daysUntilAppointment = Math.floor((appointmentDate - new Date()) / (1000 * 60 * 60 * 24));
+
+    // Kiểm tra xem cuộc hẹn có trong vòng 7 ngày tiếp theo hay không
+    if (daysUntilAppointment < 7) {
+        $(this).hide(); // Ẩn liên kết nếu cuộc hẹn còn quá 7 ngày
+    }
+
+    // Xử lý sự kiện click cho liên kết
+    $(this).click(function () {
+        window.location.href = "@Url.Action("EditCalendar", "QLLich")" + "?id=" + tkbId;
+    });
+});
+
+            $('#prevWeek').click(function () {
+                var selectedWeek = new Date($('#weekSelect').val());
+                selectedWeek.setDate(selectedWeek.getDate() - 7);
+                updateWeek(selectedWeek.toISOString().slice(0, 10));
             });
+
+            $('#nextWeek').click(function () {
+                var selectedWeek = new Date($('#weekSelect').val());
+                selectedWeek.setDate(selectedWeek.getDate() + 7);
+                updateWeek(selectedWeek.toISOString().slice(0, 10));
+            });
+
+            function updateWeek(newWeek) {
+                window.location.href = "@Url.Action("Index", "QLLich")" + "?page=1&selectedWeek=" + newWeek;
+            }
         });
     </script>
 }

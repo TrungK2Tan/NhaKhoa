@@ -29,21 +29,23 @@ namespace NhaKhoa.Areas.NhaSi.Controllers
             {
                 // Lấy danh sách các ngày trong tuần và lịch làm việc từ cơ sở dữ liệu
                 var danhSachThu = db.Thus.ToList();
-                var danhSachThoiKhoaBieu = db.ThoiKhoaBieux
-            .Where(tkb => tkb.Id_Nhasi == currentUserId)
-            .ToList();
-               
-                // Kiểm tra xem có dữ liệu để hiển thị không
-                if (danhSachThu.Any() && danhSachThoiKhoaBieu.Any())
-                {
-                    DateTime startOfWeek = selectedWeek ?? DateTime.Now;
+                var danhSachThoiKhoaBieu = db.ThoiKhoaBieux.Where(tkb => tkb.Id_Nhasi == currentUserId).OrderBy(e => e.Id_Thu).ThenBy(e => e.NgayLamViec).ToList();
 
+                // Kiểm tra xem có dữ liệu để hiển thị không
+                if (danhSachThu.Any() || danhSachThoiKhoaBieu.Any())
+                {
+                    //DateTime startOfWeek = selectedWeek ?? DateTime.Now;
+                    var now = DateTime.Now;
+                    var daysUntilMonday = ((int)now.DayOfWeek - (int)DayOfWeek.Monday + 7) % 7;
+                    var monday = now.AddDays(-daysUntilMonday);
+                    DateTime startOfWeek = selectedWeek ?? monday;
                     // Nếu có tuần đã chọn, lọc danh sách thời khóa biểu cho tuần đó
                     var filteredThoiKhoaBieu = danhSachThoiKhoaBieu
-                        .Where(tkb => tkb.NgayLamViec.HasValue && tkb.NgayLamViec.Value.Date == startOfWeek.Date && tkb.Id_Nhasi == currentUserId)
+                        .Where(tkb => tkb.NgayLamViec.HasValue && tkb.NgayLamViec.Value.Date == startOfWeek.Date)
                         .OrderBy(e => e.Id_Thu)
                         .ThenBy(e => e.NgayLamViec)
                         .ToList();
+
                     // Lấy calendar hiện tại (GregorianCalendar)
                     GregorianCalendar calendar = new GregorianCalendar();
 
@@ -58,6 +60,7 @@ namespace NhaKhoa.Areas.NhaSi.Controllers
                         weeks = weeks,
                         SelectedWeek = startOfWeek
                     };
+
                     // Trả về view với ViewModel
                     return View(viewModel);
                 }
@@ -74,11 +77,12 @@ namespace NhaKhoa.Areas.NhaSi.Controllers
                 ViewBag.ErrorMessage = $"Đã xảy ra lỗi khi lấy dữ liệu: {ex.Message}";
                 return View("ErrorView");
             }
+           
         }
         // GET: NhaSi/ThoiKhoaBieux/Edit/5
         public ActionResult EditCalendar(int? id)
         {
-            if (id == null) 
+            if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -111,44 +115,6 @@ namespace NhaKhoa.Areas.NhaSi.Controllers
             ViewBag.Id_khunggio = new SelectList(db.KhungGios, "Id_khunggio", "TenCa", thoiKhoaBieu.Id_khunggio);
             ViewBag.Id_Phong = new SelectList(db.Phongs, "Id_Phong", "TenPhong", thoiKhoaBieu.Id_Phong);
             ViewBag.Id_Thu = new SelectList(db.Thus, "Id_Thu", "TenThu", thoiKhoaBieu.Id_Thu);
-            return View(thoiKhoaBieu);
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AddCalendar(ThoiKhoaBieu thoiKhoaBieu)
-        {
-            if (ModelState.IsValid)
-            {
-                // Get the currently logged-in user's ID
-                string currentUserId = User.Identity.GetUserId();
-
-                // Set the NhaSi's ID for the ThoiKhoaBieu entry
-                thoiKhoaBieu.Id_Nhasi = currentUserId;
-                // Lấy giá trị của trường NgayLamViec và IdThu từ đối tượng NgayVaThu
-                NgayVaThu ngayVaThu = LayNgayVaThu(thoiKhoaBieu.NgayLamViec);
-
-                // Gán giá trị của NgayLamViec và IdThu từ đối tượng NgayVaThu
-                thoiKhoaBieu.NgayLamViec = ngayVaThu.NgayLamViec;
-                thoiKhoaBieu.Id_Thu = ngayVaThu.IdThu; // Use IdThu instead of TenThuId
-
-                // Kiểm tra trùng lặp trước khi thêm mới
-                if (KiemTraTrungLich(thoiKhoaBieu))
-                {
-                    // Nếu trùng lịch, thêm lỗi vào ModelState và chuyển hướng quay lại view
-                    ModelState.AddModelError(string.Empty, "Lịch làm việc đã trùng. Vui lòng chọn lịch khác.");
-                    SetupDropdownLists(); // Gọi hàm này để cập nhật lại danh sách dropdown
-                    return View(thoiKhoaBieu);
-                }
-
-                // Thêm mới vào cơ sở dữ liệu và chuyển hướng
-                db.ThoiKhoaBieux.Add(thoiKhoaBieu);
-                db.SaveChanges();
-
-                return RedirectToAction("Index");
-            }
-
-            // Nếu ModelState không hợp lệ, hiển thị lại view với thông báo lỗi và danh sách dropdown đã chọn
-            SetupDropdownLists(); // Gọi hàm này để cập nhật lại danh sách dropdown
             return View(thoiKhoaBieu);
         }
 
@@ -199,22 +165,20 @@ namespace NhaKhoa.Areas.NhaSi.Controllers
         }
         public ActionResult ViewCalendar(DateTime? selectedWeek)
         {
-            // Get the currently logged-in user's ID
-            string currentUserId = User.Identity.GetUserId();
-            var user = db.AspNetUsers.Find(currentUserId);
-            ViewBag.TenNhaSi = user.FullName;
-            ViewBag.HinhAnh = user.HinhAnh;
             try
             {
                 // Lấy danh sách các ngày trong tuần và lịch làm việc từ cơ sở dữ liệu
                 var danhSachThu = db.Thus.ToList();
-                var danhSachThoiKhoaBieu = db.ThoiKhoaBieux.ToList();
+                var danhSachThoiKhoaBieu = db.ThoiKhoaBieux.OrderBy(e => e.Id_Thu).ThenBy(e => e.NgayLamViec).ToList();
 
                 // Kiểm tra xem có dữ liệu để hiển thị không
-                if (danhSachThu.Any() && danhSachThoiKhoaBieu.Any())
+                if (danhSachThu.Any() || danhSachThoiKhoaBieu.Any())
                 {
-                    DateTime startOfWeek = selectedWeek ?? DateTime.Now;
-
+                    //DateTime startOfWeek = selectedWeek ?? DateTime.Now;
+                    var now = DateTime.Now;
+                    var daysUntilMonday = ((int)now.DayOfWeek - (int)DayOfWeek.Monday + 7) % 7;
+                    var monday = now.AddDays(-daysUntilMonday);
+                    DateTime startOfWeek = selectedWeek ?? monday;
                     // Nếu có tuần đã chọn, lọc danh sách thời khóa biểu cho tuần đó
                     var filteredThoiKhoaBieu = danhSachThoiKhoaBieu
                         .Where(tkb => tkb.NgayLamViec.HasValue && tkb.NgayLamViec.Value.Date == startOfWeek.Date)
@@ -254,6 +218,7 @@ namespace NhaKhoa.Areas.NhaSi.Controllers
                 return View("ErrorView");
             }
         }
+
 
         static DateTime[] GetWeeksInYear(int year, GregorianCalendar calendar)
         {

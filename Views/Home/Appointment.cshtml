@@ -585,25 +585,25 @@
             var selectedDate = $("#NgayKhamDropdown").val();
 
             $.ajax({
-                url: '@Url.Action("GetNhaSiList", "Home")',
-                type: 'GET',
-                data: { selectedDate: selectedDate },
-                success: function (result) {
-                    // Xóa tất cả các mục hiện có trong dropdown NhaSiList
-                    $("#IdNhaSiDropdown").empty();
+    url: '@Url.Action("GetNhaSiList", "Home")',
+    type: 'GET',
+    data: { selectedDate: selectedDate },
+    success: function (result) {
+        $("#IdNhaSiDropdown").empty();
 
-                    // Thêm các mục mới từ kết quả Ajax
-                    $.each(result, function (index, item) {
-                        $("#IdNhaSiDropdown").append($('<option>', {
-                            value: item.IdNhaSi,
-                            text: item.TenNhaSi
-                        }));
-                    });
-                },
-                error: function (error) {
-                    console.log(error);
-                }
+        $.each(result, function (index, item) {
+            var doctorOption = $('<option>', {
+                value: item.IdNhaSi,
+                text: item.TenNhaSi + " -Ca " + item.WorkingShifts.join(', ')
             });
+            $("#IdNhaSiDropdown").append(doctorOption);
+        });
+    },
+    error: function (error) {
+        console.log(error);
+    }
+});
+
         });
 
         // Trigger change event on page load to populate the initial list

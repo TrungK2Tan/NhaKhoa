@@ -22,7 +22,7 @@
                             @foreach (var workingHour in Model.ThoiKhoaBieux)
                             {
                                 <li class="btn">
-                                    <a href="@Url.Action("Appointment", "BookingDentist", new { NgayKham = workingHour.NgayLamViec, TenNhaSi = Model.FullName, idnhasi = Model.Id })"> @workingHour.KhungGio.TenCa - @workingHour.NgayLamViec-@workingHour.Phong.TenPhong</a>
+                                    <a href="@Url.Action("Appointment", "BookingDentist", new { NgayKham = workingHour.NgayLamViec, TenNhaSi = Model.FullName, idnhasi = Model.Id,Ca = workingHour.KhungGio.TenCa })"> @workingHour.KhungGio.TenCa - @workingHour.NgayLamViec-@workingHour.Phong.TenPhong</a>
                                 </li>
                             }
                         </ul>

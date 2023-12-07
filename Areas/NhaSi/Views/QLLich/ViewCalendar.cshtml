@@ -16,8 +16,6 @@
 </header>
 
 
-
-
 <button id="prevWeek">Tuần Trước</button>
 <label for="weekSelect">Chọn Tuần:</label>
 <select id="weekSelect">
@@ -78,6 +76,7 @@
                                             e.NgayLamViec.Value.Date <= selectedWeekEndDate)
                                 .OrderBy(e => e.NgayLamViec))
                                 {
+
                                     var uniqueEventId = $"event-{counter}";
                                     counter++;
                                     <li class="cd-schedule__event">
@@ -91,6 +90,7 @@
                                         </a>
                                     </li>
                                 }
+
                             </ul>
                         </li>
                     }

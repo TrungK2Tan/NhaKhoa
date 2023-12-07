@@ -292,8 +292,17 @@ namespace NhaKhoa.Areas.Admin.Controllers
                 }
                 if (thoiKhoaBieu.Id_Nhasi != thoiKhoaBieu.Id_Phong.ToString())
                 {
-                    return AddValidationErrorAndReturnView("Nha sĩ và phòng dã bị trùng", thoiKhoaBieu);
+                    // Check if the dentist already has a schedule for the selected day
+                    bool existingSchedule = db.ThoiKhoaBieux.Any(t =>
+                        t.Id_Nhasi == thoiKhoaBieu.Id_Nhasi &&
+                        t.NgayLamViec == thoiKhoaBieu.NgayLamViec);
+
+                    if (existingSchedule)
+                    {
+                        return AddValidationErrorAndReturnView("Nha sĩ đã có ca làm việc trong ngày đã chọn.", thoiKhoaBieu);
+                    }
                 }
+
 
                 if (thoiKhoaBieu.Id_Phong == null)
                 {

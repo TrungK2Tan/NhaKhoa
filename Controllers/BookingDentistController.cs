@@ -17,11 +17,12 @@ namespace NhaKhoa.Controllers
         private NhaKhoaModel db = new NhaKhoaModel();
         // GET: BookingDentist
         [Authorize]
-        public ActionResult Appointment(DateTime NgayKham, string TenNhaSi,string idnhasi)
+        public ActionResult Appointment(DateTime NgayKham, string TenNhaSi,string idnhasi,string Ca)
         {
             ViewBag.NgayKham = NgayKham;
             ViewBag.TenNhaSi = TenNhaSi;
             ViewBag.Idnhasi = idnhasi;
+            ViewBag.Ca = Ca;
             // Truy vấn cơ sở dữ liệu để lấy danh sách Id_hinhthuc
             var hinhThucList = db.HinhThucThanhToans.ToList();
             // Tạo SelectList từ danh sách
@@ -112,7 +113,11 @@ namespace NhaKhoa.Controllers
         {
             var nhaSiList = db.ThoiKhoaBieux
                 .Where(t => t.NgayLamViec == selectedDate)
-                .Select(t => new { IdNhaSi = t.Id_Nhasi, TenNhaSi = t.AspNetUser.FullName })
+                .Select(t => new {
+                    IdNhaSi = t.Id_Nhasi,
+                    TenNhaSi = t.AspNetUser.FullName,
+                    WorkingShifts = db.KhungGios.Where(k => k.Id_khunggio == t.Id_khunggio).Select(k => k.TenCa).ToList()
+                })
                 .ToList();
 
             return Json(nhaSiList, JsonRequestBehavior.AllowGet);

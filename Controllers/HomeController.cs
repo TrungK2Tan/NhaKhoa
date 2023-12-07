@@ -157,7 +157,7 @@ namespace NhaKhoa.Controllers
 
                 if (numberOfAppointments >= 2)
                 {
-                    ModelState.AddModelError("", "Nha sĩ này đã đủ số lượng lịch hẹn cho khung giờ này. Vui lòng chọn nha sĩ khác.");
+                    ModelState.AddModelError("", "Nha sĩ này đã đủ số lượng lịch hẹn cho ngày này. Vui lòng chọn nha sĩ khác.");
 
                     return View(DatLich);
                 }
@@ -215,7 +215,9 @@ namespace NhaKhoa.Controllers
         {
             var nhaSiList = db.ThoiKhoaBieux
                 .Where(t => t.NgayLamViec == selectedDate)
-                .Select(t => new { IdNhaSi = t.Id_Nhasi, TenNhaSi = t.AspNetUser.FullName })
+                .Select(t => new { IdNhaSi = t.Id_Nhasi, TenNhaSi = t.AspNetUser.FullName,
+                    WorkingShifts = db.KhungGios.Where(k => k.Id_khunggio == t.Id_khunggio).Select(k => k.TenCa).ToList()
+                })
                 .ToList();
 
             return Json(nhaSiList, JsonRequestBehavior.AllowGet);
@@ -227,6 +229,7 @@ namespace NhaKhoa.Controllers
 
             // Tìm kiếm theo từ khóa keyword trong tên tin tức
             var tintucResults = db.TinTucs.Where(d => d.Tieude.Contains(keyword)).ToList();
+            // Tìm kiếm theo từ khóa keyword trong tên dịch vụ
             var dichvuResults = db.DichVus.Where(d=>d.Tendichvu.Contains(keyword)).ToList();
 
             // Tạo một ViewModel để chứa kết quả tìm kiếm
