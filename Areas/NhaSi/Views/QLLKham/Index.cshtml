@@ -32,33 +32,46 @@
 <table class="table table-bordered mt-2">
     <thead class="thead-dark">
         <tr>
-            <th scope="col">Full Name</th>
-            <th scope="col">Payment Method</th>
-            <th scope="col">Day</th>
-            <th scope="col">Room</th>
-            <th scope="col">Appointment Date</th>
-            <th scope="col">Price</th>
-            <th scope="col">Doctor ID</th>
+            <th scope="col">Tên Bệnh Nhân</th>
+            <th scope="col">Hình Thức thanh toán</th>
+            <th scope="col">Phòng</th>
+            <th scope="col">Ngày khám</th>
             <th scope="col">STT</th>
-            <th scope="col">Status</th>
-            <th scope="col">Payment Status</th>
+            <th scope="col">Trạng Thái</th>
+            <th scope="col">Trạng thái thanh toán</th>
             <th scope="col"></th>
         </tr>
     </thead>
-
-    @foreach (var item in Model)
+    <!-- hien thi lich kham khi trang thai thanh toan  == true-->
+    @foreach (var item in Model.Where(m => m.TrangThaiThanhToan==true))
     {
         <tr>
             <td>@Html.DisplayFor(modelItem => item.AspNetUser.FullName)</td>
             <td>@Html.DisplayFor(modelItem => item.HinhThucThanhToan.TenHinhThuc)</td>
-            <td>@Html.DisplayFor(modelItem => item.ThoiKhoaBieu.Thu.TenThu)</td>
             <td>@Html.DisplayFor(modelItem => item.ThoiKhoaBieu.Phong.TenPhong)</td>
-            <td>@Html.DisplayFor(modelItem => item.NgayKham)</td>
-            <td>@Html.DisplayFor(modelItem => item.Gia)</td>
-            <td>@Html.DisplayFor(modelItem => item.IdNhaSi)</td>
+
+            <td>@if (item.NgayKham.HasValue)
+            {@item.NgayKham.Value.ToString("dd-MM-yyyy")} -@Html.DisplayFor(modelItem => item.ThoiKhoaBieu.Thu.TenThu)</td>
             <td>@Html.DisplayFor(modelItem => item.STT)</td>
-            <td>@Html.DisplayFor(modelItem => item.TrangThai)</td>
-            <td>@Html.DisplayFor(modelItem => item.TrangThaiThanhToan)</td>
+            <td>
+                @if (item.TrangThai == true)
+                {
+                    <span class="text-success">Đã khám</span>
+                }
+                else
+                {
+                    <span class="text-warning">Chưa khám</span>
+                }
+            </td>
+            <td>
+                @if (item.TrangThaiThanhToan == true)
+                {<span class="text-success"> Đã thanh toán</span>
+                }
+                else
+                {
+                    <span class="text-warning">Chưa thanh toán</span>
+                }
+            </td>
             <td>@Html.ActionLink("Chi Tiết", "Details", new { id = item.Id_Phieudat }, new { @class = "btn btn-info btn-sm" })</td>
             <td> @Html.ActionLink("Lập Đơn Thuốc", "LapDonThuoc", new { id_phieudat = item.Id_Phieudat }, new { @class = "btn btn-success btn-sm" })</td>
         </tr>
