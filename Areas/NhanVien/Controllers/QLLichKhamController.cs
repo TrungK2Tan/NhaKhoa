@@ -18,9 +18,26 @@ namespace NhaKhoa.Areas.NhanVien.Controllers
         public ActionResult Index()
         {
             var phieuDatLiches = db.PhieuDatLiches.Include(p => p.AspNetUser).Include(p => p.HinhThucThanhToan).Include(p => p.ThoiKhoaBieu);
-            return View(phieuDatLiches.ToList()); 
-        }
+            // Tạo một Dictionary để lưu trữ tên của NhaSi dựa trên IdNhaSi
+            Dictionary<string, string> nhaSiNames = new Dictionary<string, string>();
 
+            foreach (var lichHen in phieuDatLiches)
+            {
+                // Kiểm tra xem IdNhaSi đã được thêm vào Dictionary chưa
+                if (!nhaSiNames.ContainsKey(lichHen.IdNhaSi))
+                {
+                    // Nếu chưa, thực hiện truy vấn và thêm vào Dictionary
+                    var nhaSi = db.AspNetUsers.Find(lichHen.IdNhaSi);
+                    if (nhaSi != null)
+                    {
+                        nhaSiNames.Add(lichHen.IdNhaSi, nhaSi.FullName);
+                    }
+                }
+            }
+            // Truyền danh sách lịch hẹn và tên của NhaSi vào View
+            ViewBag.NhaSiNames = nhaSiNames;
+            return View(phieuDatLiches.ToList());
+        }
         // GET: NhanVien/QLLichKham/Details/5
         public ActionResult Details(int? id)
         {
@@ -35,10 +52,6 @@ namespace NhaKhoa.Areas.NhanVien.Controllers
             }
             return View(phieuDatLich);
         }
-
-        
-       
-
         // GET: NhanVien/QLLichKham/Delete/5
         public ActionResult Delete(int? id)
         {

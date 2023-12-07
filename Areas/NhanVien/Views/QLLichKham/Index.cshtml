@@ -5,78 +5,91 @@
     Layout = "~/Areas/NhanVien/Views/Shared/Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Trang lịch khám của nhân viên</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.AspNetUser.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.HinhThucThanhToan.TenHinhThuc)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ThoiKhoaBieu.Id_Nhasi)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NgayKham)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Gia)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AspNetUser.FullName)
-        </th>
         <th>
             @Html.DisplayNameFor(model => model.STT)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TrangThai)
+            @Html.DisplayNameFor(model => model.AspNetUser.Email)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TrangThaiThanhToan)
+            Tên nha sĩ
+        </th>
+        <th>
+            Hình Thức Thanh Toán
+        </th>
+        <th>
+            Ngày Khám
+        </th>
+        <th>
+            Giá
+        </th>
+        <th>
+            Trạng thái
+        </th>
+        <th>
+            Trạng thái thanh toán
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.AspNetUser.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.HinhThucThanhToan.TenHinhThuc)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ThoiKhoaBieu.Id_Nhasi)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NgayKham)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Gia)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IdNhaSi)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.STT)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TrangThai)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TrangThaiThanhToan)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id_Phieudat }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id_Phieudat }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id_Phieudat })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.STT)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AspNetUser.Email)
+            </td>
+            <td>
+                @if (!string.IsNullOrEmpty(item.IdNhaSi))
+                {
+                    string nhaSiName = ViewBag.NhaSiNames[item.IdNhaSi];
+                    <span>@nhaSiName- @Html.DisplayFor(modelItem => item.ThoiKhoaBieu.Phong.TenPhong)</span>
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HinhThucThanhToan.TenHinhThuc)
+            </td>
+            <td>
+                @if (item.NgayKham.HasValue)
+                {
+                    @item.NgayKham.Value.ToString("dd-MM-yyyy")
+                }
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gia)
+            </td>
+            <td>
+                @if (item.TrangThai == true)
+                {
+                    <span class="text-success">Đã khám</span>
+                }
+                else
+                {
+                    <span class="text-warning">Chưa khám</span>
+                }
+            </td>
+            <td>
+                @if (item.TrangThaiThanhToan == true)
+                {<span class="text-success"> Đã thanh toán</span>
+                }
+                else
+                {
+                    <span class="text-warning">Chưa thanh toán</span>
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Chi tiết", "Details", new { id = item.Id_Phieudat }) |
+                @Html.ActionLink("Xóa", "Delete", new { id = item.Id_Phieudat })
+            </td>
+        </tr>
+    }
 
 </table>
+
