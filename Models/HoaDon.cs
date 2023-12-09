@@ -26,8 +26,6 @@ namespace NhaKhoa.Models
         [StringLength(128)]
         public string Id_bacsi { get; set; }
 
-        public virtual AspNetUser AspNetUser { get; set; }
-
         public virtual DonThuoc DonThuoc { get; set; }
 
         public virtual HinhThucThanhToan HinhThucThanhToan { get; set; }
