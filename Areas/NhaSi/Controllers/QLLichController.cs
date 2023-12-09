@@ -191,7 +191,12 @@ namespace NhaKhoa.Areas.NhaSi.Controllers
 
                     // Tạo mảng chứa các tuần
                     DateTime[] weeks = GetWeeksInYear(startOfWeek.Year, calendar);
-
+                    // Check if the selected week is beyond the next year
+                    if (startOfWeek.Year > DateTime.Now.Year + 1)
+                    {
+                        // Redirect to the main page
+                        return RedirectToAction("ViewCalendar", "QLLich");
+                    }
                     // Tạo ViewModel
                     var viewModel = new ThoiKhoaBieuViewModel
                     {
@@ -223,6 +228,9 @@ namespace NhaKhoa.Areas.NhaSi.Controllers
         static DateTime[] GetWeeksInYear(int year, GregorianCalendar calendar)
         {
             int totalWeeks = calendar.GetWeekOfYear(new DateTime(year, 12, 31), CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+
+            // Limit the weeks to the next year
+            int nextYear = year + 1;
             DateTime[] weeks = new DateTime[totalWeeks];
 
             // Ngày đầu tiên của năm
@@ -236,16 +244,24 @@ namespace NhaKhoa.Areas.NhaSi.Controllers
             {
                 DateTime currentDate = startDate.AddDays(i);
 
-                // Nếu là ngày đầu tiên của một tuần, thêm vào mảng
-                if (currentDate.DayOfWeek == DayOfWeek.Monday)
+                // Nếu là ngày đầu tiên của một tuần và nằm trong năm và năm sau, thêm vào mảng
+                if (currentDate.DayOfWeek == DayOfWeek.Monday && currentDate.Year <= nextYear)
                 {
                     weeks[calendar.GetWeekOfYear(currentDate, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday) - 1] = currentDate;
                     daysAdded++;
+                }
+
+                // Nếu lịch vượt quá năm tiếp theo, kết thúc vòng lặp
+                if (currentDate.Year > nextYear)
+                {
+                    break;
                 }
             }
 
             return weeks;
         }
+
+
 
     }
 }
