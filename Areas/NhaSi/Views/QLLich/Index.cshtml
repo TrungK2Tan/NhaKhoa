@@ -149,7 +149,7 @@
     var daysUntilAppointment = Math.floor((appointmentDate - new Date()) / (1000 * 60 * 60 * 24));
 
     // Kiểm tra xem cuộc hẹn có trong vòng 7 ngày tiếp theo hay không
-    if (daysUntilAppointment < 7) {
+    if (daysUntilAppointment < 30) {
         $(this).hide(); // Ẩn liên kết nếu cuộc hẹn còn quá 7 ngày
     }
 
