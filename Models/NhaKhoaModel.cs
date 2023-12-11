@@ -16,12 +16,12 @@ namespace NhaKhoa.Models
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+        public virtual DbSet<ChiTietThuoc> ChiTietThuocs { get; set; }
         public virtual DbSet<DanhGia> DanhGias { get; set; }
         public virtual DbSet<DanhGiaNhaSi> DanhGiaNhaSis { get; set; }
         public virtual DbSet<DichVu> DichVus { get; set; }
         public virtual DbSet<DonThuoc> DonThuocs { get; set; }
         public virtual DbSet<HinhThucThanhToan> HinhThucThanhToans { get; set; }
-        public virtual DbSet<HoaDon> HoaDons { get; set; }
         public virtual DbSet<KhungGio> KhungGios { get; set; }
         public virtual DbSet<PhieuDatLich> PhieuDatLiches { get; set; }
         public virtual DbSet<Phong> Phongs { get; set; }
@@ -68,9 +68,14 @@ namespace NhaKhoa.Models
                 .HasForeignKey(e => e.Id_admin);
 
             modelBuilder.Entity<DonThuoc>()
-                .HasMany(e => e.Thuocs)
-                .WithMany(e => e.DonThuocs)
-                .Map(m => m.ToTable("ChiTietThuoc").MapLeftKey("Id_donthuoc").MapRightKey("Id_thuoc"));
+                .HasMany(e => e.ChiTietThuocs)
+                .WithRequired(e => e.DonThuoc)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Thuoc>()
+                .HasMany(e => e.ChiTietThuocs)
+                .WithRequired(e => e.Thuoc)
+                .WillCascadeOnDelete(false);
         }
     }
 }

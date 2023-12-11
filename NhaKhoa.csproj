@@ -228,14 +228,15 @@
     <Compile Include="Models\AspNetUser.cs" />
     <Compile Include="Models\AspNetUserClaim.cs" />
     <Compile Include="Models\AspNetUserLogin.cs" />
+    <Compile Include="Models\ChiTietThuoc.cs" />
     <Compile Include="Models\DanhGia.cs" />
     <Compile Include="Models\DanhGiaNhaSi.cs" />
     <Compile Include="Models\DichVu.cs" />
     <Compile Include="Models\DonThuoc.cs" />
     <Compile Include="Models\HinhThucThanhToan.cs" />
-    <Compile Include="Models\HoaDon.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\KhungGio.cs" />
+    <Compile Include="Models\LapDonThuocViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\NhaKhoaModel.cs" />
     <Compile Include="Models\PhieuDatLich.cs" />
@@ -246,6 +247,7 @@
     <Compile Include="Models\ThoiKhoaBieuViewModel.cs" />
     <Compile Include="Models\Thu.cs" />
     <Compile Include="Models\Thuoc.cs" />
+    <Compile Include="Models\ThuocCheckBox.cs" />
     <Compile Include="Models\TinTuc.cs" />
     <Compile Include="Others\MoMoSecurity.cs" />
     <Compile Include="Others\PaymentRequest.cs" />

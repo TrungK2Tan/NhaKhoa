@@ -1,62 +1,80 @@
-﻿@model NhaKhoa.Models.DonThuoc
+﻿@model NhaKhoa.Models.LapDonThuocViewModel
 
 @{
     ViewBag.Title = "LapDonThuoc";
     Layout = "~/Areas/NhaSi/Views/Shared/Layout.cshtml";
 }
 
-<h2>Lập Đơn Thuốc</h2>
+<h2>LapDonThuoc</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("LapDonThuoc", "QLLKham", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.DonThuoc.Id_phieudat)
+    <div class="form-group">
+        @Html.LabelFor(model => model.DonThuoc.Chandoan, "Diagnosis")
+        @Html.EditorFor(model => model.DonThuoc.Chandoan, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.DonThuoc.Chandoan, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.DonThuoc.NgayGio, "Date") <!-- Corrected label -->
+        @Html.EditorFor(model => model.DonThuoc.NgayGio, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.DonThuoc.NgayGio, "", new { @class = "text-danger" })
+    </div>
 
-    <div class="form-horizontal">
-        <h4>Thông tin đơn thuốc</h4>
-        <hr />
-
-        @Html.HiddenFor(model => model.Id_phieudat)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Mota, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Mota, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Mota, "", new { @class = "text-danger" })
+    <div class="form-group">
+        <label>Select Medicines:</label>
+        @for (int i = 0; i < Model.Thuocs.Count; i++)
+        {
+            <div class="checkbox">
+                <label>
+                    @Html.CheckBoxFor(m => Model.Thuocs[i].Selected, new { id = $"Thuocs_{i}_Selected" }) @Model.Thuocs[i].Tenthuoc
+                    @Html.HiddenFor(m => Model.Thuocs[i].Id_thuoc)
+                    @Html.TextBoxFor(m => Model.Thuocs[i].SoLuong, new { @class = "form-control quantity-input", placeholder = "Quantity" })
+                    @Html.ValidationMessageFor(m => Model.Thuocs[i].SoLuong, "", new { @class = "text-danger" })
+                </label>
             </div>
-        </div>
+        }
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Soluong, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Soluong, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Soluong, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.DonThuoc.Soluong, "Total Quantity")
+        @Html.EditorFor(model => model.DonThuoc.Soluong, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+        @Html.ValidationMessageFor(model => model.DonThuoc.Soluong, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.DonThuoc.TongTien, "Total Cost") <!-- Corrected label -->
+        @Html.EditorFor(model => model.DonThuoc.TongTien, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+        @Html.ValidationMessageFor(model => model.DonThuoc.TongTien, "", new { @class = "text-danger" })
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Id_thuoc, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Id_thuoc, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Id_thuoc, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Chandoan, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Chandoan, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Chandoan, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Tạo Đơn Thuốc" class="btn btn-default" />
-            </div>
-        </div>
+    <div class="form-group">
+        <input type="submit" value="Create Prescription" class="btn btn-primary" />
     </div>
 }
 
-<div>
-    @Html.ActionLink("Quay lại", "Index")
-</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            updateTotalQuantity();
+
+            $(".form-control").on("change", function () {
+                updateTotalQuantity();
+            });
+
+            function updateTotalQuantity() {
+                var totalQuantity = 0;
+
+                $(".form-control").each(function () {
+                    var quantity = parseInt($(this).val()) || 0;
+                    if ($(this).closest(".checkbox").find(":checkbox").is(":checked")) {
+                        totalQuantity += quantity;
+                    }
+                });
+
+                $("#DonThuoc_Soluong").val(totalQuantity);
+            }
+        });
+    </script>
+}

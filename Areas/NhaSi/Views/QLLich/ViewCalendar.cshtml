@@ -15,35 +15,36 @@
     <a href="@Url.Action("Index","QLLich","NhaSi")">Quay lai</a>
 </header>
 
-
-<button id="prevWeek">Tuần Trước</button>
-<label for="weekSelect">Chọn Tuần:</label>
-<select id="weekSelect">
-    @foreach (var week in Model.weeks)
-    {
-        numberweek++;
-        var startOfWeek = week;
-        var endOfWeek = week.AddDays(6);
-
-        if (startOfWeek.Year >= DateTime.Now.Year && startOfWeek.Year <= DateTime.Now.Year + 1)
+<div style="text-align:center; margin:auto; padding:10px">
+    <button id="prevWeek">Tuần Trước</button>
+    <label for="weekSelect">Chọn Tuần:</label>
+    <select id="weekSelect">
+        @foreach (var week in Model.weeks)
         {
-            <option value="@startOfWeek.ToString("yyyy-MM-dd")"
-                    @(startOfWeek.Date <= Model.SelectedWeek.Date && Model.SelectedWeek.Date <= endOfWeek.Date ? "selected" : "")>
-                Tuần @numberweek: @startOfWeek.ToString("dd/MM/yyyy") - @endOfWeek.ToString("dd/MM/yyyy")
+            numberweek++;
+            var startOfWeek = week;
+            var endOfWeek = week.AddDays(6);
+
+            if (startOfWeek.Year >= DateTime.Now.Year && startOfWeek.Year <= DateTime.Now.Year + 1)
+            {
+                <option value="@startOfWeek.ToString("yyyy-MM-dd")"
+                        @(startOfWeek.Date <= Model.SelectedWeek.Date && Model.SelectedWeek.Date <= endOfWeek.Date ? "selected" : "")>
+                    Tuần @numberweek: @startOfWeek.ToString("dd/MM/yyyy") - @endOfWeek.ToString("dd/MM/yyyy")
+                </option>
+            }
+        }
+
+        @if (Model.SelectedWeek.Year > DateTime.Now.Year + 1)
+        {
+            <option value="@Model.SelectedWeek.ToString("yyyy-MM-dd")" selected disabled hidden>
+                Chọn tuần: Không thể chọn năm sau
             </option>
         }
-    }
-
-    @if (Model.SelectedWeek.Year > DateTime.Now.Year + 1)
-    {
-        <option value="@Model.SelectedWeek.ToString("yyyy-MM-dd")" selected disabled hidden>
-            Chọn tuần: Không thể chọn năm sau
-        </option>
-    }
-</select>
+    </select>
 
 
-<button id="nextWeek">Tuần Tiếp</button>
+    <button id="nextWeek">Tuần Tiếp</button>
+</div>
 <div class="cd-schedule cd-schedule--loading margin-top-lg margin-bottom-lg js-cd-schedule">
     @if (Model.DanhSachThu.Any())
     {

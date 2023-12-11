@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -114,7 +115,6 @@ namespace NhaKhoa.Areas.NhaSi.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            // Retrieve the appointment associated with the given id_phieudat
             PhieuDatLich phieuDatLich = db.PhieuDatLiches.Find(id_phieudat);
 
             if (phieuDatLich == null)
@@ -122,33 +122,110 @@ namespace NhaKhoa.Areas.NhaSi.Controllers
                 return HttpNotFound();
             }
 
-            DonThuoc donThuoc = new DonThuoc
+            List<ThuocCheckBox> thuocs = db.Thuocs
+                .Select(t => new ThuocCheckBox
+                {
+                    Id_thuoc = t.Id_thuoc,
+                    Tenthuoc = t.Tenthuoc,
+                    Selected = false
+                })
+                .ToList();
+
+            LapDonThuocViewModel viewModel = new LapDonThuocViewModel
             {
-                Id_phieudat = id_phieudat,
-                // Set other properties as needed
+                DonThuoc = new DonThuoc
+                {
+                    Id_phieudat = id_phieudat,
+                    NgayGio = DateTime.Now,
+                    // Initialize the total quantity to 0
+                    Soluong = 0
+                },
+                Thuocs = thuocs
             };
 
-            // Pass the DonThuoc instance to the view for user input
-            return View(donThuoc);
+            return View(viewModel);
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult LapDonThuoc([Bind(Include = "Id_phieudat,Mota,Soluong,Id_thuoc,Chandoan")] DonThuoc donThuoc)
+        public ActionResult LapDonThuoc(LapDonThuocViewModel viewModel)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
+                // If ModelState is not valid, return to the view with the entered data
+                viewModel.Thuocs = db.Thuocs
+                    .Select(t => new ThuocCheckBox
+                    {
+                        Id_thuoc = t.Id_thuoc,
+                        Tenthuoc = t.Tenthuoc,
+                        Selected = false
+                    })
+                    .ToList();
+
+                return View(viewModel);
+            }
+
+            try
+            {
+                // Set the appointment for the prescription
+                viewModel.DonThuoc.PhieuDatLich = db.PhieuDatLiches.Find(viewModel.DonThuoc.Id_phieudat);
+
                 // Save the prescription to the database
-                db.DonThuocs.Add(donThuoc);
+                db.DonThuocs.Add(viewModel.DonThuoc);
+
+                // Initialize total quantity and total cost
+                viewModel.DonThuoc.Soluong = 0;
+                viewModel.DonThuoc.TongTien = 0;
+
+                // Update the quantity and cost of selected medicines in the prescription
+                foreach (var thuoc in viewModel.Thuocs.Where(t => t.Selected))
+                {
+                    var giaThuoc = db.Thuocs.Find(thuoc.Id_thuoc)?.Gia ?? 0;
+                    var chiTietThuoc = new ChiTietThuoc
+                    {
+                        Id_thuoc = thuoc.Id_thuoc,
+                        soluong = thuoc.SoLuong,
+                        Gia = giaThuoc * thuoc.SoLuong, // Tính giá dựa trên số lượng và giá từ bảng Thuoc
+                    };
+
+                    viewModel.DonThuoc.ChiTietThuocs.Add(chiTietThuoc);
+
+                    // Update the total quantity and total cost in DonThuoc
+                    viewModel.DonThuoc.Soluong += thuoc.SoLuong;
+                    viewModel.DonThuoc.TongTien += chiTietThuoc.Gia;
+                }
+                // Update the TrangThai of PhieuDatLich to true
+                viewModel.DonThuoc.PhieuDatLich.TrangThai= true;
+
                 db.SaveChanges();
 
                 // Redirect to a relevant page, e.g., the details page for the created prescription
-                return RedirectToAction("Index", "QLLKham");
+                return RedirectToAction("Index");
+            }
+            catch (DbUpdateException ex)
+            {
+                // Handle database update exceptions (e.g., unique constraint violation) more specifically
+                ModelState.AddModelError(string.Empty, "An error occurred while saving the prescription.");
+            }
+            catch (Exception ex)
+            {
+                // Handle other exceptions appropriately, log the error, etc.
+                ModelState.AddModelError(string.Empty, "An unexpected error occurred while saving the prescription.");
             }
 
-            // If ModelState is not valid, return to the view with the entered data
-            return View(donThuoc);
+            // If an error occurred, return to the view with the entered data
+            viewModel.Thuocs = db.Thuocs
+                .Select(t => new ThuocCheckBox
+                {
+                    Id_thuoc = t.Id_thuoc,
+                    Tenthuoc = t.Tenthuoc,
+                    Selected = false
+                })
+                .ToList();
+
+            return View(viewModel);
         }
+
+
 
         protected override void Dispose(bool disposing)
         {
