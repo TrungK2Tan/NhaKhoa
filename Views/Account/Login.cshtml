@@ -7,22 +7,15 @@
                 <img src="https://media.istockphoto.com/id/1274273995/vector/dental-health-care-oral-treatment-program-check-up-concept-tiny-doctor-dentists-characters.jpg?s=612x612&w=0&k=20&c=UXNSLS8d-F_U-0UG7jZzIj_zE0CZe79Z33iP7Eq5JeE="
                      class="img-fluid" alt="Sample image">
             </div>
+            
             <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
+                    <p class="lead fw-normal mb-0 me-3">Sign in with</p>
+                    @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+                </div>
+
                 <form method="post" action="@Url.Action("Login", "Account")">
                     @Html.AntiForgeryToken()
-                    <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
-                        <p class="lead fw-normal mb-0 me-3">Sign in with</p>
-                        <button type="button" class="btn btn-primary btn-floating mx-1">
-                            <i class="fab fa-facebook-f"></i>
-                        </button>
-
-                        @*@Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })*@
-
-
-                        <button type="button" class="btn btn-primary btn-floating mx-1">
-                            <i class="fab fa-google"></i>
-                        </button>
-                    </div>
 
                     <div class="divider d-flex align-items-center my-4">
                         <p class="text-center fw-bold mx-3 mb-0">Or</p>

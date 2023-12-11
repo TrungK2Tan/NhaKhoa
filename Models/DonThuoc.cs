@@ -16,7 +16,6 @@ namespace NhaKhoa.Models
         }
 
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id_donthuoc { get; set; }
 
         public int? Id_phieudat { get; set; }
