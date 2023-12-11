@@ -1,0 +1,59 @@
+﻿@model NhaKhoa.Models.DonThuoc
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/NhaSi/Views/Shared/Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>DonThuoc</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PhieuDatLich.IdNhaSi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhieuDatLich.IdNhaSi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Chandoan)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Chandoan)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NgayGio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NgayGio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Soluong)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Soluong)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TongTien)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TongTien)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id_donthuoc }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

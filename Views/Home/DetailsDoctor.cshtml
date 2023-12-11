@@ -4,6 +4,7 @@
     ViewBag.Title = "DetailsDoctor";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <div class="container py-5">
     <div class="row">
         <div class="col-lg-5">
@@ -14,22 +15,37 @@
         <div class="col-lg-7">
             <div class="mb-5">
                 <h1 class="display-4 mb-4">@Html.DisplayFor(model => model.FullName)</h1>
-                <p class="lead">@Html.DisplayFor(model => model.Ngaysinh)</p>
+                <p class="lead">
+                    @if (Model.Ngaysinh.HasValue)
+                    {
+                        <em class="cd-schedule__name">@Model.Ngaysinh.Value.ToString("yyyy-MM-dd")</em>
+                    }
+                </p>
+
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <h2 class="text-primary border-bottom border-5">Thời gian làm việc:</h2>
-                        <ul class="list-unstyled">
-                            @foreach (var workingHour in Model.ThoiKhoaBieux)
+                        <div class="calendar-container">
+                            @foreach (var workingHour in Model.ThoiKhoaBieux.OrderBy(wh => wh.NgayLamViec))
                             {
-                                <li class="btn">
-                                    <a href="@Url.Action("Appointment", "BookingDentist", new { NgayKham = workingHour.NgayLamViec, TenNhaSi = Model.FullName, idnhasi = Model.Id,Ca = workingHour.KhungGio.TenCa })"> @workingHour.KhungGio.TenCa - @workingHour.NgayLamViec-@workingHour.Phong.TenPhong</a>
-                                </li>
+                                <div class="calendar-item">
+                                    @if (workingHour.NgayLamViec.HasValue && workingHour.NgayLamViec.Value > DateTime.Now)
+                                    {
+                                        DateTime ngayLamViec = workingHour.NgayLamViec.Value;
+                                        int daysDifference = (int)(ngayLamViec - DateTime.Now).TotalDays;
+
+                                        <a href="@Url.Action("Appointment", "BookingDentist", new { NgayKham = workingHour.NgayLamViec, TenNhaSi = Model.FullName, idnhasi = Model.Id, Ca = workingHour.KhungGio.TenCa })">
+                                            <span class="day"> Ngày: @workingHour.NgayLamViec.Value.Day</span>
+                                            <span class="month">Tháng: @workingHour.NgayLamViec.Value.ToString("MM")</span>
+                                            <span class="day">Ca: @workingHour.KhungGio.TenCa</span>
+                                        </a>
+                                    }
+                                   
+                                </div>
                             }
-                        </ul>
+
+                        </div>
                     </div>
-                    @*<div class="col-md-6">
-                        <a class="btn btn-primary btn-lg w-100 py-2" href="">Đặt Lịch</a>
-                    </div>*@
                 </div>
             </div>
         </div>
@@ -37,15 +53,15 @@
 </div>
 
 <div class="container py-5">
-    <!-- Các phần tử hiển thị thông tin nha sĩ -->
     <!-- Form đánh giá và bình luận -->
-    <div>
+    <div class="mb-5">
         <h2>Đánh giá và bình luận</h2>
-        <form action="@Url.Action("AddReviewNhaSi", "Home")" method="post">
+        <form action="@Url.Action("AddReviewNhaSi", "Home")" method="post" class="my-4">
             @Html.AntiForgeryToken()
 
             <input type="hidden" name="Id_Nhasi" value="@Model.Id" />
             <input type="hidden" name="Id_Benhnhan" id="Id_Benhnhan" value="@User.Identity.GetUserId()" />
+
             <div class="form-group">
                 <label for="SaoDanhGia">Điểm đánh giá:</label>
                 <div class="rating">
@@ -61,10 +77,12 @@
                     <label for="star1"></label>
                 </div>
             </div>
+
             <div class="form-group">
                 <label for="Noidung">Nội dung:</label>
                 <textarea name="Noidung" class="form-control" required></textarea>
             </div>
+
             <div class="form-group" hidden>
                 <label for="NgayDanhGia">Ngày tạo:</label>
                 <input type="text" name="NgayDanhGia" class="form-control" value="@DateTime.Now.ToString()" readonly />
@@ -100,9 +118,8 @@
             }
         </ul>
     </div>
-
-
 </div>
+
 <style>
     .rating {
         display: inline-block;
@@ -138,4 +155,56 @@
             .rating input:checked ~ label:before {
                 color: #13C5DD;
             }
+
+    /* Additional styling for the form and list items */
+ 
+
+    .list-group-item {
+        border: 1px solid #dee2e6;
+        border-radius: 0.25rem;
+        margin-bottom: 10px;
+    }
+
+    .btn-primary {
+        background-color: #13C5DD;
+        border-color: #13C5DD;
+    }
+
+        .btn-primary:hover {
+            background-color: #0d9fb7;
+            border-color: #0d9fb7;
+        }
+
+    .calendar-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 13px;
+    }
+
+    .calendar-item {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        overflow: hidden;
+        width: 150px; /* Adjust as needed */
+    }
+
+        .calendar-item a {
+            display: block;
+            padding: 10px;
+            text-align: center;
+            text-decoration: none;
+            color: #333;
+        }
+
+    .day {
+        font-size: 20px;
+        font-weight: bold;
+        display: block;
+    }
+
+    .month {
+        display: block;
+        font-size: 14px;
+        margin-top: 5px;
+    }
 </style>

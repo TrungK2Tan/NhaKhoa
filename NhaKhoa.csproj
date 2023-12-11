@@ -209,6 +209,7 @@
     <Compile Include="Areas\NhanVien\Controllers\QLBenhNhanController.cs" />
     <Compile Include="Areas\NhanVien\Controllers\QLLichKhamController.cs" />
     <Compile Include="Areas\NhanVien\NhanVienAreaRegistration.cs" />
+    <Compile Include="Areas\NhaSi\Controllers\DonThuocController.cs" />
     <Compile Include="Areas\NhaSi\Controllers\InfoController.cs" />
     <Compile Include="Areas\NhaSi\Controllers\NhaSiController.cs" />
     <Compile Include="Areas\NhaSi\Controllers\QLLichController.cs" />
@@ -831,6 +832,8 @@
     <Content Include="Areas\NhaSi\Views\QLLKham\Index.cshtml" />
     <Content Include="Areas\NhaSi\Views\QLLKham\ViewAllBooking.cshtml" />
     <Content Include="Areas\NhaSi\Views\QLLKham\LapDonThuoc.cshtml" />
+    <Content Include="Areas\NhaSi\Views\DonThuoc\Details.cshtml" />
+    <Content Include="Areas\NhaSi\Views\DonThuoc\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
