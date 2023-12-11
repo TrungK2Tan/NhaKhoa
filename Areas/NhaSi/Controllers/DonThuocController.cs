@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using NhaKhoa.Models;
 
 namespace NhaKhoa.Areas.NhaSi.Controllers
@@ -17,7 +18,11 @@ namespace NhaKhoa.Areas.NhaSi.Controllers
         // GET: NhaSi/DonThuoc
         public ActionResult Index()
         {
-            var donThuocs = db.DonThuocs.Include(d => d.PhieuDatLich);
+            string currentUserId = User.Identity.GetUserId(); 
+            var donThuocs = db.DonThuocs
+                .Include(d => d.PhieuDatLich)
+                .Where(d => d.PhieuDatLich.IdNhaSi == currentUserId); // Adjust this line based on your actual foreign key property.
+
             return View(donThuocs.ToList());
         }
 

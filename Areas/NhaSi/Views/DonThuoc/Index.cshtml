@@ -5,24 +5,23 @@
     Layout = "~/Areas/NhaSi/Views/Shared/Layout.cshtml";
 }
 
-<h2>Index</h2>
 
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.PhieuDatLich.IdNhaSi)
+           Tên bệnh nhân
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Chandoan)
+         Chẩn đoán
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.NgayGio)
+           Ngày khám
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Soluong)
+           Tổng số lượng
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TongTien)
+           Tổng Tiền 
         </th>
         <th></th>
     </tr>
@@ -30,7 +29,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.PhieuDatLich.IdNhaSi)
+            @Html.DisplayFor(modelItem => item.PhieuDatLich.AspNetUser.FullName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Chandoan)
@@ -45,7 +44,7 @@
             @Html.DisplayFor(modelItem => item.TongTien)
         </td>
         <td>
-            @Html.ActionLink("Details", "Details", new { id=item.Id_donthuoc })
+            @Html.ActionLink("Chi tiết", "Details", new { id=item.Id_donthuoc })
         </td>
     </tr>
 }
