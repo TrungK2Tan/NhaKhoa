@@ -343,6 +343,29 @@ namespace NhaKhoa.Controllers
             ViewBag.NhaSiNames = nhaSiNames;
             return View(lichHens);
         }
+        public ActionResult Bill(int? id_phieudat)
+        {
+            if (id_phieudat == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            // Retrieve the prescription and related data based on id_phieudat
+            var donThuoc = db.DonThuocs
+                               .Include(d => d.ChiTietThuocs.Select(c => c.Thuoc))
+                               .FirstOrDefault(d => d.Id_phieudat == id_phieudat);
+
+            if (donThuoc == null)
+            {
+                return HttpNotFound();
+            }
+
+            // Other necessary data retrieval and processing can be added here
+
+            return View(donThuoc);
+        }
+
+
         public ActionResult ChangeAppointment(int appointmentId)
         {
             // Retrieve the appointment based on the provided appointmentId

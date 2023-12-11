@@ -898,6 +898,7 @@
     <Content Include="Views\Home\PaymentVNPayConfirm.cshtml" />
     <Content Include="Views\Home\ServiceDetail.cshtml" />
     <Content Include="Views\Home\ChangeAppointment.cshtml" />
+    <Content Include="Views\Home\Bill.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

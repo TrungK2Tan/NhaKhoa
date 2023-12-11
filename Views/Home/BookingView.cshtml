@@ -22,7 +22,7 @@ else { <th></th>}
                     <th>Tên Nha Sĩ</th>
                     <th>Thanh toán</th>
                     <th>Trạng thái</th>
-                    <th> Tái khám</th>
+                    <th>Đơn Thuốc</th>
                 </tr>
             </thead>
             <tbody>
@@ -60,9 +60,9 @@ else { <th></th>}
                             @if (item.TrangThai == true)
                             {
                                 <span class="text-success">Đã khám</span>
-                            <td>
-                                <a href="@Url.Action("Appointment", "Home", new { ten = item.AspNetUser.FullName, sdt = item.AspNetUser.PhoneNumber, tennhasi = item.AspNetUser.FullName, @IDBACSI = item.IdNhaSi })" class="btn btn-primary">ĐẶT LẠI</a>
-                            </td>
+                        <td>
+                            @Html.ActionLink("Xem Đơn Thuốc", "Bill", "Home", new { id_phieudat = item.Id_Phieudat }, new { @class = "btn btn-success btn-sm" })
+                        </td>
                         }
                         else
                         {
