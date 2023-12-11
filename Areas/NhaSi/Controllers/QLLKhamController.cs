@@ -192,6 +192,11 @@ namespace NhaKhoa.Areas.NhaSi.Controllers
                     // Update the total quantity and total cost in DonThuoc
                     viewModel.DonThuoc.Soluong += thuoc.SoLuong;
                     viewModel.DonThuoc.TongTien += chiTietThuoc.Gia;
+                    var thuocToUpdate = db.Thuocs.Find(thuoc.Id_thuoc);
+                    if (thuocToUpdate != null)
+                    {
+                        thuocToUpdate.Soluong -= thuoc.SoLuong;
+                    }
                 }
                 // Update the TrangThai of PhieuDatLich to true
                 viewModel.DonThuoc.PhieuDatLich.TrangThai= true;

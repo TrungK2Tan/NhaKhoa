@@ -11,19 +11,15 @@
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.DonThuoc.Id_phieudat)
-    <div class="form-group">
-        @Html.LabelFor(model => model.DonThuoc.Chandoan, "Diagnosis")
-        @Html.EditorFor(model => model.DonThuoc.Chandoan, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.DonThuoc.Chandoan, "", new { @class = "text-danger" })
-    </div>
-    <div class="form-group">
+
+    <div class="form-group" hidden>
         @Html.LabelFor(model => model.DonThuoc.NgayGio, "Date") <!-- Corrected label -->
         @Html.EditorFor(model => model.DonThuoc.NgayGio, new { htmlAttributes = new { @class = "form-control" } })
         @Html.ValidationMessageFor(model => model.DonThuoc.NgayGio, "", new { @class = "text-danger" })
     </div>
 
     <div class="form-group">
-        <label>Select Medicines:</label>
+        <label>Chọn thuốc:</label>
         @for (int i = 0; i < Model.Thuocs.Count; i++)
         {
             <div class="checkbox">
@@ -36,13 +32,17 @@
             </div>
         }
     </div>
-
+    <div class="form-group">
+        @Html.LabelFor(model => model.DonThuoc.Chandoan, "Chẩn đoán")
+        @Html.EditorFor(model => model.DonThuoc.Chandoan, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.DonThuoc.Chandoan, "", new { @class = "text-danger" })
+    </div>
     <div class="form-group">
         @Html.LabelFor(model => model.DonThuoc.Soluong, "Total Quantity")
         @Html.EditorFor(model => model.DonThuoc.Soluong, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
         @Html.ValidationMessageFor(model => model.DonThuoc.Soluong, "", new { @class = "text-danger" })
     </div>
-    <div class="form-group">
+    <div class="form-group" hidden>
         @Html.LabelFor(model => model.DonThuoc.TongTien, "Total Cost") <!-- Corrected label -->
         @Html.EditorFor(model => model.DonThuoc.TongTien, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
         @Html.ValidationMessageFor(model => model.DonThuoc.TongTien, "", new { @class = "text-danger" })
