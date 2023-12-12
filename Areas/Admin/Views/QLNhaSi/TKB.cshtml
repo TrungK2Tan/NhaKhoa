@@ -17,21 +17,37 @@
     <h1 class="text-xl">THỜI GIAN BIỂU</h1>
     <a class="btn--primary" href="@Url.Action("ThemThoiKhoaBieu", "QLNhaSi", "Admin")">Thêm lịch làm việc</a>
 </header>
-<button id="prevWeek">Tuần Trước</button>
-<label for="weekSelect">Chọn Tuần:</label>
-<select id="weekSelect">
-    @foreach (var week in Model.weeks)
-    {
-        numberweek++;
-        var startOfWeek = week;
-        var endOfWeek = week.AddDays(6);
-        <option value="@startOfWeek.ToString("yyyy-MM-dd")"
-                @(startOfWeek.Date <= Model.SelectedWeek.Date && Model.SelectedWeek.Date <= endOfWeek.Date ? "selected" : "")>
-            Tuần @numberweek: @startOfWeek.ToString("dd/MM/yyyy") - @endOfWeek.ToString("dd/MM/yyyy")
-        </option>
-    }
-</select>
-<button id="nextWeek">Tuần Tiếp</button>
+
+<div style="text-align:center; margin:auto; padding:10px">
+    <button id="prevWeek">Tuần Trước</button>
+    <label for="weekSelect">Chọn Tuần:</label>
+    <select id="weekSelect">
+        @foreach (var week in Model.weeks)
+        {
+            numberweek++;
+            var startOfWeek = week;
+            var endOfWeek = week.AddDays(6);
+
+            if (startOfWeek.Year >= DateTime.Now.Year && startOfWeek.Year <= DateTime.Now.Year + 1)
+            {
+                <option value="@startOfWeek.ToString("yyyy-MM-dd")"
+                        @(startOfWeek.Date <= Model.SelectedWeek.Date && Model.SelectedWeek.Date <= endOfWeek.Date ? "selected" : "")>
+                    Tuần @numberweek: @startOfWeek.ToString("dd/MM/yyyy") - @endOfWeek.ToString("dd/MM/yyyy")
+                </option>
+            }
+        }
+
+        @if (Model.SelectedWeek.Year > DateTime.Now.Year + 1)
+        {
+            <option value="@Model.SelectedWeek.ToString("yyyy-MM-dd")" selected disabled hidden>
+                Chọn tuần: Không thể chọn năm sau
+            </option>
+        }
+    </select>
+
+
+    <button id="nextWeek">Tuần Tiếp</button>
+</div>
 <div class="cd-schedule cd-schedule--loading margin-top-lg margin-bottom-lg js-cd-schedule">
     @if (Model.DanhSachThu.Any())
     {
@@ -78,21 +94,21 @@
                                 .OrderBy(e => e.NgayLamViec))
                                 {
 
-                                        var uniqueEventId = $"event-{counter}";
-                                        counter++;
-                                        <li class="cd-schedule__event">
-                                            <a data-start="@eventItem.KhungGio.GioBatDau" data-end="@eventItem.KhungGio.GioKetThuc" data-event="@uniqueEventId">
-                                                <em class="cd-schedule__name">@eventItem.Phong.TenPhong-@eventItem.KhungGio.TenCa</em>
-                                                <em class="cd-schedule__name">@eventItem.AspNetUser.FullName</em>
-                                                @if (eventItem.NgayLamViec.HasValue)
-                                                {
-                                                    <em class="cd-schedule__name">@eventItem.NgayLamViec.Value.ToString("yyyy-MM-dd")</em>
-                                                }
-                                            </a>
-                                        </li>
-                                        }
-                                    
-                                </ul>
+                                    var uniqueEventId = $"event-{counter}";
+                                    counter++;
+                                    <li class="cd-schedule__event">
+                                        <a data-start="@eventItem.KhungGio.GioBatDau" data-end="@eventItem.KhungGio.GioKetThuc" data-event="@uniqueEventId">
+                                            <em class="cd-schedule__name">@eventItem.Phong.TenPhong-@eventItem.KhungGio.TenCa</em>
+                                            <em class="cd-schedule__name">@eventItem.AspNetUser.FullName</em>
+                                            @if (eventItem.NgayLamViec.HasValue)
+                                            {
+                                                <em class="cd-schedule__name">@eventItem.NgayLamViec.Value.ToString("yyyy-MM-dd")</em>
+                                            }
+                                        </a>
+                                    </li>
+                                }
+
+                            </ul>
                         </li>
                     }
                 }
@@ -134,29 +150,44 @@
 @section scripts {
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
-        $(document).ready(function () {
-            function updateWeek(selectedWeek) {
-                window.location.href = "@Url.Action("TKB", "QLNhaSi")" + "?page=1&selectedWeek=" + selectedWeek;
+       $(document).ready(function () {
+    function updateWeek(selectedWeek) {
+        if (selectedWeek) {
+            var selectedDate = new Date(selectedWeek);
+
+            if (selectedDate.getFullYear() > new Date().getFullYear() + 1) {
+                // Show an alert
+                alert("Không thể xem lịch cho năm tiếp theo.");
+
+                // Redirect to the main page
+                window.location.href = "@Url.Action("TKB", "QLNhaSi")";
+                return;
             }
+        }
 
-            $('#weekSelect').change(function () {
-                var selectedWeek = $(this).val();
-                updateWeek(selectedWeek);
-            });
+        // Continue with the redirect
+        window.location.href = "@Url.Action("TKB", "QLNhaSi")" + "?page=1&selectedWeek=" + selectedWeek;
+    }
 
-            $('#prevWeek').click(function () {
-                var selectedWeek = new Date($('#weekSelect').val());
-                var prevWeek = new Date(selectedWeek);
-                prevWeek.setDate(prevWeek.getDate() - 7); // Subtract 7 days to go back one week
-                updateWeek(prevWeek.toISOString().slice(0, 10));
-            });
+    $('#weekSelect').change(function () {
+        var selectedWeek = $(this).val();
+        updateWeek(selectedWeek);
+    });
 
-            $('#nextWeek').click(function () {
-                var selectedWeek = new Date($('#weekSelect').val());
-                var nextWeek = new Date(selectedWeek);
-                nextWeek.setDate(nextWeek.getDate() + 7); // Add 7 days to go forward one week
-                updateWeek(nextWeek.toISOString().slice(0, 10));
-            });
-        });
+    $('#prevWeek').click(function () {
+        var selectedWeek = new Date($('#weekSelect').val());
+        var prevWeek = new Date(selectedWeek);
+        prevWeek.setDate(prevWeek.getDate() - 7); // Subtract 7 days to go back one week
+        updateWeek(prevWeek.toISOString().slice(0, 10));
+    });
+
+    $('#nextWeek').click(function () {
+        var selectedWeek = new Date($('#weekSelect').val());
+        var nextWeek = new Date(selectedWeek);
+        nextWeek.setDate(nextWeek.getDate() + 7); // Add 7 days to go forward one week
+        updateWeek(nextWeek.toISOString().slice(0, 10));
+    });
+});
+
     </script>
 }
