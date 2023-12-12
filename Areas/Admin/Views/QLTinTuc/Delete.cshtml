@@ -1,4 +1,4 @@
-﻿@model NhaKhoa.Models.TinTuc
+﻿﻿﻿@model NhaKhoa.Models.TinTuc
 
 @{
     ViewBag.Title = "Delete";
@@ -19,7 +19,6 @@
             @Html.DisplayFor(model => model.AspNetUser.Email)
         </dd>
 
-     
         <dt>
             @Html.DisplayNameFor(model => model.Tieude)
         </dt>
@@ -52,11 +51,10 @@
             @Html.DisplayFor(model => model.Ngaygiotao)
         </dd>
 
-       
-
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
