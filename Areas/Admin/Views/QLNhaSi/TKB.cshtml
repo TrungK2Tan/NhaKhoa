@@ -14,9 +14,18 @@
 }
 
 <header class="cd-main-header text-center flex flex-column flex-center">
-    <h1 class="text-xl">THỜI GIAN BIỂU</h1>
+    <a  href="@Url.Action("TKB", "QLNhaSi", "Admin")" class="text-xl">THỜI GIAN BIỂU</a>
     <a class="btn--primary" href="@Url.Action("ThemThoiKhoaBieu", "QLNhaSi", "Admin")">Thêm lịch làm việc</a>
 </header>
+<label for="fullNameFilter">Chọn nha sĩ:</label>
+<select id="fullNameFilter">
+    <option value="">Tất cả</option>
+    @foreach (var fullName in ViewBag.FullNames)
+    {
+        <option value="@fullName">@fullName</option>
+    }
+</select>
+<button id="filterByFullName">Lọc</button>
 
 <div style="text-align:center; margin:auto; padding:10px">
     <button id="prevWeek">Tuần Trước</button>
@@ -88,12 +97,12 @@
                             <div class="cd-schedule__top-info"><span>@day.TenThu</span></div>
                             <ul>
                                 @foreach (var eventItem in day.ThoiKhoaBieux
-                                .Where(e => e.NgayLamViec.HasValue &&
-                                            e.NgayLamViec.Value.Date >= selectedWeekStartDate &&
-                                            e.NgayLamViec.Value.Date <= selectedWeekEndDate)
-                                .OrderBy(e => e.NgayLamViec))
+.Where(e => e.NgayLamViec.HasValue &&
+                 e.NgayLamViec.Value.Date >= selectedWeekStartDate &&
+                 e.NgayLamViec.Value.Date <= selectedWeekEndDate &&
+                 (string.IsNullOrEmpty(ViewBag.fullName) || e.AspNetUser.FullName == ViewBag.fullName))
+.OrderBy(e => e.NgayLamViec))
                                 {
-
                                     var uniqueEventId = $"event-{counter}";
                                     counter++;
                                     <li class="cd-schedule__event">
@@ -107,6 +116,7 @@
                                         </a>
                                     </li>
                                 }
+
 
                             </ul>
                         </li>
@@ -151,28 +161,35 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
        $(document).ready(function () {
-    function updateWeek(selectedWeek) {
-        if (selectedWeek) {
-            var selectedDate = new Date(selectedWeek);
+    function updateWeek(selectedWeek, fullNameFilter) {
+                if (selectedWeek) {
+                    var selectedDate = new Date(selectedWeek);
 
-            if (selectedDate.getFullYear() > new Date().getFullYear() + 1) {
-                // Show an alert
-                alert("Không thể xem lịch cho năm tiếp theo.");
+                    if (selectedDate.getFullYear() > new Date().getFullYear() + 1) {
+                        // Show an alert
+                        alert("Không thể xem lịch cho năm tiếp theo.");
 
-                // Redirect to the main page
-                window.location.href = "@Url.Action("TKB", "QLNhaSi")";
-                return;
+                        // Redirect to the main page
+                        window.location.href = "@Url.Action("TKB", "QLNhaSi")";
+                        return;
+                    }
+                }
+
+                // Continue with the redirect, appending fullNameFilter
+                window.location.href = "@Url.Action("TKB", "QLNhaSi")" + "?page=1&selectedWeek=" + selectedWeek + "&fullName=" + fullNameFilter;
             }
-        }
 
-        // Continue with the redirect
-        window.location.href = "@Url.Action("TKB", "QLNhaSi")" + "?page=1&selectedWeek=" + selectedWeek;
-    }
+            $('#weekSelect').change(function () {
+                var selectedWeek = $(this).val();
+                var fullNameFilter = $('#fullNameFilter').val();
+                updateWeek(selectedWeek, fullNameFilter);
+            });
 
-    $('#weekSelect').change(function () {
-        var selectedWeek = $(this).val();
-        updateWeek(selectedWeek);
-    });
+            $('#filterByFullName').click(function () {
+                var selectedWeek = $('#weekSelect').val();
+                var fullNameFilter = $('#fullNameFilter').val();
+                updateWeek(selectedWeek, fullNameFilter);
+            });
 
     $('#prevWeek').click(function () {
         var selectedWeek = new Date($('#weekSelect').val());

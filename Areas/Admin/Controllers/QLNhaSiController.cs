@@ -168,67 +168,66 @@ namespace NhaKhoa.Areas.Admin.Controllers
             }
             base.Dispose(disposing);
         }
-       
-        public ActionResult TKB(DateTime? selectedWeek)
-        {
-            try
+
+            public ActionResult TKB(DateTime? selectedWeek, string fullName)
             {
-                // Lấy danh sách các ngày trong tuần và lịch làm việc từ cơ sở dữ liệu
-                var danhSachThu = db.Thus.ToList();
-                var danhSachThoiKhoaBieu = db.ThoiKhoaBieux.OrderBy(e => e.Id_Thu).ThenBy(e => e.NgayLamViec).ToList();
-
-                // Kiểm tra xem có dữ liệu để hiển thị không
+                try
+                {
+                    var danhSachThu = db.Thus.ToList();
+                    var danhSachThoiKhoaBieu = db.ThoiKhoaBieux.OrderBy(e => e.Id_Thu).ThenBy(e => e.NgayLamViec).ToList();
+                    ViewBag.FullNames = db.AspNetUsers
+                    .Where(u => u.AspNetRoles.Any(r => r.Name == "NhaSi"))  // Adjust this condition based on your actual data model
+                    .Select(user => user.FullName)
+                    .Distinct()
+                    .ToList();
+                ViewBag.fullName = fullName;
                 if (danhSachThu.Any() || danhSachThoiKhoaBieu.Any())
-                {
-                    //DateTime startOfWeek = selectedWeek ?? DateTime.Now;
-                    var now = DateTime.Now;
-                    var daysUntilMonday = ((int)now.DayOfWeek - (int)DayOfWeek.Monday + 7) % 7;
-                    var monday = now.AddDays(-daysUntilMonday);
-                    DateTime startOfWeek = selectedWeek ?? monday;
-                    // Nếu có tuần đã chọn, lọc danh sách thời khóa biểu cho tuần đó
-                    var filteredThoiKhoaBieu = danhSachThoiKhoaBieu
-                        .Where(tkb => tkb.NgayLamViec.HasValue && tkb.NgayLamViec.Value.Date == startOfWeek.Date)
-                        .OrderBy(e => e.Id_Thu)
-                        .ThenBy(e => e.NgayLamViec)
-                        .ToList();
-
-                    // Lấy calendar hiện tại (GregorianCalendar)
-                    GregorianCalendar calendar = new GregorianCalendar();
-
-                    // Tạo mảng chứa các tuần
-                    DateTime[] weeks = GetWeeksInYear(startOfWeek.Year, calendar);
-                    // Check if the selected week is beyond the next year
-                    if (startOfWeek.Year > DateTime.Now.Year + 1)
                     {
-                        // Redirect to the main page
-                        return RedirectToAction("TKB", "QLNhaSi");
+                        var now = DateTime.Now;
+                        var daysUntilMonday = ((int)now.DayOfWeek - (int)DayOfWeek.Monday + 7) % 7;
+                        var monday = now.AddDays(-daysUntilMonday);
+                        DateTime startOfWeek = selectedWeek ?? monday;
+
+                        // Simplify the logic for filtering danhSachThoiKhoaBieu
+                        danhSachThoiKhoaBieu = danhSachThoiKhoaBieu
+                            .Where(tkb => tkb.NgayLamViec.HasValue && tkb.NgayLamViec.Value.Date == startOfWeek.Date &&
+                                          (string.IsNullOrEmpty(fullName) || tkb.AspNetUser.FullName == fullName))
+                            .OrderBy(e => e.Id_Thu)
+                            .ThenBy(e => e.NgayLamViec)
+                            .ToList();
+
+                        GregorianCalendar calendar = new GregorianCalendar();
+                        DateTime[] weeks = GetWeeksInYear(startOfWeek.Year, calendar);
+
+                        if (startOfWeek.Year > DateTime.Now.Year + 1)
+                        {
+                            return RedirectToAction("TKB", "QLNhaSi");
+                        }
+
+                        var viewModel = new ThoiKhoaBieuViewModel
+                        {
+                            DanhSachThu = danhSachThu,
+                            DanhSachThoiKhoaBieu = danhSachThoiKhoaBieu,
+                            weeks = weeks,
+                            SelectedWeek = startOfWeek
+                        };
+
+                        return View(viewModel);
                     }
-                    // Tạo ViewModel
-                    var viewModel = new ThoiKhoaBieuViewModel
+                    else
                     {
-                        DanhSachThu = danhSachThu,
-                        DanhSachThoiKhoaBieu = filteredThoiKhoaBieu,
-                        weeks = weeks,
-                        SelectedWeek = startOfWeek
-                    };
-
-                    // Trả về view với ViewModel
-                    return View(viewModel);
+                        ViewBag.ErrorMessage = "Không có dữ liệu để hiển thị.";
+                        return View("ErrorView");
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    // Nếu không có dữ liệu, hiển thị thông báo lỗi
-                    ViewBag.ErrorMessage = "Không có dữ liệu để hiển thị.";
+                    ViewBag.ErrorMessage = $"Đã xảy ra lỗi khi lấy dữ liệu: {ex.Message}";
                     return View("ErrorView");
                 }
             }
-            catch (Exception ex)
-            {
-                // Log exception
-                ViewBag.ErrorMessage = $"Đã xảy ra lỗi khi lấy dữ liệu: {ex.Message}";
-                return View("ErrorView");
-            }
-        }
+
+
 
 
         static DateTime[] GetWeeksInYear(int year, GregorianCalendar calendar)
