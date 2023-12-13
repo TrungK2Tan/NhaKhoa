@@ -76,9 +76,18 @@
             @Html.DisplayFor(model => model.TrangThai)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.TrangThaiThanhToan)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TrangThaiThanhToan)
+        </dd>
+
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">

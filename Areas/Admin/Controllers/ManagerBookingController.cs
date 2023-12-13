@@ -45,20 +45,7 @@ namespace NhaKhoa.Areas.Admin.Controllers
             return View(phieuDatLiches.ToList());
         }
 
-        // GET: Admin/ManagerBooking/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            PhieuDatLich phieuDatLich = db.PhieuDatLiches.Find(id);
-            if (phieuDatLich == null)
-            {
-                return HttpNotFound();
-            }
-            return View(phieuDatLich);
-        }
+        
 
         public async Task<ActionResult> Approve(int? id)
         {
@@ -77,7 +64,20 @@ namespace NhaKhoa.Areas.Admin.Controllers
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
-        // GET: Admin/ManagerBooking/Delete/5
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            PhieuDatLich phieuDatLich = db.PhieuDatLiches.Find(id);
+            if (phieuDatLich == null)
+            {
+                return HttpNotFound();
+            }
+            return View(phieuDatLich);
+        }
+        // GET: NhanVien/QLLichKham/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -92,7 +92,7 @@ namespace NhaKhoa.Areas.Admin.Controllers
             return View(phieuDatLich);
         }
 
-        // POST: Admin/ManagerBooking/Delete/5
+        // POST: NhanVien/QLLichKham/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

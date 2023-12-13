@@ -75,9 +75,16 @@
             @Html.DisplayFor(model => model.TrangThai)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.TrangThaiThanhToan)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TrangThaiThanhToan)
+        </dd>
+
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id_Phieudat }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
