@@ -12,10 +12,15 @@
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.DonThuoc.Id_phieudat)
 
-    <div class="form-group" hidden>
+    <div class="form-group">
         @Html.LabelFor(model => model.DonThuoc.NgayGio, "Date") <!-- Corrected label -->
         @Html.EditorFor(model => model.DonThuoc.NgayGio, new { htmlAttributes = new { @class = "form-control" } })
         @Html.ValidationMessageFor(model => model.DonThuoc.NgayGio, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <label for="searchMedicine">Tìm kiếm thuốc:</label>
+        <input type="text" id="searchMedicine" class="form-control" placeholder="Nhập tên thuốc để tìm kiếm">
     </div>
 
     <div class="form-group">
@@ -32,16 +37,19 @@
             </div>
         }
     </div>
+
     <div class="form-group">
         @Html.LabelFor(model => model.DonThuoc.Chandoan, "Chẩn đoán")
         @Html.EditorFor(model => model.DonThuoc.Chandoan, new { htmlAttributes = new { @class = "form-control" } })
         @Html.ValidationMessageFor(model => model.DonThuoc.Chandoan, "", new { @class = "text-danger" })
     </div>
+
     <div class="form-group">
         @Html.LabelFor(model => model.DonThuoc.Soluong, "Total Quantity")
         @Html.EditorFor(model => model.DonThuoc.Soluong, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
         @Html.ValidationMessageFor(model => model.DonThuoc.Soluong, "", new { @class = "text-danger" })
     </div>
+
     <div class="form-group" hidden>
         @Html.LabelFor(model => model.DonThuoc.TongTien, "Total Cost") <!-- Corrected label -->
         @Html.EditorFor(model => model.DonThuoc.TongTien, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
@@ -52,7 +60,6 @@
         <input type="submit" value="Create Prescription" class="btn btn-primary" />
     </div>
 }
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script>
@@ -75,6 +82,34 @@
 
                 $("#DonThuoc_Soluong").val(totalQuantity);
             }
+
+            function filterMedicines(searchText) {
+                $(".checkbox").each(function () {
+                    var label = $(this).find("label");
+                    var medicineName = label.text().toLowerCase();
+
+                    if (medicineName.includes(searchText) || $(this).find(":checkbox").is(":checked")) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            }
+
+            // Initially, hide all checkboxes
+            $(".checkbox").hide();
+
+            $("#searchMedicine").on("input", function () {
+                var searchText = $(this).val().toLowerCase();
+
+                // If search term is empty, hide all checkboxes
+                if (searchText === "") {
+                    /*$(".checkbox").hide();*/
+                } else {
+                    // If there's a search term, filter and show only matching medicines and selected medicines
+                    filterMedicines(searchText);
+                }
+            });
         });
     </script>
 }
