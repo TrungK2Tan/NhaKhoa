@@ -1,50 +1,65 @@
 ﻿@model IEnumerable<NhaKhoa.Models.DanhGiaNhaSi>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Danh Gia";
     Layout = "~/Areas/NhaSi/Views/Shared/Layout.cshtml";
 }
 
-<h2>Index</h2>
+<div class="container mt-4">
+    <h2 class="mb-4">Danh Gia</h2>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Noidung)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SaoDanhGia)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NgayDanhGia)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Id_Benhnhan)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Id_Nhasi)
-        </th>
-        <th></th>
-    </tr>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Nội Dung</th>
+                <th>Sao Đánh Giá</th>
+                <th>Ngày Đánh Giá</th>
+                <th>ID Bệnh Nhân</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Noidung)</td>
+                    <td>
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            <i class="fas fa-star @(i <= item.SaoDanhGia ? "text-primary" : "text-secondary")"></i>
+                        }
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.NgayDanhGia)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Id_Benhnhan)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Noidung)
-        </td>
-        <th>
-            @Html.DisplayNameFor(model => model.SaoDanhGia)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NgayDanhGia)
-        </th>
-        <td>
-            @Html.DisplayFor(modelItem => item.Id_Benhnhan)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Id_Nhasi)
-        </td>
-    </tr>
-}
+</div>
 
-</table>
+    <style>
+        /* Add your custom styles here */
+        .container {
+            max-width: 800px; /* Adjust the maximum width as needed */
+        }
+
+        /* Style for the star ratings */
+        input[type="radio"] {
+            display: none;
+        }
+
+        label {
+            display: inline-block;
+            width: 20px; /* Adjust the width of the star as needed */
+            height: 20px; /* Adjust the height of the star as needed */
+            background-image: url('path-to-star-image.png'); /* Replace with your star image path */
+            background-size: cover;
+            cursor: pointer;
+        }
+
+        input[type="radio"]:checked + label {
+            background-image: url('path-to-filled-star-image.png'); /* Replace with your filled star image path */
+        }
+
+        /* Add more styles as needed */
+    </style>

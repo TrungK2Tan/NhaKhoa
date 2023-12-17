@@ -165,6 +165,12 @@ namespace NhaKhoa.Areas.NhaSi.Controllers
         }
         public ActionResult ViewCalendar(DateTime? selectedWeek)
         {
+            // Get the currently logged-in user's ID
+            string currentUserId = User.Identity.GetUserId();
+            var user = db.AspNetUsers.Find(currentUserId);
+            ViewBag.TenNhaSi = user.FullName;
+            ViewBag.HinhAnh = user.HinhAnh;
+            ViewBag.CurrentUserId = currentUserId;
             try
             {
                 // Lấy danh sách các ngày trong tuần và lịch làm việc từ cơ sở dữ liệu

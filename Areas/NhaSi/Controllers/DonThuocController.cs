@@ -18,7 +18,11 @@ namespace NhaKhoa.Areas.NhaSi.Controllers
         // GET: NhaSi/DonThuoc
         public ActionResult Index()
         {
-            string currentUserId = User.Identity.GetUserId(); 
+            string currentUserId = User.Identity.GetUserId();
+            var user = db.AspNetUsers.Find(currentUserId);
+            ViewBag.TenNhaSi = user.FullName;
+            ViewBag.HinhAnh = user.HinhAnh;
+            ViewBag.CurrentUserId = currentUserId;
             var donThuocs = db.DonThuocs
                 .Include(d => d.PhieuDatLich)
                 .Where(d => d.PhieuDatLich.IdNhaSi == currentUserId); // Adjust this line based on your actual foreign key property.

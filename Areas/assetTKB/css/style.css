@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600");
+﻿@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600");
 
 *, *::after, *::before {
     box-sizing: inherit
@@ -3541,7 +3541,7 @@ mark {
     --cd-color-event-9-h: 153;
     --cd-color-event-9-s: 100%;
     --cd-color-event-9-l: 50%;
-    --cd-color-event-10:  hsl(256, 100%, 50%);
+    --cd-color-event-10: hsl(256, 100%, 50%);
     --cd-color-event-10-h: 256;
     --cd-color-event-10-s: 100%;
     --cd-color-event-10-l: 50%;
@@ -3889,35 +3889,42 @@ a {
     background: hsl(31, 89%, 68%);
     background: var(--cd-color-event-4)
 }
+
 .cd-schedule__event [data-event="event-5"], .cd-schedule-modal[data-event="event-5"] .cd-schedule-modal__header-bg {
     background: hsl(94, 48%, 56%);
     background: var(--cd-color-event-5)
 }
+
 .cd-schedule__event [data-event="event-6"], .cd-schedule-modal[data-event="event-6"] .cd-schedule-modal__header-bg {
     background: hsl(355, 90%, 51%);
     background: var(--cd-color-event-6)
 }
+
 .cd-schedule__event [data-event="event-7"], .cd-schedule-modal[data-event="event-7"] .cd-schedule-modal__header-bg {
     background: hsl(240, 1%, 48%);
     background: var(--cd-color-event-7)
 }
+
 .cd-schedule__event [data-event="event-8"], .cd-schedule-modal[data-event="event-8"] .cd-schedule-modal__header-bg {
     background: hsl(46, 100%, 61%);
     background: var(--cd-color-event-8)
 }
+
 .cd-schedule__event [data-event="event-9"], .cd-schedule-modal[data-event="event-9"] .cd-schedule-modal__header-bg {
     background: hsl(153, 100%, 50%);
-
     background: var(--cd-color-event-9)
 }
+
 .cd-schedule__event [data-event="event-10"], .cd-schedule-modal[data-event="event-10"] .cd-schedule-modal__header-bg {
     background: hsl(256, 100%, 50%);
     background: var(--cd-color-event-10)
 }
+
 .cd-schedule__event [data-event="event-11"], .cd-schedule-modal[data-event="event-11"] .cd-schedule-modal__header-bg {
     background: hsl(220, 90%, 76%);
     background: var(--cd-color-event-11)
 }
+
 .cd-schedule__event [data-event="event-12"], .cd-schedule-modal[data-event="event-12"] .cd-schedule-modal__header-bg {
     background: hsl(355, 90%, 61%);
     background: var(--cd-color-event-12)

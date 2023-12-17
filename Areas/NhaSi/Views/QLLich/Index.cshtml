@@ -11,26 +11,27 @@
 }
 
 <header class="cd-main-header text-center flex flex-column flex-center">
-    <h1 class="text-xl">THỜI GIAN BIỂU</h1>
-    <a href="@Url.Action("ViewCalendar","QLLich","NhaSi")"> Xem tất cả lịch</a>
-
+    <h1 class="text-2xl font-bold mb-4">THỜI GIAN BIỂU</h1>
+    <a href="@Url.Action("ViewCalendar","QLLich","NhaSi")" class="btn btn-success">Xem tất cả lịch</a>
 </header>
+<div class="button-container">
+    <button id="prevWeek" class="btn btn-secondary">Tuần Trước</button>
+    <label for="weekSelect">Chọn Tuần:</label>
+    <select id="weekSelect" class="form-select">
+        @foreach (var week in Model.weeks)
+        {
+            numberweek++;
+            var startOfWeek = week;
+            var endOfWeek = week.AddDays(6);
+            <option value="@startOfWeek.ToString("yyyy-MM-dd")"
+                    @(startOfWeek.Date <= Model.SelectedWeek.Date && Model.SelectedWeek.Date <= endOfWeek.Date ? "selected" : "")>
+                Tuần @numberweek: @startOfWeek.ToString("dd/MM/yyyy") - @endOfWeek.ToString("dd/MM/yyyy")
+            </option>
+        }
+    </select>
+    <button id="nextWeek" class="btn btn-secondary">Tuần Tiếp</button>
+</div>
 
-<button id="prevWeek">Tuần Trước</button>
-<label for="weekSelect">Chọn Tuần:</label>
-<select id="weekSelect">
-    @foreach (var week in Model.weeks)
-    {
-        numberweek++;
-        var startOfWeek = week;
-        var endOfWeek = week.AddDays(6);
-        <option value="@startOfWeek.ToString("yyyy-MM-dd")"
-                @(startOfWeek.Date <= Model.SelectedWeek.Date && Model.SelectedWeek.Date <= endOfWeek.Date ? "selected" : "")>
-            Tuần @numberweek: @startOfWeek.ToString("dd/MM/yyyy") - @endOfWeek.ToString("dd/MM/yyyy")
-        </option>
-    }
-</select>
-<button id="nextWeek">Tuần Tiếp</button>
 <div class="cd-schedule cd-schedule--loading margin-top-lg margin-bottom-lg js-cd-schedule">
     @if (Model.DanhSachThu.Any())
     {
@@ -194,3 +195,27 @@
         });
     </script>
 }
+<style>
+
+    .button-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px; /* Adjust as needed */
+    }
+
+
+    /* Add your custom styles here */
+    .btn {
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .btn-secondary {
+        background-color: #3498db;
+        color: #fff;
+    }
+
+    /* Add more custom styles as needed */
+</style>

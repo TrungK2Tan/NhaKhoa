@@ -94,33 +94,58 @@
                     foreach (var day in Model.DanhSachThu)
                     {
                         <li class="cd-schedule__group">
-                            <div class="cd-schedule__top-info"><span>@day.TenThu</span></div>
+                            <div class="cd-schedule__top-info">
+                                <span>@day.TenThu</span>
+                            </div>
                             <ul>
                                 @foreach (var eventItem in day.ThoiKhoaBieux
-.Where(e => e.NgayLamViec.HasValue &&
-                 e.NgayLamViec.Value.Date >= selectedWeekStartDate &&
-                 e.NgayLamViec.Value.Date <= selectedWeekEndDate &&
-                 (string.IsNullOrEmpty(ViewBag.fullName) || e.AspNetUser.FullName == ViewBag.fullName))
-.OrderBy(e => e.NgayLamViec))
+                                    .Where(e => e.NgayLamViec.HasValue &&
+                                                e.NgayLamViec.Value.Date >= selectedWeekStartDate &&
+                                                e.NgayLamViec.Value.Date <= selectedWeekEndDate &&
+                                                (string.IsNullOrEmpty(ViewBag.fullName) || e.AspNetUser.FullName == ViewBag.fullName))
+                                    .OrderBy(e => e.NgayLamViec))
                                 {
                                     var uniqueEventId = $"event-{counter}";
                                     counter++;
-                                    <li class="cd-schedule__event">
-                                        <a data-start="@eventItem.KhungGio.GioBatDau" data-end="@eventItem.KhungGio.GioKetThuc" data-event="@uniqueEventId">
-                                            <em class="cd-schedule__name">@eventItem.Phong.TenPhong-@eventItem.KhungGio.TenCa</em>
-                                            <em class="cd-schedule__name">@eventItem.AspNetUser.FullName</em>
-                                            @if (eventItem.NgayLamViec.HasValue)
-                                            {
-                                                <em class="cd-schedule__name">@eventItem.NgayLamViec.Value.ToString("yyyy-MM-dd")</em>
-                                            }
-                                        </a>
-                                    </li>
+
+                                    if (eventItem.KhungGio.Id_khunggio == 1)
+                                    {
+                                        var startTime = eventItem.KhungGio.GioBatDau;
+                                        var endTime = "12:00";
+
+                                        <li class="cd-schedule__event">
+                                            <a data-start="@startTime" data-end="@endTime" data-event="@uniqueEventId">
+                                                <em class="cd-schedule__name">@eventItem.Phong.TenPhong-@eventItem.KhungGio.TenCa</em>
+                                                <em class="cd-schedule__name">@eventItem.AspNetUser.FullName</em>
+                                                @if (eventItem.NgayLamViec.HasValue)
+                                                {
+                                                    <em class="cd-schedule__name">@eventItem.NgayLamViec.Value.ToString("yyyy-MM-dd")</em>
+                                                }
+                                            </a>
+                                        </li>
+                                    }
+                                    else if (eventItem.KhungGio.Id_khunggio == 2)
+                                    {
+                                        var startTime = "13:00";
+                                        var endTime = eventItem.KhungGio.GioKetThuc;
+
+                                        <li class="cd-schedule__event">
+                                            <a data-start="@startTime" data-end="@endTime" data-event="@uniqueEventId">
+                                                <em class="cd-schedule__name">@eventItem.Phong.TenPhong-@eventItem.KhungGio.TenCa</em>
+                                                <em class="cd-schedule__name">@eventItem.AspNetUser.FullName</em>
+                                                @if (eventItem.NgayLamViec.HasValue)
+                                                {
+                                                    <em class="cd-schedule__name">@eventItem.NgayLamViec.Value.ToString("yyyy-MM-dd")</em>
+                                                }
+                                            </a>
+                                        </li>
+                                    }
                                 }
-
-
                             </ul>
                         </li>
                     }
+
+
                 }
             </ul>
         </div>
@@ -194,15 +219,19 @@
     $('#prevWeek').click(function () {
         var selectedWeek = new Date($('#weekSelect').val());
         var prevWeek = new Date(selectedWeek);
+        var fullNameFilter = $('#fullNameFilter').val();
+
         prevWeek.setDate(prevWeek.getDate() - 7); // Subtract 7 days to go back one week
-        updateWeek(prevWeek.toISOString().slice(0, 10));
+        updateWeek(prevWeek.toISOString().slice(0, 10), fullNameFilter);
     });
 
     $('#nextWeek').click(function () {
         var selectedWeek = new Date($('#weekSelect').val());
         var nextWeek = new Date(selectedWeek);
+        var fullNameFilter = $('#fullNameFilter').val();
+
         nextWeek.setDate(nextWeek.getDate() + 7); // Add 7 days to go forward one week
-        updateWeek(nextWeek.toISOString().slice(0, 10));
+        updateWeek(nextWeek.toISOString().slice(0, 10), fullNameFilter);
     });
 });
 

@@ -57,6 +57,10 @@ namespace NhaKhoa.Areas.NhanVien.Controllers
         // GET: NhanVien/QLYNVien
         public ActionResult Index()
         {
+            // Lấy thông tin người dùng đã đăng nhập
+            var userId = User.Identity.GetUserId();
+            var user = db.AspNetUsers.Find(userId);
+            ViewBag.TenNhanVien = user.FullName;
             // Truy vấn cơ sở dữ liệu để lấy thông tin bệnh nhân kết hợp thông tin người dùng và vai trò
             var benhNhanList = db.AspNetUsers
                 .Where(u => u.AspNetRoles.Any(r => r.Id == "4"))

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using NhaKhoa.Models;
 
 namespace NhaKhoa.Areas.NhanVien.Controllers
@@ -17,6 +18,10 @@ namespace NhaKhoa.Areas.NhanVien.Controllers
         // GET: NhanVien/QLLichKham
         public ActionResult Index()
         {
+            // Lấy thông tin người dùng đã đăng nhập
+            var userId = User.Identity.GetUserId();
+            var user = db.AspNetUsers.Find(userId);
+            ViewBag.TenNhanVien = user.FullName;
             var phieuDatLiches = db.PhieuDatLiches.Include(p => p.AspNetUser).Include(p => p.HinhThucThanhToan).Include(p => p.ThoiKhoaBieu);
             // Tạo một Dictionary để lưu trữ tên của NhaSi dựa trên IdNhaSi
             Dictionary<string, string> nhaSiNames = new Dictionary<string, string>();
