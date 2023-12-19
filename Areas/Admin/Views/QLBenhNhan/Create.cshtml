@@ -5,7 +5,7 @@
 @{ MvcCaptcha registerCaptcha = new MvcCaptcha("registerCaptcha");
 }
 @{
-    ViewBag.Title = "Đăng kí";
+    ViewBag.Title = "Đăng kí tài khoản mới cho bệnh nhân";
     Layout = "~/Areas/Admin/Views/Shared/Layout.cshtml";
 }
 
@@ -17,62 +17,62 @@
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">
-        @Html.LabelFor(m => m.FullName, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(m => m.FullName, "Họ tên", new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(m => m.Email, "Email", new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
         </div>
     </div>
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <div class="form-group">
-        @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(m => m.UserName, "Tên người dùng", new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(m => m.Password, "Mật khẩu", new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(m => m.ConfirmPassword, "Xác nhận mật khẩu", new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.PhoneNumber, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(m => m.PhoneNumber, "SĐT", new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.DiaChi, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(m => m.DiaChi, "Địa chỉ", new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.DiaChi, new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.NgheNghiep, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(m => m.NgheNghiep, "Nghề nghiệp", new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.NgheNghiep, new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.CCCD, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(m => m.CCCD, "CCCD", new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.CCCD, new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.GioiTinh, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(m => m.GioiTinh, "Giới tính", new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.DropDownListFor(m => m.GioiTinh, new SelectList(
                 new List<SelectListItem>
@@ -102,7 +102,7 @@
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Register" />
+            <input type="submit" class="btn btn-default" value="Đăng kí mới" />
         </div>
     </div>
 }

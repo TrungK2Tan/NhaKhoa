@@ -5,118 +5,59 @@
     Layout = "~/Areas/Admin/Views/Shared/Layout.cshtml";
 }
 
-<h2>Xóa</h2>
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <h3 class="text-center">Bạn có chắc chắn muốn xóa người dùng này không?</h3>
+            <hr />
 
-<h3>Bạn có chắc là sẽ xóa người dùng này không</h3>
-<div>
-    <h4>AspNetUser</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
+            <dl class="row">
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Email):</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Email)</dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.PhoneNumber):</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.PhoneNumber)</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </dt>
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.UserName):</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.UserName)</dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.PhoneNumber)
-        </dd>
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.GioiTinh):</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.GioiTinh)</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.UserName)
-        </dt>
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.DiaChi):</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.DiaChi)</dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.UserName)
-        </dd>
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Trangthai):</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Trangthai)</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.GioiTinh)
-        </dt>
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Ngaysinh):</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Ngaysinh)</dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.GioiTinh)
-        </dd>
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.NgheNghiep):</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.NgheNghiep)</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DiaChi)
-        </dt>
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.NgayTao):</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.NgayTao)</dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.DiaChi)
-        </dd>
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Bangcap):</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Bangcap)</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Trangthai)
-        </dt>
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.CCCD):</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.CCCD)</dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Trangthai)
-        </dd>
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.FullName):</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.FullName)</dd>
+            </dl>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Ngaysinh)
-        </dt>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
 
-        <dd>
-            @Html.DisplayFor(model => model.Ngaysinh)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.NgheNghiep)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.NgheNghiep)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.NgayTao)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.NgayTao)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Bangcap)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Bangcap)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CCCD)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CCCD)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.FullName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FullName)
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+                <div class="text-center mt-3">
+                    <input type="submit" value="Xóa" class="btn btn-danger" /> |
+                    @Html.ActionLink("Quay lại danh sách", "Index", null, new { @class = "btn btn-secondary" })
+                </div>
+            }
         </div>
-    }
+    </div>
 </div>

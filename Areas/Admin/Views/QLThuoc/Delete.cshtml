@@ -1,0 +1,106 @@
+﻿﻿@model NhaKhoa.Models.Thuoc
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title text-center">Xóa</h2>
+            <h3>Bạn có chắc chắn muốn xóa thuốc này không</h3>
+
+            <div>
+                <hr />
+                <dl class="row">
+                    <dt class="col-sm-3">
+                        Tên thuốc
+                    </dt>
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.Tenthuoc)
+                    </dd>
+                    <hr class="col-12" />
+
+                    <dt class="col-sm-3">
+                        Mô tả
+                    </dt>
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.Mota)
+                    </dd>
+                    <hr class="col-12" />
+
+                    <dt class="col-sm-3">
+                        Giá
+                    </dt>
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.Gia)
+                    </dd>
+                    <hr class="col-12" />
+
+                    <dt class="col-sm-3">
+                        Ngày sản xuất
+                    </dt>
+                    <dd class="col-sm-9">
+                        @{
+                            var ngaySX = Model.NgaySX;
+                            if (ngaySX.HasValue)
+                            {
+                                @ngaySX.Value.ToString("dd-MM-yyyy")
+                            }
+                            else
+                            {
+                                <text>N/A</text>
+                            }
+                        }
+                    </dd>
+                    <hr class="col-12" />
+
+                    <dt class="col-sm-3">
+                        Hạn sử dụng
+                    </dt>
+                    <dd class="col-sm-9">
+                        @{
+                            var hanSD = Model.HanSD;
+                            if (hanSD.HasValue)
+                            {
+                                @hanSD.Value.ToString("dd-MM-yyyy")
+                            }
+                            else
+                            {
+                                <text>N/A</text>
+                            }
+                        }
+                    </dd>
+                    <hr class="col-12" />
+
+                    <dt class="col-sm-3">
+                        Số lượng
+                    </dt>
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.Soluong)
+                    </dd>
+                    <hr class="col-12" />
+
+                    <dt class="col-sm-3">
+                        Thành phần
+                    </dt>
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.Thanhphan)
+                    </dd>
+                    <hr class="col-12" />
+                </dl>
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="text-center mt-3">
+                        <input type="submit" value="Xóa" class="btn btn-danger" /> |
+                        @Html.ActionLink("Quay lại trang", "Index", new { @class = "btn btn-default" })
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

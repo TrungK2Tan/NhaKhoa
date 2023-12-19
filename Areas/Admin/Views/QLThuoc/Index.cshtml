@@ -1,0 +1,81 @@
+﻿﻿@model IEnumerable<NhaKhoa.Models.Thuoc>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/Layout.cshtml";
+}
+
+<h2 class="text-center">Quản lí thuốc</h2>
+
+<h2 class="text-center">Xuất danh sách thuốc ra Excel</h2>
+<p>
+    <button>
+        @Html.ActionLink("Export Excel", "ExportToExcel", null, new { @class = "btn btn-success" })
+    </button>
+</p>
+
+<p class="text-center">
+    <button class="btn btn-success">
+        @Html.ActionLink("Thêm thuốc mới", "Create")
+    </button>
+</p>
+<table class="table table-striped table-bordered">
+    <tr>
+        <th>
+            STT
+        </th>
+        <th>
+            Tên thuốc
+        </th>
+        <th>
+            Giá
+        </th>
+        <th>
+            Ngày sản xuất
+        </th>
+        <th>
+            Hạn sử dụng
+        </th>
+        <th>
+            Số lượng
+        </th>
+        <th></th>
+    </tr>
+
+    @for (int i = 0; i < Model.Count(); i++)
+    {
+        var item = Model.ElementAt(i);
+        <tr>
+            <td>
+                @(i + 1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tenthuoc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gia)
+            </td>
+            <td>
+                @if (item.NgaySX.HasValue)
+                {
+                    @item.NgaySX.Value.ToString("dd-MM-yyyy")
+                }
+            </td>
+
+            <td>
+                @if (item.HanSD.HasValue)
+                {
+                    @item.HanSD.Value.ToString("dd-MM-yyyy")
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Soluong)
+            </td>
+            <td>
+                @Html.ActionLink("Sửa", "Edit", new { id = item.Id_thuoc }, new { @class = "btn btn-primary btn-sm" }) |
+                @Html.ActionLink("Chi tiết", "Details", new { id = item.Id_thuoc }, new { @class = "btn btn-info btn-sm" }) |
+                @Html.ActionLink("Xóa", "Delete", new { id = item.Id_thuoc }, new { @class = "btn btn-danger btn-sm" })
+            </td>
+        </tr>
+    }
+</table>
