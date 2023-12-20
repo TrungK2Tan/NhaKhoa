@@ -1,5 +1,5 @@
-﻿@model IEnumerable<NhaKhoa.Models.PhieuDatLich>
-
+﻿@model PagedList.IPagedList<NhaKhoa.Models.PhieuDatLich>
+@using PagedList.Mvc;
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/NhanVien/Views/Shared/Layout.cshtml";
@@ -10,10 +10,10 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.STT)
+            STT
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.AspNetUser.Email)
+            Email
         </th>
         <th>
             Tên nha sĩ
@@ -49,7 +49,7 @@
                 @if (!string.IsNullOrEmpty(item.IdNhaSi))
                 {
                     string nhaSiName = ViewBag.NhaSiNames[item.IdNhaSi];
-                    <span>@nhaSiName- @Html.DisplayFor(modelItem => item.ThoiKhoaBieu.Phong.TenPhong)</span>
+                    <span>@nhaSiName - @Html.DisplayFor(modelItem => item.ThoiKhoaBieu.Phong.TenPhong)</span>
                 }
             </td>
             <td>
@@ -60,7 +60,6 @@
                 {
                     @item.NgayKham.Value.ToString("dd-MM-yyyy")
                 }
-
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Gia)
@@ -77,7 +76,8 @@
             </td>
             <td>
                 @if (item.TrangThaiThanhToan == true)
-                {<span class="text-success"> Đã thanh toán</span>
+                {
+                    <span class="text-success">Đã thanh toán</span>
                 }
                 else
                 {
@@ -90,6 +90,29 @@
             </td>
         </tr>
     }
-
 </table>
 
+<div class="d-flex justify-content-center mt-4">
+    <ul class="pagination">
+        <li class="page-item @(Model.PageNumber == 1 ? "disabled" : "")">
+            @if (Model.HasPreviousPage)
+            {
+                <a class="page-link" href="@Url.Action("Index", new { page = Model.PageNumber - 1 })">&laquo; </a>
+            }
+        </li>
+
+        @for (int i = 1; i <= Model.PageCount; i++)
+        {
+            <li class="page-item @(Model.PageNumber == i ? "active" : "")">
+                <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+            </li>
+        }
+
+        <li class="page-item @(Model.PageNumber == Model.PageCount ? "disabled" : "")">
+            @if (Model.HasNextPage)
+            {
+                <a class="page-link" href="@Url.Action("Index", new { page = Model.PageNumber + 1 })"> &raquo;</a>
+            }
+        </li>
+    </ul>
+</div>

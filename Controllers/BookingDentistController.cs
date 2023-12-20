@@ -3,10 +3,13 @@ using MoMo;
 using Newtonsoft.Json.Linq;
 using NhaKhoa.Models;
 using NhaKhoa.Other;
+using SendGrid.Helpers.Mail;
+using SendGrid;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -210,18 +213,21 @@ namespace NhaKhoa.Controllers
             return View();
         }
 
-        public ActionResult PaymentVNPay(int order)
+        public async Task<ActionResult> PaymentVNPay(int order)
         {
             // Retrieve appointment information based on the provided order ID
             var appointment = db.PhieuDatLiches.Find(order);
-            appointment.Gia = 15000000;
             if (appointment == null)
             {
                 // Handle the case where the appointment is not found
                 // You may want to redirect the user to an error page or take appropriate action
                 return RedirectToAction("Index", "Home");
             }
-            string gia = appointment.Gia.ToString();
+            // Original amount stored in the database
+            int originalAmount = 150000;
+
+            // Display amount for payment page (original amount with additional zeros)
+            string displayAmount = (originalAmount * 100).ToString();
             string url = ConfigurationManager.AppSettings["vnp_Url"];
             string returnUrl = ConfigurationManager.AppSettings["ReturnUrl"];
             string tmnCode = ConfigurationManager.AppSettings["vnp_TmnCode"];
@@ -232,7 +238,7 @@ namespace NhaKhoa.Controllers
             pay.AddRequestData("vnp_Version", "2.1.0"); //Phiên bản api mà merchant kết nối. Phiên bản hiện tại là 2.1.0
             pay.AddRequestData("vnp_Command", "pay"); //Mã API sử dụng, mã cho giao dịch thanh toán là 'pay'
             pay.AddRequestData("vnp_TmnCode", tmnCode); //Mã website của merchant trên hệ thống của VNPAY (khi đăng ký tài khoản sẽ có trong mail VNPAY gửi về)
-            pay.AddRequestData("vnp_Amount", gia); //số tiền cần thanh toán, công thức: số tiền * 100 - ví dụ 10.000 (mười nghìn đồng) --> 1000000
+            pay.AddRequestData("vnp_Amount", displayAmount); //số tiền cần thanh toán, công thức: số tiền * 100 - ví dụ 10.000 (mười nghìn đồng) --> 1000000
             pay.AddRequestData("vnp_BankCode", ""); //Mã Ngân hàng thanh toán (tham khảo: https://sandbox.vnpayment.vn/apis/danh-sach-ngan-hang/), có thể để trống, người dùng có thể chọn trên cổng thanh toán VNPAY
             pay.AddRequestData("vnp_CreateDate", DateTime.Now.ToString("yyyyMMddHHmmss")); //ngày thanh toán theo định dạng yyyyMMddHHmmss
             pay.AddRequestData("vnp_CurrCode", "VND"); //Đơn vị tiền tệ sử dụng thanh toán. Hiện tại chỉ hỗ trợ VND
@@ -246,6 +252,49 @@ namespace NhaKhoa.Controllers
             string paymentUrl = pay.CreateRequestUrl(url, hashSecret);
             appointment.TrangThaiThanhToan = true;
             db.SaveChanges();
+            // Lấy ngày giờ đặt lịch
+            DateTime appointmentDate = appointment.NgayKham?.Date ?? DateTime.MinValue;
+            //DateTime startTime = appointmentDate + lichHen.GioBatDau.Value;
+            //DateTime endTime = appointmentDate + lichHen.GioKetThuc.Value;
+
+
+            // Nội dung email 
+            string emailTo = appointment.AspNetUser.Email; // Email address of the appointment holder
+            string subject = "Thông báo đặt lịch hẹn thành công";
+            string body = $"Lịch hẹn của bạn đã được chấp nhận thành công.\n" +
+                  $"Thông tin lịch hẹn:\n" +
+                  $"- Nha sĩ: {appointment.AspNetUser.FullName}\n" +
+                  $"- Ngày: {appointmentDate.ToShortDateString()}\n" +
+                  //$"- Giờ bắt đầu: {startTime.ToShortTimeString()}\n" +
+                  //$"- Giờ kết thúc: {endTime.ToShortTimeString()}" +
+                  $"-Bạn vui lòng đến đúng ngay khám nhé! ";
+
+            // Configure SendGrid information
+            string sendGridApiKey = "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";
+            string sendGridFromEmail = "kakashi252k2@gmail.com";
+            string sendGridFromName = "Nha Khoa TDM";
+
+            // Tạo đối tượng SendGridMessage
+            SendGridMessage sendGridMessage = new SendGridMessage();
+            sendGridMessage.From = new EmailAddress(sendGridFromEmail, sendGridFromName);
+            sendGridMessage.AddTo(emailTo);
+            sendGridMessage.Subject = subject;
+            sendGridMessage.PlainTextContent = body;
+            sendGridMessage.HtmlContent = body;
+
+            // Tạo đối tượng SendGridClient và gửi email
+            var sendGridClient = new SendGridClient(sendGridApiKey);
+
+            try
+            {
+                var response = await sendGridClient.SendEmailAsync(sendGridMessage);
+            }
+            catch (Exception ex)
+            {
+                // Xử lý lỗi nếu gửi email không thành công
+                // ...
+            }
+
             return Redirect(paymentUrl);
         }
 

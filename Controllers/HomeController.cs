@@ -435,7 +435,7 @@ namespace NhaKhoa.Controllers
             return View(updatedAppointment);
         }
 
-        public ActionResult Payment(int order)
+        public async Task<ActionResult> Payment(int order)
         {
             // Retrieve appointment information based on the provided order ID
             var appointment = db.PhieuDatLiches.Find(order);
@@ -505,6 +505,49 @@ namespace NhaKhoa.Controllers
 
                 appointment.TrangThaiThanhToan = true;
                 db.SaveChanges();
+                // Lấy ngày giờ đặt lịch
+                DateTime appointmentDate = appointment.NgayKham?.Date ?? DateTime.MinValue;
+                //DateTime startTime = appointmentDate + lichHen.GioBatDau.Value;
+                //DateTime endTime = appointmentDate + lichHen.GioKetThuc.Value;
+
+
+                // Nội dung email 
+                string emailTo = appointment.AspNetUser.Email; // Email address of the appointment holder
+                string subject = "Thông báo đặt lịch hẹn thành công";
+                string body = $"Lịch hẹn của bạn đã được chấp nhận thành công.\n" +
+                      $"Thông tin lịch hẹn:\n" +
+                      $"Số thứ tự:{appointment.STT}"+
+                      $"- Nha sĩ: {appointment.AspNetUser.FullName}\n" +
+                      $"- Ngày: {appointmentDate.ToShortDateString()}\n" +
+                      //$"- Giờ bắt đầu: {startTime.ToShortTimeString()}\n" +
+                      //$"- Giờ kết thúc: {endTime.ToShortTimeString()}" +
+                      $"-Bạn vui lòng đến đúng ngay khám nhé! ";
+
+                // Configure SendGrid information
+                string sendGridApiKey = "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";
+                string sendGridFromEmail = "kakashi252k2@gmail.com";
+                string sendGridFromName = "Nha Khoa TDM";
+
+                // Tạo đối tượng SendGridMessage
+                SendGridMessage sendGridMessage = new SendGridMessage();
+                sendGridMessage.From = new EmailAddress(sendGridFromEmail, sendGridFromName);
+                sendGridMessage.AddTo(emailTo);
+                sendGridMessage.Subject = subject;
+                sendGridMessage.PlainTextContent = body;
+                sendGridMessage.HtmlContent = body;
+
+                // Tạo đối tượng SendGridClient và gửi email
+                var sendGridClient = new SendGridClient(sendGridApiKey);
+
+                try
+                {
+                    var response = await sendGridClient.SendEmailAsync(sendGridMessage);
+                }
+                catch (Exception ex)
+                {
+                    // Xử lý lỗi nếu gửi email không thành công
+                    // ...
+                }
             }
 
             return Redirect(jmessage.GetValue("payUrl").ToString());
@@ -573,6 +616,7 @@ namespace NhaKhoa.Controllers
             string subject = "Thông báo đặt lịch hẹn thành công";
             string body = $"Lịch hẹn của bạn đã được chấp nhận thành công.\n" +
                   $"Thông tin lịch hẹn:\n" +
+                  $"Số thứ tự:{appointment.STT}" +
                   $"- Nha sĩ: {appointment.AspNetUser.FullName}\n" +
                   $"- Ngày: {appointmentDate.ToShortDateString()}\n" +
                   //$"- Giờ bắt đầu: {startTime.ToShortTimeString()}\n" +

@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using NhaKhoa.Models;
+using PagedList;
 
 namespace NhaKhoa.Areas.NhanVien.Controllers
 {
@@ -16,13 +17,20 @@ namespace NhaKhoa.Areas.NhanVien.Controllers
         private NhaKhoaModel db = new NhaKhoaModel();
 
         // GET: NhanVien/QLLichKham
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
             // Lấy thông tin người dùng đã đăng nhập
             var userId = User.Identity.GetUserId();
             var user = db.AspNetUsers.Find(userId);
             ViewBag.TenNhanVien = user.FullName;
-            var phieuDatLiches = db.PhieuDatLiches.Include(p => p.AspNetUser).Include(p => p.HinhThucThanhToan).Include(p => p.ThoiKhoaBieu);
+
+            // Retrieve the PhieuDatLiches data and order it by NgayKham
+            var phieuDatLiches = db.PhieuDatLiches
+                .Include(p => p.AspNetUser)
+                .Include(p => p.HinhThucThanhToan)
+                .Include(p => p.ThoiKhoaBieu)
+                .OrderBy(p => p.NgayKham);
+
             // Tạo một Dictionary để lưu trữ tên của NhaSi dựa trên IdNhaSi
             Dictionary<string, string> nhaSiNames = new Dictionary<string, string>();
 
@@ -39,10 +47,22 @@ namespace NhaKhoa.Areas.NhanVien.Controllers
                     }
                 }
             }
+
             // Truyền danh sách lịch hẹn và tên của NhaSi vào View
             ViewBag.NhaSiNames = nhaSiNames;
-            return View(phieuDatLiches.ToList());
+
+            // Specify your desired page size
+            int pageSize = 2;
+
+            // Determine the current page number
+            int pageNumber = (page ?? 1);
+
+            // Use ToPagedList to get a subset of the list based on the current page and page size
+            IPagedList<PhieuDatLich> pagedDatLich = phieuDatLiches.ToPagedList(pageNumber, pageSize);
+
+            return View(pagedDatLich);
         }
+
         // GET: NhanVien/QLLichKham/Details/5
         public ActionResult Details(int? id)
         {

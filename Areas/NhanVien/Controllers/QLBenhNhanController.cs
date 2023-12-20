@@ -11,6 +11,7 @@ using BotDetect.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using NhaKhoa.Models;
+using PagedList;
 
 namespace NhaKhoa.Areas.NhanVien.Controllers
 {
@@ -55,7 +56,7 @@ namespace NhaKhoa.Areas.NhanVien.Controllers
         private NhaKhoaModel db = new NhaKhoaModel();
 
         // GET: NhanVien/QLYNVien
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
             // Lấy thông tin người dùng đã đăng nhập
             var userId = User.Identity.GetUserId();
@@ -65,9 +66,18 @@ namespace NhaKhoa.Areas.NhanVien.Controllers
             var benhNhanList = db.AspNetUsers
                 .Where(u => u.AspNetRoles.Any(r => r.Id == "4"))
                 .ToList();
+            // Specify your desired page size
+            int pageSize = 1;
 
-            // Truyền danh sách thông tin bệnh nhân cho view
-            return View(benhNhanList);
+            // Determine the current page number
+            int pageNumber = (page ?? 1);
+
+            // Use ToPagedList to get a subset of the list based on the current page and page size
+            IPagedList<AspNetUser> pagedBenhNhanList = benhNhanList.ToPagedList(pageNumber, pageSize);
+
+            // Pass the paged list to the view
+            return View(pagedBenhNhanList);
+
         }
 
         // GET: NhanVien/QLBenhNhan/Details/5
