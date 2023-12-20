@@ -15,6 +15,31 @@
         @Html.ActionLink("Export Excel", "ExportToExcel", null, new { @class = "btn btn-success" })
     </button>
 </p>
+
+@using (Html.BeginForm("Index", "DoanhThuBanThuoc", FormMethod.Get))
+{
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label for="selectedDate">Chọn Ngày:</label>
+            <input type="date" id="selectedDate" name="selectedDate" class="form-control" />
+        </div>
+
+        <div class="form-group col-md-4">
+            <label for="filterType">Lọc theo:</label>
+            <select id="filterType" name="filterType" class="form-control">
+                <option value="day">Ngày</option>
+                <option value="week">Tuần</option>
+                <option value="month">Tháng</option>
+            </select>
+        </div>
+
+        <div class="form-group col-md-4">
+            <button type="submit" class="btn btn-primary mt-4">Lọc</button>
+        </div>
+    </div>
+
+}
+
 <table class="table">
     <tr>
         <th>
@@ -35,29 +60,30 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.PhieuDatLich.IdNhaSi)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Chandoan)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NgayGio)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Soluong)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TongTien)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id_donthuoc }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id_donthuoc }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id_donthuoc })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhieuDatLich.IdNhaSi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Chandoan)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayGio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Soluong)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TongTien)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id_donthuoc }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id_donthuoc }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id_donthuoc })
+            </td>
+        </tr>
+    }
 
 </table>

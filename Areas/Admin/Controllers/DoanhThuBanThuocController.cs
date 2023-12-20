@@ -17,10 +17,33 @@ namespace NhaKhoa.Areas.Admin.Controllers
         private NhaKhoaModel db = new NhaKhoaModel();
 
         // GET: Admin/DoanhThuBanThuoc
-        public ActionResult Index()
+        public ActionResult Index(DateTime? selectedDate, string filterType)
         {
-            var donThuocs = db.DonThuocs.Include(d => d.PhieuDatLich);
-            return View(donThuocs.ToList());
+            var donThuoc = db.DonThuocs.Include(d => d.PhieuDatLich);
+
+            if (selectedDate.HasValue)
+            {
+                switch (filterType)
+                {
+                    case "day":
+                        // Filter by the selected day
+                        donThuoc = donThuoc.Where(p => DbFunctions.TruncateTime(p.NgayGio) == DbFunctions.TruncateTime(selectedDate.Value));
+                        break;
+                    case "week":
+                        // Filter by the current week
+                        var startOfWeek = selectedDate.Value.Date.AddDays(-(int)selectedDate.Value.DayOfWeek);
+                        var endOfWeek = startOfWeek.AddDays(6);
+                        donThuoc = donThuoc.Where(p => p.NgayGio >= startOfWeek && p.NgayGio <= endOfWeek);
+                        break;
+                    case "month":
+                        // Filter by the current month
+                        donThuoc = donThuoc.Where(p => p.NgayGio.Value.Year == selectedDate.Value.Year && p.NgayGio.Value.Month == selectedDate.Value.Month);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return View(donThuoc.ToList());
         }
 
         // GET: Admin/DoanhThuBanThuoc/Details/5
