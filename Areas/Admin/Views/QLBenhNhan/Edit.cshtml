@@ -53,8 +53,13 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.GioiTinh, "Giới tính", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        <div class="checkbox">
-                            @Html.EditorFor(model => model.GioiTinh)
+                        <div class="radio">
+                            <label>
+                                @Html.RadioButtonFor(model => model.GioiTinh, true) Nam
+                            </label>
+                            <label>
+                                @Html.RadioButtonFor(model => model.GioiTinh, false) Nữ
+                            </label>
                             @Html.ValidationMessageFor(model => model.GioiTinh, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -71,10 +76,16 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Trangthai, "Trạng thái", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        <div class="checkbox">
-                            @Html.EditorFor(model => model.Trangthai)
-                            @Html.ValidationMessageFor(model => model.Trangthai, "", new { @class = "text-danger" })
-                        </div>
+                        @Html.DropDownListFor(model => model.Trangthai, new SelectList(
+                            new List<Object>
+                            {
+                                new { value = true, text = "Đang hoạt động" },
+                                new { value = false, text = "Ngưng hoạt động" }
+                            },
+                            "value",
+                            "text"
+                        ), new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Trangthai, "", new { @class = "text-danger" })
                     </div>
                 </div>
 

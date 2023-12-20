@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using ClosedXML.Excel;
 using NhaKhoa.Models;
 
 namespace NhaKhoa.Areas.Admin.Controllers
@@ -119,7 +121,61 @@ namespace NhaKhoa.Areas.Admin.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+        public ActionResult ExportToExcel()
+        {
+            var donthuoc = db.DonThuocs.ToList(); // Lấy tất cả các dữ liệu từ cơ sở dữ liệu
 
+            if (donthuoc == null || donthuoc.Count == 0)
+            {
+                return HttpNotFound();
+            }
+
+            var wb = new XLWorkbook();
+            var ws = wb.Worksheets.Add("DoanThuBanThuoc");
+
+            // Thiết lập dữ liệu trong file Excel
+            ws.Cell(1, 1).Value = "ID Đơn thuốc";
+            ws.Cell(1, 2).Value = "ID Phiếu Đặt";
+            ws.Cell(1, 3).Value = "Chẩn đoán";
+            ws.Cell(1, 4).Value = "Số lượng thuốc";
+            ws.Cell(1, 5).Value = "Tổng tiền";
+            ws.Cell(1, 6).Value = "Ngày giờ lập đơn";
+            ws.Cell(1, 7).Value = "Tổng Doanh Thu";
+
+            int row = 2;
+            decimal totalDoanhThu = 0; // Tổng doanh thu
+            foreach (var thuoc in donthuoc)
+            {
+                ws.Cell(row, 1).Value = thuoc.Id_donthuoc;
+                ws.Cell(row, 2).Value = thuoc.Id_phieudat;
+                ws.Cell(row, 3).Value = thuoc.Chandoan;
+                ws.Cell(row, 4).Value = thuoc.Soluong;
+                ws.Cell(row, 5).Value = thuoc.TongTien ?? 0;
+                ws.Cell(row, 6).Value = thuoc.NgayGio;
+                totalDoanhThu += Convert.ToDecimal(thuoc.TongTien.GetValueOrDefault()); // Convert to decimal
+                row++;
+            }
+            ws.Cell(2, 8).Value = totalDoanhThu;
+            // Lưu file Excel
+            // Lưu file Excel vào một mảng byte
+            byte[] fileBytes;
+            using (var memoryStream = new MemoryStream())
+            {
+                wb.SaveAs(memoryStream);
+                fileBytes = memoryStream.ToArray();
+            }
+
+            // Trả về file Excel đã tạo
+            var fileName = "DoanhThuBanThuoc.xlsx";
+
+            Response.Clear();
+            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            Response.AddHeader("Content-Disposition", "attachment; filename=" + fileName);
+            Response.BinaryWrite(fileBytes);
+            Response.End();
+
+            return null; // Tránh thêm HTML vào response
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

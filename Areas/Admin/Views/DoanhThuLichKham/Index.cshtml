@@ -6,14 +6,36 @@
 }
 
 <h2 class="text-center">Doanh thu khám</h2>
+<p>
+    <button>
+        @Html.ActionLink("Export Excel", "ExportToExcel", null, new { @class = "btn btn-success" })
+    </button>
+</p>
+
 @using (Html.BeginForm("Index", "DoanhThuLichKham", FormMethod.Get))
 {
-    <div class="form-group">
-        <label for="selectedDate">Chọn Ngày:</label>
-        <input type="date" id="selectedDate" name="selectedDate" class="form-control" />
-        <button type="submit" class="btn btn-primary">Lọc</button>
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label for="selectedDate">Chọn Ngày:</label>
+            <input type="date" id="selectedDate" name="selectedDate" class="form-control" />
+        </div>
+
+        <div class="form-group col-md-4">
+            <label for="filterType">Lọc theo:</label>
+            <select id="filterType" name="filterType" class="form-control">
+                <option value="day">Ngày</option>
+                <option value="week">Tuần</option>
+                <option value="month">Tháng</option>
+            </select>
+        </div>
+
+        <div class="form-group col-md-4">
+            <button type="submit" class="btn btn-primary mt-4">Lọc</button>
+        </div>
     </div>
+
 }
+
 <div class="text-right mb-3">
     <strong>Doanh Thu:</strong> @ViewBag.DoanhThu
 </div>

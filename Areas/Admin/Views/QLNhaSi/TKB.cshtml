@@ -1,4 +1,4 @@
-﻿﻿@*@using PagedList.Mvc
+﻿﻿﻿﻿@*@using PagedList.Mvc
     @using PagedList*@
 @model NhaKhoa.Models.ThoiKhoaBieuViewModel
 
@@ -7,6 +7,7 @@
     Layout = "~/Areas/Admin/Views/Shared/Layout.cshtml";
     var now = DateTime.Now;
     int counter = 1;
+    int eday = 1;
     var daysUntilMonday = ((int)now.DayOfWeek - (int)DayOfWeek.Monday + 7) % 7;
     var monday = now.AddDays(-daysUntilMonday);
     var sunday = monday.AddDays(6);
@@ -14,7 +15,7 @@
 }
 
 <header class="cd-main-header text-center flex flex-column flex-center">
-    <a  href="@Url.Action("TKB", "QLNhaSi", "Admin")" class="text-xl">THỜI GIAN BIỂU</a>
+    <a href="@Url.Action("TKB", "QLNhaSi", "Admin")" class="text-xl">THỜI GIAN BIỂU</a>
     <a class="btn--primary" href="@Url.Action("ThemThoiKhoaBieu", "QLNhaSi", "Admin")">Thêm lịch làm việc</a>
 </header>
 <label for="fullNameFilter">Chọn nha sĩ:</label>
@@ -94,58 +95,39 @@
                     foreach (var day in Model.DanhSachThu)
                     {
                         <li class="cd-schedule__group">
-                            <div class="cd-schedule__top-info">
-                                <span>@day.TenThu</span>
-                            </div>
-                            <ul>
+                            <div class="cd-schedule__top-info"><span>@day.TenThu</span></div>
+                            @{string ThuMau = day.TenThu;}
+                            <ul id="idlich">
+
                                 @foreach (var eventItem in day.ThoiKhoaBieux
                                     .Where(e => e.NgayLamViec.HasValue &&
-                                                e.NgayLamViec.Value.Date >= selectedWeekStartDate &&
-                                                e.NgayLamViec.Value.Date <= selectedWeekEndDate &&
-                                                (string.IsNullOrEmpty(ViewBag.fullName) || e.AspNetUser.FullName == ViewBag.fullName))
+                                    e.NgayLamViec.Value.Date >= selectedWeekStartDate &&
+                                    e.NgayLamViec.Value.Date <= selectedWeekEndDate &&
+                                    (string.IsNullOrEmpty(ViewBag.fullName) || e.AspNetUser.FullName == ViewBag.fullName))
                                     .OrderBy(e => e.NgayLamViec))
                                 {
                                     var uniqueEventId = $"event-{counter}";
                                     counter++;
-
-                                    if (eventItem.KhungGio.Id_khunggio == 1)
-                                    {
-                                        var startTime = eventItem.KhungGio.GioBatDau;
-                                        var endTime = "12:00";
-
-                                        <li class="cd-schedule__event">
-                                            <a data-start="@startTime" data-end="@endTime" data-event="@uniqueEventId">
-                                                <em class="cd-schedule__name">@eventItem.Phong.TenPhong-@eventItem.KhungGio.TenCa</em>
-                                                <em class="cd-schedule__name">@eventItem.AspNetUser.FullName</em>
-                                                @if (eventItem.NgayLamViec.HasValue)
-                                                {
-                                                    <em class="cd-schedule__name">@eventItem.NgayLamViec.Value.ToString("yyyy-MM-dd")</em>
-                                                }
-                                            </a>
-                                        </li>
-                                    }
-                                    else if (eventItem.KhungGio.Id_khunggio == 2)
-                                    {
-                                        var startTime = "13:00";
-                                        var endTime = eventItem.KhungGio.GioKetThuc;
-
-                                        <li class="cd-schedule__event">
-                                            <a data-start="@startTime" data-end="@endTime" data-event="@uniqueEventId">
-                                                <em class="cd-schedule__name">@eventItem.Phong.TenPhong-@eventItem.KhungGio.TenCa</em>
-                                                <em class="cd-schedule__name">@eventItem.AspNetUser.FullName</em>
-                                                @if (eventItem.NgayLamViec.HasValue)
-                                                {
-                                                    <em class="cd-schedule__name">@eventItem.NgayLamViec.Value.ToString("yyyy-MM-dd")</em>
-                                                }
-                                            </a>
-                                        </li>
-                                    }
+                                    var uniqueEventIdDay = $"event-{eday}";
+                                    eday++;
+                                    <li class="cd-schedule__event">
+                                        <a data-start="@eventItem.KhungGio.GioBatDau" data-end="@eventItem.KhungGio.GioKetThuc" data-event="@uniqueEventId" data-content="@uniqueEventIdDay">
+                                            <em class="cd-schedule__name">@eventItem.Phong.TenPhong-@eventItem.KhungGio.TenCa</em>
+                                            <em class="cd-schedule__name">@eventItem.AspNetUser.FullName</em>
+                                            @if (eventItem.NgayLamViec.HasValue)
+                                            {
+                                                <em class="cd-schedule__name">@eventItem.NgayLamViec.Value.ToString("yyyy-MM-dd")</em>
+                                            }
+                                        </a>
+                                    </li>
                                 }
+                                @{
+                                    eday = 1;
+                                }
+
                             </ul>
                         </li>
                     }
-
-
                 }
             </ul>
         </div>
@@ -185,55 +167,57 @@
 @section scripts {
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
-       $(document).ready(function () {
-    function updateWeek(selectedWeek, fullNameFilter) {
+        $(document).ready(function () {
+            // Biến toàn cục để lưu trữ giá trị hiển thị của fullName
+            var displayedFullName = "";
+
+            // Hàm cập nhật tuần
+            function updateWeek(selectedWeek) {
                 if (selectedWeek) {
                     var selectedDate = new Date(selectedWeek);
 
                     if (selectedDate.getFullYear() > new Date().getFullYear() + 1) {
-                        // Show an alert
+                        // Hiển thị cảnh báo nếu chọn tuần là năm sau
                         alert("Không thể xem lịch cho năm tiếp theo.");
 
-                        // Redirect to the main page
+                        // Chuyển hướng về trang chính
                         window.location.href = "@Url.Action("TKB", "QLNhaSi")";
                         return;
                     }
                 }
-
-                // Continue with the redirect, appending fullNameFilter
-                window.location.href = "@Url.Action("TKB", "QLNhaSi")" + "?page=1&selectedWeek=" + selectedWeek + "&fullName=" + fullNameFilter;
+                // Tiếp tục với chuyển hướng, giữ nguyên giá trị hiển thị của fullName
+                window.location.href = "@Url.Action("TKB", "QLNhaSi")" + "?page=1&selectedWeek=" + selectedWeek + "&fullName=" + encodeURIComponent(displayedFullName);
             }
 
+            // Sự kiện khi giá trị của ô chọn tuần thay đổi
             $('#weekSelect').change(function () {
                 var selectedWeek = $(this).val();
-                var fullNameFilter = $('#fullNameFilter').val();
-                updateWeek(selectedWeek, fullNameFilter);
+                updateWeek(selectedWeek);
             });
 
+            // Sự kiện khi nút "Lọc" được nhấn
             $('#filterByFullName').click(function () {
+                // Lưu trữ giá trị hiển thị của fullName
+                displayedFullName = $('#fullNameFilter option:selected').text();
                 var selectedWeek = $('#weekSelect').val();
-                var fullNameFilter = $('#fullNameFilter').val();
-                updateWeek(selectedWeek, fullNameFilter);
+                updateWeek(selectedWeek, displayedFullName);
             });
 
-    $('#prevWeek').click(function () {
-        var selectedWeek = new Date($('#weekSelect').val());
-        var prevWeek = new Date(selectedWeek);
-        var fullNameFilter = $('#fullNameFilter').val();
+            // Sự kiện khi nút "Tuần Trước" được nhấn
+            $('#prevWeek').click(function () {
+                var selectedWeek = new Date($('#weekSelect').val());
+                var prevWeek = new Date(selectedWeek);
+                prevWeek.setDate(prevWeek.getDate() - 7); // Trừ đi 7 ngày để quay lại 1 tuần
+                updateWeek(prevWeek.toISOString().slice(0, 10), displayedFullName);
+            });
 
-        prevWeek.setDate(prevWeek.getDate() - 7); // Subtract 7 days to go back one week
-        updateWeek(prevWeek.toISOString().slice(0, 10), fullNameFilter);
-    });
-
-    $('#nextWeek').click(function () {
-        var selectedWeek = new Date($('#weekSelect').val());
-        var nextWeek = new Date(selectedWeek);
-        var fullNameFilter = $('#fullNameFilter').val();
-
-        nextWeek.setDate(nextWeek.getDate() + 7); // Add 7 days to go forward one week
-        updateWeek(nextWeek.toISOString().slice(0, 10), fullNameFilter);
-    });
-});
-
+            // Sự kiện khi nút "Tuần Tiếp" được nhấn
+            $('#nextWeek').click(function () {
+                var selectedWeek = new Date($('#weekSelect').val());
+                var nextWeek = new Date(selectedWeek);
+                nextWeek.setDate(nextWeek.getDate() + 7); // Thêm 7 ngày để tiến lên 1 tuần
+                updateWeek(nextWeek.toISOString().slice(0, 10), displayedFullName);
+            });
+        });
     </script>
 }

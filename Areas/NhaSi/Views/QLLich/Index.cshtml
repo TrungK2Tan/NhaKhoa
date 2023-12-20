@@ -1,9 +1,11 @@
-﻿@model NhaKhoa.Models.ThoiKhoaBieuViewModel
+﻿﻿﻿@model NhaKhoa.Models.ThoiKhoaBieuViewModel
 
 @{
     ViewBag.Title = "TKB";
     Layout = "~/Areas/NhaSi/Views/Shared/Layout.cshtml";
     var now = DateTime.Now;
+    int counter = 1;
+    int eday = 1;
     var daysUntilMonday = ((int)now.DayOfWeek - (int)DayOfWeek.Monday + 7) % 7;
     var monday = now.AddDays(-daysUntilMonday);
     var sunday = monday.AddDays(6);
@@ -11,26 +13,39 @@
 }
 
 <header class="cd-main-header text-center flex flex-column flex-center">
-    <h1 class="text-2xl font-bold mb-4">THỜI GIAN BIỂU</h1>
-    <a href="@Url.Action("ViewCalendar","QLLich","NhaSi")" class="btn btn-success">Xem tất cả lịch</a>
+    <h1 class="text-xl">THỜI GIAN BIỂU</h1>
+    <button onclick="window.location.href='@Url.Action("ViewCalendar", "QLLich", "NhaSi")'" class="custom-button">Xem tất cả lịch</button>
 </header>
-<div class="button-container">
-    <button id="prevWeek" class="btn btn-secondary">Tuần Trước</button>
+
+<div style="text-align:center; margin:auto; padding:10px">
+    <button id="prevWeek">Tuần Trước</button>
     <label for="weekSelect">Chọn Tuần:</label>
-    <select id="weekSelect" class="form-select">
+    <select id="weekSelect">
         @foreach (var week in Model.weeks)
         {
             numberweek++;
             var startOfWeek = week;
             var endOfWeek = week.AddDays(6);
-            <option value="@startOfWeek.ToString("yyyy-MM-dd")"
-                    @(startOfWeek.Date <= Model.SelectedWeek.Date && Model.SelectedWeek.Date <= endOfWeek.Date ? "selected" : "")>
-                Tuần @numberweek: @startOfWeek.ToString("dd/MM/yyyy") - @endOfWeek.ToString("dd/MM/yyyy")
+
+            if (startOfWeek.Year >= DateTime.Now.Year && startOfWeek.Year <= DateTime.Now.Year + 1)
+            {
+                <option value="@startOfWeek.ToString("yyyy-MM-dd")"
+                        @(startOfWeek.Date <= Model.SelectedWeek.Date && Model.SelectedWeek.Date <= endOfWeek.Date ? "selected" : "")>
+                    Tuần @numberweek: @startOfWeek.ToString("dd/MM/yyyy") - @endOfWeek.ToString("dd/MM/yyyy")
+                </option>
+            }
+        }
+
+        @if (Model.SelectedWeek.Year > DateTime.Now.Year + 1)
+        {
+            <option value="@Model.SelectedWeek.ToString("yyyy-MM-dd")" selected disabled hidden>
+                Chọn tuần: Không thể chọn năm sau
             </option>
         }
     </select>
-    <button id="nextWeek" class="btn btn-secondary">Tuần Tiếp</button>
+    <button id="nextWeek">Tuần Tiếp</button>
 </div>
+
 
 <div class="cd-schedule cd-schedule--loading margin-top-lg margin-bottom-lg js-cd-schedule">
     @if (Model.DanhSachThu.Any())
@@ -70,6 +85,7 @@
                     {
                         <li class="cd-schedule__group">
                             <div class="cd-schedule__top-info"><span>@day.TenThu</span></div>
+                            @{string ThuMau = day.TenThu;}
                             <ul>
                                 @foreach (var eventItem in day.ThoiKhoaBieux
                                     .Where(e => e.NgayLamViec.HasValue &&
@@ -78,8 +94,13 @@
                                                 e.Id_Nhasi == ViewBag.CurrentUserId)  // Filter by Id_Nhasi)
                                     .OrderBy(e => e.NgayLamViec))
                                 {
+                                    var uniqueEventId = $"event-{counter}";
+                                    counter++;
+                                    var uniqueEventIdDay = $"event-{eday}";
+                                    eday++;
                                     <li class="cd-schedule__event">
-                                        <a data-start="@eventItem.KhungGio.GioBatDau" data-end="@eventItem.KhungGio.GioKetThuc" data-event="event-4">
+
+                                        <a data-start="@eventItem.KhungGio.GioBatDau" data-end="@eventItem.KhungGio.GioKetThuc" data-event="@uniqueEventId" data-content="@uniqueEventIdDay">
                                             <em class="cd-schedule__name">@eventItem.Phong.TenPhong-@eventItem.KhungGio.TenCa</em>
                                             <em class="cd-schedule__name">@eventItem.AspNetUser.FullName</em>
                                             @if (eventItem.NgayLamViec.HasValue)
@@ -89,6 +110,9 @@
                                         </a>
                                         <a class="cd-schedule-modal__edit" data-tkbid="@eventItem.Id_TKB"> thay đổi lịch khám</a>
                                     </li>
+                                }
+                                @{
+                                    eday = 1;
                                 }
                             </ul>
                         </li>
@@ -125,7 +149,6 @@
 <!-- Your existing code ... -->
 <script src="~/Areas/assetTKB/js/util.js"></script> <!-- util functions included in the CodyHouse framework -->
 <script src="~/Areas/assetTKB/js/main.js"></script>
-
 
 @section scripts {
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -175,47 +198,6 @@
             function updateWeek(newWeek) {
                 window.location.href = "@Url.Action("Index", "QLLich")" + "?page=1&selectedWeek=" + newWeek;
             }
-            function updateWeek(selectedWeek) {
-        if (selectedWeek) {
-            var selectedDate = new Date(selectedWeek);
-
-            if (selectedDate.getFullYear() > new Date().getFullYear() + 1) {
-                // Show an alert
-                alert("Không thể xem lịch cho năm tiếp theo.");
-
-                // Redirect to the main page
-                window.location.href = "@Url.Action("Index", "QLLich")";
-                return;
-            }
-        }
-
-        // Continue with the redirect
-        window.location.href = "@Url.Action("Index", "QLLich")" + "?page=1&selectedWeek=" + selectedWeek;
-    }
         });
     </script>
 }
-<style>
-
-    .button-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 20px; /* Adjust as needed */
-    }
-
-
-    /* Add your custom styles here */
-    .btn {
-        padding: 8px 16px;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-
-    .btn-secondary {
-        background-color: #3498db;
-        color: #fff;
-    }
-
-    /* Add more custom styles as needed */
-</style>
