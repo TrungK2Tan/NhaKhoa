@@ -53,8 +53,16 @@ namespace NhaKhoa
             //app.UseTwitterAuthentication(
             //   consumerKey: "",
             //   consumerSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "753734009924172",
+               appSecret: "c22bb2c5e0d2aecee391ed1e371f21cd");
 
-           
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "520144121690-noaq4mdng3dnt7l12fcllp78ueggdqfn.apps.googleusercontent.com",
+                ClientSecret = "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"
+            });
+
         }
     }
 }

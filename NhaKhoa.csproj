@@ -558,6 +558,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="img\Nhaisiimg\nhasi.jpg" />
     <Content Include="img\Nhaisiimg\trung.jpg" />
     <Content Include="img\Nhaisiimg\trungdeptrai.jpg" />
     <Content Include="lib\easing\easing.js" />

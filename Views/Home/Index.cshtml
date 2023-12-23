@@ -94,7 +94,7 @@
                                             </p>
                                             <div class="icon-button">
                                                 <a style="margin-bottom:10px" href="@Url.Action("DetailsDoctor","Home", new { id = nhaSi.Id })"><i class="fa fa-baby"></i> Xem thêm</a>
-                                                <a href="~/Home/Appointment"><i class="fa fa-calendar"></i> Đặt lịch ngay</a>
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -238,30 +238,30 @@
                 </div>
             </div>
             <div class="col-lg-5">
-                <form id="contact-form" action="" method="post">
+                <form id="contact-form" action="https://formsubmit.co/df0c4e123566802d34b2be2a6e89aedb" method="POST">
                     <div class="row">
                         <div class="col-lg-12">
                             <fieldset>
                                 <label for="name">Họ Tên</label>
-                                <input type="text" name="name" id="name" placeholder="Tên đầy đủ..." autocomplete="on" required>
+                                <input type="text" name="Name" id="name" placeholder="Tên đầy đủ.." autocomplete="on" required>
                             </fieldset>
                         </div>
                         <div class="col-lg-12">
                             <fieldset>
                                 <label for="email">Email</label>
-                                <input type="text" name="email" id="email" placeholder="E-mail của bạn..." required="">
+                                <input type="text" name="Email" id="email" placeholder="E-mail của bạn..." required="">
                             </fieldset>
                         </div>
                         <div class="col-lg-12">
                             <fieldset>
-                                <label for="subject">Tiêu Đề</label>
-                                <input type="text" name="subject" id="subject" placeholder="Tiêu đề..." autocomplete="on">
+                                <label for="subject">Tiêu đề</label>
+                                <input type="text" name="Title" id="subject" placeholder="Tiêu đề..." autocomplete="on">
                             </fieldset>
                         </div>
                         <div class="col-lg-12">
                             <fieldset>
                                 <label for="message">Nội dung</label>
-                                <textarea name="message" id="message" placeholder="Nội dung.."></textarea>
+                                <textarea name="Content" id="message" placeholder="Nội dung..."></textarea>
                             </fieldset>
                         </div>
                         <div class="col-lg-12">

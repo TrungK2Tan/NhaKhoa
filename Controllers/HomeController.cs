@@ -378,16 +378,19 @@ namespace NhaKhoa.Controllers
                 // You may want to redirect the user to an error page or take appropriate action
                 return RedirectToAction("Index", "Home");
             }
-           
-            // You can add additional logic here if needed, for example, getting available dates or times for rescheduling
+            // Check if the appointment date is within 3 days from the current date
+            DateTime currentDate = DateTime.Now;
+            DateTime appointmentDate = appointment.NgayKham ?? DateTime.MinValue;
+            TimeSpan difference = appointmentDate - currentDate;
 
+            
             // Pass the appointment data to the view for editing
             return View(appointment);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ChangeAppointment([Bind(Include = "Id_Phieudat,NgayKham,Gia,Id_hinhthuc,IdNhaSi,IdBenhNhan,Id_TKB,STT,TrangThai,TrangThaiThanhToan")] PhieuDatLich updatedAppointment)
+        public async Task<ActionResult> ChangeAppointment([Bind(Include = "Id_Phieudat,NgayKham,Gia,Id_hinhthuc,IdNhaSi,IdBenhNhan,Id_TKB,STT,TrangThai,TrangThaiThanhToan")] PhieuDatLich updatedAppointment)
         {
             if (ModelState.IsValid)
             {
@@ -398,34 +401,40 @@ namespace NhaKhoa.Controllers
 
                 if (existingAppointment != null)
                 {
+                    // Store the old appointment date
+                    DateTime oldAppointmentDate = existingAppointment.NgayKham ?? DateTime.MinValue;
+
                     // Update the necessary properties
                     existingAppointment.NgayKham = updatedAppointment.NgayKham;
                     existingAppointment.Id_TKB = updatedAppointment.Id_TKB;
+
                     // Your existing code to save the appointment
                     string currentUserId = User.Identity.GetUserId();
                     updatedAppointment.IdBenhNhan = currentUserId;
                     updatedAppointment.Id_TKB = db.ThoiKhoaBieux
-                  .Where(t => t.NgayLamViec == updatedAppointment.NgayKham)
-                  .Select(t => t.Id_TKB)
-                  .FirstOrDefault();
+                        .Where(t => t.NgayLamViec == updatedAppointment.NgayKham)
+                        .Select(t => t.Id_TKB)
+                        .FirstOrDefault();
+
                     var numberOfAppointments = db.PhieuDatLiches.Count(l => l.IdNhaSi == updatedAppointment.IdNhaSi && l.NgayKham.HasValue && DbFunctions.TruncateTime(l.NgayKham) == DbFunctions.TruncateTime(updatedAppointment.NgayKham));
 
                     if (numberOfAppointments >= 2)
                     {
                         ModelState.AddModelError("", "Nha sĩ này đã đủ số lượng lịch hẹn cho ngày này. Vui lòng chọn nha sĩ khác.");
-
                         return View(updatedAppointment);
                     }
+
                     var appointmentvalue = db.PhieuDatLiches.Count(l => l.IdBenhNhan == currentUserId && l.Id_TKB.HasValue && l.NgayKham.HasValue && DbFunctions.TruncateTime(l.NgayKham) == DbFunctions.TruncateTime(updatedAppointment.NgayKham));
+
                     if (appointmentvalue >= 1)
                     {
                         ModelState.AddModelError("", "Bạn đã đặt lịch này. Vui lòng hủy lịch cũ nếu bạn muốn đặt lịch mới");
-
                         return View(updatedAppointment);
                     }
+
                     // Save the changes to the database
                     db.SaveChanges();
-
+                    // api email để đổi lịch đặt
                     // Redirect to the BookingView or another appropriate action
                     return RedirectToAction("BookingView");
                 }
@@ -505,49 +514,7 @@ namespace NhaKhoa.Controllers
 
                 appointment.TrangThaiThanhToan = true;
                 db.SaveChanges();
-                // Lấy ngày giờ đặt lịch
-                DateTime appointmentDate = appointment.NgayKham?.Date ?? DateTime.MinValue;
-                //DateTime startTime = appointmentDate + lichHen.GioBatDau.Value;
-                //DateTime endTime = appointmentDate + lichHen.GioKetThuc.Value;
-
-
-                // Nội dung email 
-                string emailTo = appointment.AspNetUser.Email; // Email address of the appointment holder
-                string subject = "Thông báo đặt lịch hẹn thành công";
-                string body = $"Lịch hẹn của bạn đã được chấp nhận thành công.\n" +
-                      $"Thông tin lịch hẹn:\n" +
-                      $"Số thứ tự:{appointment.STT}"+
-                      $"- Nha sĩ: {appointment.AspNetUser.FullName}\n" +
-                      $"- Ngày: {appointmentDate.ToShortDateString()}\n" +
-                      //$"- Giờ bắt đầu: {startTime.ToShortTimeString()}\n" +
-                      //$"- Giờ kết thúc: {endTime.ToShortTimeString()}" +
-                      $"-Bạn vui lòng đến đúng ngay khám nhé! ";
-
-                // Configure SendGrid information
-                string sendGridApiKey = "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";
-                string sendGridFromEmail = "kakashi252k2@gmail.com";
-                string sendGridFromName = "Nha Khoa TDM";
-
-                // Tạo đối tượng SendGridMessage
-                SendGridMessage sendGridMessage = new SendGridMessage();
-                sendGridMessage.From = new EmailAddress(sendGridFromEmail, sendGridFromName);
-                sendGridMessage.AddTo(emailTo);
-                sendGridMessage.Subject = subject;
-                sendGridMessage.PlainTextContent = body;
-                sendGridMessage.HtmlContent = body;
-
-                // Tạo đối tượng SendGridClient và gửi email
-                var sendGridClient = new SendGridClient(sendGridApiKey);
-
-                try
-                {
-                    var response = await sendGridClient.SendEmailAsync(sendGridMessage);
-                }
-                catch (Exception ex)
-                {
-                    // Xử lý lỗi nếu gửi email không thành công
-                    // ...
-                }
+              // gan api email vao day 
             }
 
             return Redirect(jmessage.GetValue("payUrl").ToString());
@@ -605,49 +572,7 @@ namespace NhaKhoa.Controllers
             string paymentUrl = pay.CreateRequestUrl(url, hashSecret);
             appointment.TrangThaiThanhToan = true;
             db.SaveChanges();
-            // Lấy ngày giờ đặt lịch
-            DateTime appointmentDate = appointment.NgayKham?.Date ?? DateTime.MinValue;
-            //DateTime startTime = appointmentDate + lichHen.GioBatDau.Value;
-            //DateTime endTime = appointmentDate + lichHen.GioKetThuc.Value;
-
-
-            // Nội dung email 
-            string emailTo = appointment.AspNetUser.Email; // Email address of the appointment holder
-            string subject = "Thông báo đặt lịch hẹn thành công";
-            string body = $"Lịch hẹn của bạn đã được chấp nhận thành công.\n" +
-                  $"Thông tin lịch hẹn:\n" +
-                  $"Số thứ tự:{appointment.STT}" +
-                  $"- Nha sĩ: {appointment.AspNetUser.FullName}\n" +
-                  $"- Ngày: {appointmentDate.ToShortDateString()}\n" +
-                  //$"- Giờ bắt đầu: {startTime.ToShortTimeString()}\n" +
-                  //$"- Giờ kết thúc: {endTime.ToShortTimeString()}" +
-                  $"-Bạn vui lòng đến đúng ngay khám nhé! ";
-
-            // Configure SendGrid information
-            string sendGridApiKey = "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";
-            string sendGridFromEmail = "kakashi252k2@gmail.com";
-            string sendGridFromName = "Nha Khoa TDM";
-
-            // Tạo đối tượng SendGridMessage
-            SendGridMessage sendGridMessage = new SendGridMessage();
-            sendGridMessage.From = new EmailAddress(sendGridFromEmail, sendGridFromName);
-            sendGridMessage.AddTo(emailTo);
-            sendGridMessage.Subject = subject;
-            sendGridMessage.PlainTextContent = body;
-            sendGridMessage.HtmlContent = body;
-
-            // Tạo đối tượng SendGridClient và gửi email
-            var sendGridClient = new SendGridClient(sendGridApiKey);
-
-            try
-            {
-                var response = await sendGridClient.SendEmailAsync(sendGridMessage);
-            }
-            catch (Exception ex)
-            {
-                // Xử lý lỗi nếu gửi email không thành công
-                // ...
-            }
+            // gan api email vao day 
 
             return Redirect(paymentUrl);
         }

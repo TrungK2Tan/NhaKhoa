@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using ClosedXML.Excel;
 using NhaKhoa.Models;
+using PagedList;
 
 namespace NhaKhoa.Areas.Admin.Controllers
 {
@@ -17,8 +18,10 @@ namespace NhaKhoa.Areas.Admin.Controllers
         private NhaKhoaModel db = new NhaKhoaModel();
 
         // GET: Admin/QLThuoc
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
+            int pageSize = 10; // Set the number of items per page here
+            int pageNumber = (page ?? 1);
             var thuocList = db.Thuocs.ToList().Select(thuoc => new Thuoc
             {
                 Id_thuoc = thuoc.Id_thuoc,
@@ -31,7 +34,7 @@ namespace NhaKhoa.Areas.Admin.Controllers
                 Thanhphan = thuoc.Thanhphan
             }).ToList();
 
-            return View(thuocList);
+            return View(thuocList.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Admin/QLThuoc/Details/5

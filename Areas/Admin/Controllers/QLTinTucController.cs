@@ -21,7 +21,7 @@ namespace NhaKhoa.Areas.Admin.Controllers
         // GET: Admin/QLTinTuc
         public ActionResult Index(int? page)
         {
-            const int pageSize = 1; // Adjust the number of items per page as needed
+            const int pageSize = 2; // Adjust the number of items per page as needed
 
             var tinTucs = db.TinTucs.Include(t => t.AspNetUser).Include(t => t.DanhGias);
 

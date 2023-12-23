@@ -43,6 +43,20 @@ namespace NhaKhoa.Areas.Admin.Controllers
                         break;
                 }
             }
+            var idNhaSiList = donThuoc.Select(p => p.PhieuDatLich.IdNhaSi).ToList();
+            var idBenhNhaList = donThuoc.Select(p => p.PhieuDatLich.IdBenhNhan).ToList();
+
+            var nhaSiDict = db.AspNetUsers
+                .Where(u => idNhaSiList.Contains(u.Id))
+                .ToDictionary(u => u.Id, u => u.FullName);
+
+            var benhNhanDict = db.AspNetUsers
+                .Where(u => idBenhNhaList.Contains(u.Id))
+                .ToDictionary(u => u.Id, u => u.FullName);
+
+            // Pass information to ViewBag
+            ViewBag.FullNameNhaSi = nhaSiDict;
+            ViewBag.FullNameBenhNhan = benhNhanDict;
             return View(donThuoc.ToList());
         }
 

@@ -17,7 +17,10 @@
                     {
                         <th>Số thứ tự</th>
                     }
-else { <th></th>}
+                    else
+                    {
+                        <th></th>
+}
                     <th>Ngày Khám</th>
                     <th>Tên Nha Sĩ</th>
                     <th>Thanh toán</th>
@@ -60,16 +63,17 @@ else { <th></th>}
                             @if (item.TrangThai == true)
                             {
                                 <span class="text-success">Đã khám</span>
-                        <td>
-                            @Html.ActionLink("Xem Đơn Thuốc", "Bill", "Home", new { id_phieudat = item.Id_Phieudat }, new { @class = "btn btn-success btn-sm" })
-                        </td>
+                            <td>
+                                @Html.ActionLink("Xem Đơn Thuốc", "Bill", "Home", new { id_phieudat = item.Id_Phieudat }, new { @class = "btn btn-success btn-sm" })
+                            </td>
                         }
                         else
                         {
                             <span class="text-danger">Chưa khám</span>
-                            <button class="btn btn-primary" onclick="changeBooking('@item.Id_Phieudat')">
+                            <button class="btn btn-primary" onclick="changeBooking('@item.Id_Phieudat', '@item.NgayKham')">
                                 Đổi lịch đặt
                             </button>
+
 
                         }
                             </td>
@@ -80,11 +84,25 @@ else { <th></th>}
     </div>
 </div>
 <script>
-    function changeBooking(appointmentId) {
-        var confirmChange = confirm("Bạn có chắc muốn đổi lịch đặt không?");
-        if (confirmChange) {
-            // Redirect to the change appointment action
-            window.location.href = '@Url.Action("ChangeAppointment", "Home")?appointmentId=' + appointmentId;
+    function changeBooking(appointmentId, appointmentDate) {
+        // Parse the appointment date (you may need to adjust this based on your actual HTML structure)
+        var appointmentDateObj = new Date(appointmentDate);
+
+        // Get the current date
+        var currentDate = new Date();
+
+        // Calculate the difference in days
+        var differenceInDays = Math.floor((appointmentDateObj - currentDate) / (1000 * 60 * 60 * 24));
+
+        if (differenceInDays >= 3) {
+            var confirmChange = confirm("Bạn có chắc muốn đổi lịch đặt không?");
+            if (confirmChange) {
+                // Redirect to the change appointment action
+                window.location.href = '@Url.Action("ChangeAppointment", "Home")?appointmentId=' + appointmentId;
+            }
+        } else {
+            // Display an alert to inform the user about the 3-day restriction
+            alert("Không thể đổi lịch đặt trong vòng 3 ngày từ ngày khám.");
         }
     }
 </script>

@@ -5,14 +5,12 @@
     Layout = "~/Areas/Admin/Views/Shared/Layout.cshtml";
 }
 
-<h2>Index</h2>
+
+
 
 <p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<p>
     <button>
-        @Html.ActionLink("Export Excel", "ExportToExcel", null, new { @class = "btn btn-success" })
+        @Html.ActionLink("Xuất Excel", "ExportToExcel", null, new { @class = "btn btn-success" })
     </button>
 </p>
 
@@ -43,19 +41,22 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.PhieuDatLich.IdNhaSi)
+          Tên nha sĩ
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Chandoan)
+           Tên bệnh nhân
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.NgayGio)
+            Chẩn đoán
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Soluong)
+            Ngày
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TongTien)
+            Số lượng
+        </th>
+        <th>
+            Tổng tiền
         </th>
         <th></th>
     </tr>
@@ -64,7 +65,10 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.PhieuDatLich.IdNhaSi)
+                @(ViewBag.FullNameNhaSi.ContainsKey(item.PhieuDatLich.IdNhaSi) ? ViewBag.FullNameNhaSi[item.PhieuDatLich.IdNhaSi] : "N/A")
+            </td>
+            <td>
+                @(ViewBag.FullNameBenhNhan.ContainsKey(item.PhieuDatLich.IdBenhNhan) ? ViewBag.FullNameBenhNhan[item.PhieuDatLich.IdBenhNhan] : "N/A")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Chandoan)
@@ -79,9 +83,9 @@
                 @Html.DisplayFor(modelItem => item.TongTien)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id_donthuoc }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id_donthuoc }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id_donthuoc })
+                @Html.ActionLink("Sửa", "Edit", new { id = item.Id_donthuoc }) |
+                @Html.ActionLink("Chi tiết", "Details", new { id = item.Id_donthuoc }) |
+                @Html.ActionLink("Xóa", "Delete", new { id = item.Id_donthuoc })
             </td>
         </tr>
     }
